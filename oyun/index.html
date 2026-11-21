@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#15112A">
+<title>Block Zia</title>
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Block Zia">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* açılış ekranı: logo yumuşakça belirir, kısa süre sonra kaybolur; dokunma engellemez */
+  #splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 42%,#3d1a7a 0%,#1f0b44 62%,#140830 100%);transition:opacity .5s ease;pointer-events:none}
+  #splash.out{opacity:0}
+  #splash img{width:min(64vw,300px);height:auto;border-radius:28px;box-shadow:0 18px 50px rgba(0,0,0,.45);
+    animation:splashIn .8s cubic-bezier(.2,.9,.3,1.1) both}
+  @keyframes splashIn{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion: reduce){#splash img{animation:none}}
+  /* ana ekran logosu: aşağıdan yukarı yumuşakça yükselir */
+  .hlogo{display:block;margin:0 auto;width:min(62vw,250px);height:auto;border-radius:24px;box-shadow:0 14px 36px rgba(0,0,0,.4);
+    animation:riseUp .9s cubic-bezier(.2,.9,.3,1.1) both}
+  @keyframes riseUp{from{transform:translateY(70px);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion: reduce){.hlogo{animation:none}}
+</style>
+</head>
+<body>
+<div id="splash"><img src="logo.jpg" alt="Block Zia"></div>
+<script>
+  setTimeout(function () { var s = document.getElementById('splash'); if (s) s.classList.add('out'); }, 1700);
+  setTimeout(function () { var s = document.getElementById('splash'); if (s) s.remove(); }, 2300);
+</script>
+<div id="app">
+  <header id="hud">
+    <button class="ic" data-act="pause" aria-label="Pause">❚❚</button>
+    <div class="score"><div id="mode" class="lbl"></div><div id="score">0</div><div id="streak"></div></div>
+    <div class="best"><span></span><span id="best">0</span></div>
+  </header>
+  <div id="stage"><canvas id="cv"></canvas></div>
+  <section id="home" class="screen"></section>
+  <div id="modal" class="overlay" hidden><div class="sheet" id="sheet"></div></div>
+  <div id="toast"></div>
+</div>
+<script src="release.js"></script>
+<script src="build.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
