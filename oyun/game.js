@@ -1313,7 +1313,8 @@ function place(kind, idx, piece, r, c) {
     const praiseEn = clean ? T.en.clean : T.en.praise[pi];
     if (praise && (clean || pi >= 3)) zia(clean ? 'cool' : 'joy', praise);
     if (praise) { const prY = Math.abs(py - (L.by + L.bs * .36)) < cell * 1.4 ? L.by + L.bs * .66 : L.by + L.bs * .36; // patlama noktasındaki puanla çakışmasın
-      if (!celebOn()) float(praise, L.bx + L.bs / 2, prY, cell * .78, C.accent, 120); setTimeout(() => say(praise, praiseEn), 150); }
+      if (!celebOn()) { const tn = performance.now(); for (const f of floats) if (!f.pill && f.praise && f.t0 + f.life > tn) f.life = Math.max(0, tn + 140 - f.t0); // önceki övgü hemen söner, üst üste binmez
+        float(praise, L.bx + L.bs / 2, prY, cell * .78, C.accent, 120); floats[floats.length - 1].praise = true; } setTimeout(() => say(praise, praiseEn), 150); }
     if (n >= 2) { shakeEnd = now + 260; shakeAmp = Math.min(5, 1.5 + n); confetti(px, py, 10 + n * 6); punch(Math.min(.06, .015 * n + .005 * Math.min(S.streak, 6))); } else { confetti(px, py, 7, 170); if (S.streak >= 3) punch(.012); }
     if (clean) { shower(46); glow(L.bx + L.bs / 2, L.by + L.bs / 2, L.bs * .6, '#FFF3C4', 700, now); }
     if (S.streak >= 3) parts.push({ kind: 'ring', x: L.bx + L.bs / 2, y: L.by + L.bs / 2, r: L.bs * .3, R: L.bs * .6, col: '#FFB84D', t0: now, life: 650 });
