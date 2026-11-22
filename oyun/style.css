@@ -58,21 +58,6 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #toast.show{opacity:1;transform:none}
 .link{background:none;color:var(--muted);font-size:13px;font-weight:700;text-decoration:underline;padding:10px;margin-top:4px}
 
-/* ---- güçler: tahtanın altında 4 düğme, sayılı rozet ---- */
-#pw{position:absolute;display:flex;gap:8px;justify-content:space-between}
-.pwb{flex:1;position:relative;border:0;border-radius:16px;background:var(--cell);display:flex;align-items:center;justify-content:center;padding:0;
-  box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);transition:transform .12s;cursor:pointer}
-.pwb img{height:78%;width:auto;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35));animation:pwIdle 2.6s ease-in-out infinite}
-.pwb:nth-child(2) img{animation-delay:.3s}.pwb:nth-child(3) img{animation-delay:.6s}.pwb:nth-child(4) img{animation-delay:.9s}
-.pwb b{position:absolute;top:-6px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:linear-gradient(#FFF1A8,#F5A300);color:#4A1A00;
-  font:900 12px/20px var(--ff);box-shadow:0 2px 4px rgba(0,0,0,.35)}
-.pwb.off{opacity:.38}.pwb.off img{animation:none;filter:grayscale(.7)}
-.pwb.on{background:linear-gradient(#FFE89A,#FFB84D);animation:pwPulse .7s ease-in-out infinite}
-.pwb.pop img{animation:pwPop .5s cubic-bezier(.2,.9,.3,1.4)}
-.pwb:active{transform:scale(.9)}
-@keyframes pwIdle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-4deg)}}
-@keyframes pwPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-@keyframes pwPop{0%{transform:scale(.4) rotate(-30deg)}60%{transform:scale(1.35) rotate(10deg)}100%{transform:scale(1)}}
 /* ---- Zia maskotu: köşeden zıplayarak çıkar, konuşma balonu, dokunmayı engellemez ---- */
 #zia{position:absolute;left:0;bottom:0;z-index:60;pointer-events:none;display:flex;align-items:flex-end;opacity:0;--bx:0%;--hx:-40%;--hy:60%;
   transform:translate(calc(var(--bx) + var(--hx)),var(--hy)) scale(.6);transition:opacity .25s,transform .45s cubic-bezier(.2,1.2,.35,1)}
@@ -113,4 +98,4 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .hbub{position:absolute;right:4px;top:-8px;background:#fff;color:#2A1840;font:900 14px/1.25 var(--ff);padding:8px 12px;border-radius:16px 16px 4px 16px;
   box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:170px;animation:bubIn .4s cubic-bezier(.2,1.4,.4,1) 1.1s both;pointer-events:none}
 @keyframes bubIn{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
-@media (prefers-reduced-motion: reduce){#zia img,.hzia,.pwb img{animation:none!important}}
+@media (prefers-reduced-motion: reduce){#zia img,.hzia{animation:none!important}}
