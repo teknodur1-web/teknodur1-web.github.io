@@ -285,7 +285,7 @@ const PENTA = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24];
 const hz = semi => 261.63 * 2 ** (semi / 12);
 /* hazır ses dosyaları (www/sounds): yüklenemezse sentez sesleri yedek olarak çalışır */
 const SMP = {}; let smpLoaded = false, smpActive = 0;
-const SMP_NAMES = ['zengine','zyeah','zwow','zwoo','press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
+const SMP_NAMES = ['zboom','zengine','zyeah','zwow','zwoo','press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
 function loadSamples() {
   if (smpLoaded) return; smpLoaded = true;
   try { audio(); } catch { return; }
@@ -1529,7 +1529,7 @@ function powerFx(k, r0, c0, col) {
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
     for (let y = r0 - 1; y <= r0 + 1; y++) for (let x = c0 - 1; x <= c0 + 1; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x;
       if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 10 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
-    later(() => { samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); }, 700);
+    later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); }, 700); // bomba patlama sesi
     later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
     parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
