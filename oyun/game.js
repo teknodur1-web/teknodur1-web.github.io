@@ -445,9 +445,23 @@ const emojiOK = (() => {
     };
   } catch { return () => true; }
 })();
-// emoji değeri: türüne göre 5/10/15, bitirilen her 10 bölümde +5
+// 100 bölüm ikonu (www/icons/1..100.png): nadirlik puanı ve oyun mantığına uygun hareket
+const ICON_RARE = new Set([3, 4, 5, 12, 13, 14, 15, 16, 17, 30, 43, 45, 46, 47, 80, 81, 83, 84, 88, 89, 100]);
+const ICON_MID = new Set([1, 2, 7, 8, 9, 10, 11, 18, 19, 20, 21, 24, 26, 38, 44, 58, 65, 76, 77, 82, 85, 90, 93, 94]);
+const ICON_ANIM = {};
+[[1, 58, 94, 52, 57], 'pulse', [11, 12, 45, 46, 85], 'spin', [13, 15, 16, 17, 18, 19, 81, 82, 83], 'wobble', [2, 7, 47, 65, 88, 93], 'twinkle',
+ [9, 10, 24, 90], 'flicker', [8, 20, 21, 76, 77, 78], 'float', [38, 39, 40, 70, 84, 96], 'gear', [3, 4, 5, 6, 14, 80], 'shine']
+  .forEach((v, i, a) => { if (i % 2 === 0) v.forEach(n => ICON_ANIM[n] = a[i + 1]); });
+const ICON_IMG = {};
+function iconImg(n) { if (!ICON_IMG[n]) { const im = new Image(); im.onload = () => bump(80); im.src = 'icons/' + n + '.png'; ICON_IMG[n] = im; } return ICON_IMG[n]; }
+const iconNo = () => { const k = S && S.var ? String(S.var.sym) : ''; return k.startsWith('ic') ? +k.slice(2) : 0; };
+// pil dostu: ikon hareketleri sürekli değil, birkaç saniyede bir kısa süre oynar
+let iconAnimUntil = 0;
+setInterval(() => { if (S && view === 'game' && !document.hidden && ICON_ANIM[iconNo()] && (S.gem.some(Boolean) || S.tray.some(p => p && p.g >= 0))) { iconAnimUntil = performance.now() + 1100; bump(1150); } }, 2600);
+// özel blok değeri: ikonun nadirliğine göre 5/10/15 (emojide türüne göre), bitirilen her 10 bölümde +5
 function emoVal() {
-  const ix = EMOJI_SYMS.indexOf(S && S.var ? S.var.sym : ''); const tier = ix >= 0 ? ix % 3 : 0;
+  const ic = iconNo(), ix = EMOJI_SYMS.indexOf(S && S.var ? S.var.sym : '');
+  const tier = ic ? (ICON_RARE.has(ic) ? 2 : ICON_MID.has(ic) ? 1 : 0) : ix >= 0 ? ix % 3 : 0;
   return 5 * (tier + 1) + 5 * Math.floor((varState && varState.done ? varState.done.length : 0) / 10);
 }
 const VAR_SYMS = (s => s.length >= 8 ? s : ['star', '◆', '♥', '✚', '●', '▲', '☀', '☾', '♣', '✿', '⚡', '♛'])(EMOJI_SYMS.filter(emojiOK));
@@ -456,7 +470,7 @@ const VAR_BONUS = ['none', 'combo', 'clean', 'gem', 'line'];
 function variant(id) {
   let a = seedOf('bz-var-' + id);
   const r = () => { a = (a + 0x6D2B79F5) | 0; let x = Math.imul(a ^ (a >>> 15), a | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
-  return { id, sym: VAR_SYMS[(id * 13 + (r() * 5 | 0)) % VAR_SYMS.length], pattern: VAR_PATTERNS[(id * 5 + (r() * 4 | 0)) % VAR_PATTERNS.length],
+  return { id, sym: 'ic' + (id + 1), pattern: VAR_PATTERNS[(id * 5 + (r() * 4 | 0)) % VAR_PATTERNS.length],
     bonus: VAR_BONUS[(id * 3 + (r() * 2 | 0)) % VAR_BONUS.length], gemRate: .22 + r() * .16, need: 4 + (r() * 2 | 0) };
 }
 const varState = Object.assign({ order: [], pos: 0, round: 1, total: 0, done: [] }, LS.get('vars', {}));
@@ -627,9 +641,51 @@ function emoImg(k) {
   return (EMO_IMG[k] = c);
 }
 // özel blok rozeti: blok renginde parlak halka, beyaz parlak iç, üst parıltı, keskin emoji
+function ptTag(cx, cy, s) {
+  ctx.save();
+  // puan etiketi: emojinin vereceği puan (tepsideki küçük bloklarda gösterilmez)
+  if (L && s >= L.cell * .7) {
+    const txt = '+' + emoVal(), fs = s * .24; ctx.font = `900 ${fs}px ${C.ff}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const ph = fs * 1.25, pw = ctx.measureText(txt).width + fs * .6, x0 = cx + s * .5 - pw - s * .02, y0 = cy + s * .5 - ph - s * .02;
+    const pg = ctx.createLinearGradient(0, y0, 0, y0 + ph); pg.addColorStop(0, '#FFF1A8'); pg.addColorStop(1, '#F5A300');
+    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = s * .05; path(ctx, x0, y0, pw, ph, ph / 2); ctx.fillStyle = pg; ctx.fill();
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.lineWidth = Math.max(1, s * .025); ctx.strokeStyle = '#8A4A00'; ctx.stroke();
+    ctx.fillStyle = '#4A1A00'; ctx.fillText(txt, x0 + pw / 2, y0 + ph / 2 + fs * .04);
+  }
+  ctx.restore();
+}
+// ikon madalyonu: blok renginde parlak halka, daire ikon; hareket türüne göre oynar
+function iconBadge(cx, cy, s, c, n, still) {
+  const [, l, d] = PALETTE[(c || 1) - 1], im = iconImg(n), t = performance.now(), A = ICON_ANIM[n], ph = t / 1000 * 6 + n;
+  let sx = 1, sy = 1, rot = 0, dy = 0, al = 1, shine = -1;
+  if (!still && A && t < iconAnimUntil) {
+    if (A === 'pulse') { sx = sy = 1 + .14 * Math.max(0, Math.sin(ph * 2)); }
+    else if (A === 'spin') { sx = Math.max(.08, Math.abs(Math.cos(ph * 1.4))); }
+    else if (A === 'wobble') { rot = Math.sin(ph * 3.2) * .28; }
+    else if (A === 'twinkle') { rot = Math.sin(ph) * .35; sx = sy = 1 + .1 * Math.sin(ph * 2); }
+    else if (A === 'flicker') { sx = sy = 1 + .07 * Math.sin(ph * 6); al = .82 + .18 * Math.sin(ph * 9); }
+    else if (A === 'float') { dy = Math.sin(ph * 1.6) * s * .07; }
+    else if (A === 'gear') { rot = (iconAnimUntil - t) / 1100 * -Math.PI; }
+    else if (A === 'shine') { shine = 1 - (iconAnimUntil - t) / 1100; }
+  }
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,.32)'; ctx.shadowBlur = s * .08; ctx.shadowOffsetY = s * .03;
+  const rg = ctx.createLinearGradient(0, cy - s * .38, 0, cy + s * .38); rg.addColorStop(0, '#FFFFFF'); rg.addColorStop(.5, l); rg.addColorStop(1, d);
+  ctx.beginPath(); ctx.arc(cx, cy, s * .38, 0, 6.283); ctx.fillStyle = rg; ctx.fill();
+  ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.translate(cx, cy + dy); ctx.rotate(rot); ctx.scale(sx, sy); ctx.globalAlpha = al;
+  if (im.complete && im.naturalWidth) ctx.drawImage(im, -s * .32, -s * .32, s * .64, s * .64);
+  else { ctx.beginPath(); ctx.arc(0, 0, s * .32, 0, 6.283); ctx.fillStyle = '#1B1430'; ctx.fill(); }
+  if (shine >= 0) { ctx.beginPath(); ctx.arc(0, 0, s * .32, 0, 6.283); ctx.clip(); const sxp = (shine * 2 - 1) * s * .5;
+    const lg = ctx.createLinearGradient(sxp - s * .12, 0, sxp + s * .12, 0); lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.5, 'rgba(255,255,255,.7)'); lg.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = lg; ctx.fillRect(-s * .4, -s * .4, s * .8, s * .8); }
+  ctx.restore();
+  ctx.beginPath(); ctx.arc(cx, cy, s * .34, 0, 6.283); ctx.lineWidth = Math.max(1, s * .03); ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.stroke();
+}
 function sym(cx, cy, s, c = 1) {
   const k = S && S.var ? S.var.sym : 'star';
   if (k === 'star') return star(cx, cy, s * .26);
+  if (String(k).startsWith('ic')) { iconBadge(cx, cy, s, c, +String(k).slice(2)); ptTag(cx, cy, s); return; }
   const [, l, d] = PALETTE[(c || 1) - 1];
   ctx.save();
   ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = s * .08; ctx.shadowOffsetY = s * .03;
@@ -642,16 +698,7 @@ function sym(cx, cy, s, c = 1) {
   ctx.lineWidth = Math.max(1, s * .02); ctx.strokeStyle = d; ctx.globalAlpha = .35; ctx.stroke(); ctx.globalAlpha = 1;
   ctx.drawImage(emoImg(k), cx - s * .3, cy - s * .3, s * .6, s * .6);
   ctx.beginPath(); ctx.ellipse(cx - s * .1, cy - s * .2, s * .1, s * .045, -.5, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill();
-  // puan etiketi: emojinin vereceği puan (tepsideki küçük bloklarda gösterilmez)
-  if (L && s >= L.cell * .7) {
-    const txt = '+' + emoVal(), fs = s * .24; ctx.font = `900 ${fs}px ${C.ff}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    const ph = fs * 1.25, pw = ctx.measureText(txt).width + fs * .6, x0 = cx + s * .5 - pw - s * .02, y0 = cy + s * .5 - ph - s * .02;
-    const pg = ctx.createLinearGradient(0, y0, 0, y0 + ph); pg.addColorStop(0, '#FFF1A8'); pg.addColorStop(1, '#F5A300');
-    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = s * .05; path(ctx, x0, y0, pw, ph, ph / 2); ctx.fillStyle = pg; ctx.fill();
-    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.lineWidth = Math.max(1, s * .025); ctx.strokeStyle = '#8A4A00'; ctx.stroke();
-    ctx.fillStyle = '#4A1A00'; ctx.fillText(txt, x0 + pw / 2, y0 + ph / 2 + fs * .04);
-  }
-  ctx.restore();
+  ctx.restore(); ptTag(cx, cy, s);
 }
 function tile(c, x, y, s, gem) { ctx.drawImage((gem ? sprites : spritesF)[c - 1], x, y, s, s); if (gem) sym(x + s / 2, y + s / 2, s, c); }
 function drawPiece(p, cx, cy, cs) { const sh = SHAPES[p.s], x0 = cx - sh.w * cs / 2, y0 = cy - sh.h * cs / 2; sh.cells.forEach(([y, x], k) => tile(p.c, x0 + x * cs, y0 + y * cs, cs, k === p.g)); }
@@ -816,6 +863,10 @@ function draw(now) {
       else if (p.shape === 'circle') { ctx.scale(Math.abs(flip) * .6 + .4, 1); ctx.beginPath(); ctx.arc(0, 0, z * .32, 0, 6.283); ctx.fill(); }
       else { ctx.scale(1, Math.abs(flip) * .8 + .2); ctx.fillRect(-z / 2, -(p.h || 4) / 2, z, p.h || 4); ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(-z / 2, -(p.h || 4) / 2, z, (p.h || 4) * .35); }
       ctx.restore(); continue;
+    }
+    if (p.kind === 'iconfly') { // toplanan ikon yay çizerek skora uçar
+      const e = ease(k), x = p.x0 + (p.x1 - p.x0) * e, y = p.y0 + (p.y1 - p.y0) * e - Math.sin(k * Math.PI) * L.cell * 1.3;
+      ctx.globalAlpha = k > .8 ? (1 - k) / .2 : 1; iconBadge(x, y, L.cell * (1 - .45 * k), p.c, p.n, true); continue;
     }
     if (p.kind === 'gift') { // hediye paketi: düşer, sallanır, kapak fırlar, ışık ve konfeti, Joker rozeti
       const el = now - p.t0, s2 = p.s, a = p.life - el < 400 ? Math.max(0, (p.life - el) / 400) : 1;
@@ -1001,7 +1052,8 @@ function place(kind, idx, piece, r, c) {
     const monoC = cols.filter(cl => { const c0 = S.grid[cl]; for (let j = 1; j < N; j++) if (S.grid[j * N + cl] !== c0) return false; return true; });
     const mono = monoR.length + monoC.length, monoCol = mono ? S.grid[monoR.length ? monoR[0] * N : monoC[0]] : 0;
     let emoPts = 0; const emoCells = [];
-    for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v]); }
+    for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v, S.grid[i]]); }
+    const icn = iconNo(); if (icn) emoCells.slice(0, 6).forEach(([i, , cc], q) => parts.push({ kind: 'iconfly', vx: 0, vy: 0, x0: L.bx + (i % N + .5) * cell, y0: L.by + ((i / N | 0) + .5) * cell, x1: L.bx + L.bs / 2, y1: L.by - cell * .9, n: icn, c: cc, t0: now + 80 + q * 70, life: 750 }));
     for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { shards(i, S.grid[i], t1, 4, true); glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 320, t1); } kill(i, t1); }
     // patlayan çizgi boyunca sırayla yanan ışıltılar
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
