@@ -89,13 +89,56 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes ziaCool{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(4px) rotate(2deg)}}
 /* ana ekran: logo ve yanında Zia */
 .hero{position:relative;display:flex;align-items:flex-end;justify-content:center}
-.hero .hlogo{width:min(50vw,210px)}
-.hzia{height:min(34vh,250px);width:auto;margin-left:-28px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));transform-origin:50% 100%;
+.hero .hlogo{width:min(46vw,200px);position:relative;z-index:1}
+.hero::before{content:'';position:absolute;right:-6%;bottom:-4%;width:62%;height:70%;border-radius:50%;background:radial-gradient(closest-side,rgba(168,108,255,.55),rgba(168,108,255,0));pointer-events:none}
+.hero::after{content:'';position:absolute;right:4%;bottom:-6px;width:38%;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));pointer-events:none;animation:ziaShadow 2.2s ease-in-out 1.2s infinite}
+@keyframes ziaShadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.82);opacity:.6}}
+.hzia{position:relative;z-index:1;height:min(40vh,300px);width:auto;margin-left:-34px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));transform-origin:50% 100%;
   animation:riseUp .9s cubic-bezier(.2,.9,.3,1.1) .25s both,ziaBob 2.2s ease-in-out 1.2s infinite;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hzia.bust{height:min(22vh,165px)}
 .hzia.hop{animation:ziaHop .6s cubic-bezier(.3,.7,.4,1)}
 @keyframes ziaHop{0%{transform:none}35%{transform:translateY(-34px) rotate(-6deg) scale(1.05)}70%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
-.hbub{position:absolute;right:4px;top:-8px;background:#fff;color:#2A1840;font:900 14px/1.25 var(--ff);padding:8px 12px;border-radius:16px 16px 4px 16px;
+.hbub{position:absolute;z-index:2;left:2%;top:6%;background:#fff;color:#2A1840;font:900 14px/1.25 var(--ff);padding:8px 12px;border-radius:16px 16px 4px 16px;
   box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:170px;animation:bubIn .4s cubic-bezier(.2,1.4,.4,1) 1.1s both;pointer-events:none}
 @keyframes bubIn{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion: reduce){#zia img,.hzia{animation:none!important}}
+
+/* ---- güç patlaması: ekranın ortasında Zia kartı, dönen ışın patlaması, çarpan başlık ---- */
+#pwfx{position:absolute;inset:0;z-index:70;pointer-events:none;display:none;align-items:center;justify-content:center;flex-direction:column;--c:#3FB6FF;overflow:hidden}
+#pwfx.go{display:flex;animation:fxDim 1.75s ease forwards}
+#pwfx .burst{position:absolute;left:50%;top:44%;width:190vmax;height:190vmax;margin:-95vmax 0 0 -95vmax;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,var(--c2,rgba(255,255,255,.6)) 0 7deg,transparent 7deg 18deg);
+  -webkit-mask-image:radial-gradient(circle,#000 0,#000 12%,transparent 48%);mask-image:radial-gradient(circle,#000 0,#000 12%,transparent 48%)}
+#pwfx.go .burst{animation:fxSpin 1.75s linear forwards,fxBurst 1.75s ease forwards}
+#pwfx .ring{position:absolute;left:50%;top:44%;width:60vmin;height:60vmin;margin:-30vmin 0 0 -30vmin;border-radius:50%;border:6px solid #fff;box-shadow:0 0 30px var(--c),inset 0 0 30px var(--c);opacity:0}
+#pwfx.go .ring{animation:fxRing .7s cubic-bezier(.2,.8,.3,1) .12s forwards}
+#pwfx .card{position:relative;width:min(78vw,380px);margin-top:-8vh;filter:drop-shadow(0 0 22px var(--c)) drop-shadow(0 14px 22px rgba(0,0,0,.55))}
+#pwfx .card img{display:block;width:100%;height:auto}
+#pwfx.go .card{animation:fxCard 1.75s cubic-bezier(.2,.9,.3,1) forwards}
+#pwfx .ttl{position:relative;margin-top:-6vh;font:900 clamp(34px,11vw,58px)/1 var(--ff);color:#fff;letter-spacing:.02em;text-transform:uppercase;
+  -webkit-text-stroke:3px #2A1840;paint-order:stroke fill;text-shadow:0 0 18px var(--c),0 6px 0 #2A1840,0 10px 20px rgba(0,0,0,.5)}
+#pwfx.go .ttl{animation:fxTtl 1.75s cubic-bezier(.2,1.5,.4,1) forwards}
+/* güce özel dokunuşlar */
+#pwfx.z.go .card img{animation:fxZap .5s steps(2) 3}
+#pwfx.z.go{animation:fxDim 1.75s ease forwards,fxFlash .45s steps(3) 1}
+#pwfx.d.go .burst{animation:fxSpin 1.75s linear forwards,fxBurst 1.75s ease forwards,fxHue .9s linear infinite}
+#pwfx.d.go .card img{animation:fxDance .35s ease-in-out .3s 4 alternate}
+#pwfx.s.go .card img{animation:fxShuf .28s ease-in-out .3s 5 alternate}
+#pwfx.t.go .ring{animation:fxRing .55s cubic-bezier(.2,.8,.3,1) .1s forwards,fxRing2 .55s cubic-bezier(.2,.8,.3,1) .45s forwards}
+#pwfx.t.go .card img{animation:fxAim .6s cubic-bezier(.2,1.4,.4,1) .25s 1}
+@keyframes fxDim{0%{background:rgba(10,4,30,0)}12%{background:rgba(10,4,30,.55)}75%{background:rgba(10,4,30,.45)}100%{background:rgba(10,4,30,0)}}
+@keyframes fxSpin{from{transform:rotate(0) scale(.3)}to{transform:rotate(80deg) scale(1)}}
+@keyframes fxBurst{0%{opacity:0}10%{opacity:1}75%{opacity:.85}100%{opacity:0}}
+@keyframes fxRing{from{opacity:1;transform:scale(.2)}to{opacity:0;transform:scale(1.6)}}
+@keyframes fxRing2{from{opacity:1;transform:scale(.1);border-color:var(--c)}to{opacity:0;transform:scale(1.3)}}
+@keyframes fxCard{0%{transform:scale(.15) rotate(-14deg);opacity:0}14%{transform:scale(1.12) rotate(4deg);opacity:1}20%{transform:scale(.96) rotate(-2deg)}
+  24%{transform:scale(1.02) translate(-4px,2px) rotate(1deg)}28%{transform:scale(1) translate(4px,-2px)}32%{transform:scale(1) translate(-3px,1px)}36%{transform:scale(1) translate(0)}
+  74%{transform:scale(1.04);opacity:1}100%{transform:scale(1.35) translateY(-30vh);opacity:0}}
+@keyframes fxTtl{0%,12%{transform:scale(3) rotate(-8deg);opacity:0}22%{transform:scale(.9) rotate(-3deg);opacity:1}30%{transform:scale(1.08) rotate(-3deg)}36%,74%{transform:scale(1) rotate(-3deg);opacity:1}100%{transform:scale(.6) translateY(16vh);opacity:0}}
+@keyframes fxZap{0%{filter:brightness(1)}50%{filter:brightness(2.2) saturate(1.6)}100%{filter:brightness(1)}}
+@keyframes fxFlash{0%{box-shadow:inset 0 0 0 100vmax rgba(200,235,255,.75)}100%{box-shadow:inset 0 0 0 100vmax rgba(200,235,255,0)}}
+@keyframes fxHue{to{filter:hue-rotate(360deg)}}
+@keyframes fxDance{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(4deg) translateY(-10px)}}
+@keyframes fxShuf{from{transform:translateX(-10px) rotate(-3deg)}to{transform:translateX(10px) rotate(3deg)}}
+@keyframes fxAim{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){#pwfx.go *{animation-duration:.01s!important}}

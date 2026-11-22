@@ -1283,7 +1283,7 @@ let ziaT = 0, ziaLast = 0, ziaPos = '';
 function zia(pose, text, ms = 2300, force = false) {
   const el = $('zia'), now = performance.now();
   if (!el || (!force && now - ziaLast < 8000) || (view !== 'game' && view !== 'over')) return false;
-  ziaLast = now; const img = el.querySelector('img'); img.src = 'zia/' + pose + '.png';
+  ziaLast = now; const img = el.querySelector('img'); img.src = 'zia/' + pose + '.webp';
   el.querySelector('.zb').textContent = text || '';
   // her seferinde farklı bir yerde: köşeler, yanlar, üst; büyük anlarda tam orta da olabilir
   const spots = ['bl', 'br', 'tl', 'tr', 'ml', 'mr'].concat(force && (pose === 'joy' || pose === 'cool') ? ['c'] : []).filter(q => q !== ziaPos);
@@ -1306,6 +1306,17 @@ function spawnPower() {
   const x = L.bx + (S.pk.i % N + .5) * L.cell, y = L.by + ((S.pk.i / N | 0) + .5) * L.cell;
   parts.push({ kind: 'ring', x, y, r: L.cell * .2, R: L.cell * 1.1, col: '#FFE08A', t0: performance.now(), life: 450 });
   if (!stats.seenPK) { stats.seenPK = 1; LS.set('stats', stats); setTimeout(() => { if (view === 'game') { toast(t('pkTip'), 5500); zia('point', t(PW[S.pk ? S.pk.k : 'z'][1]) + '!', 2600, true); } }, 500); }
+}
+// güç patlaması: ekranın ortasında Zia'nın güç kartı (her güce özel hareket), dönen ışınlar, çarpan başlık
+const PW_COL = { z: '#3FB6FF', d: '#FF4FD8', s: '#FFC23C', t: '#FF4D4D' };
+const PW_IMG = {}; for (const k of 'zdst') { const im = new Image(); im.src = 'zia/pw-' + k + '.webp'; PW_IMG[k] = im; } // önceden yükle
+let pwfxT = 0;
+function pwSplash(k) {
+  const el = $('pwfx'); if (!el) return;
+  el.querySelector('img').src = PW_IMG[k].src; el.querySelector('.ttl').textContent = t(PW[k][1]) + '!';
+  el.style.setProperty('--c', PW_COL[k]); el.style.setProperty('--c2', PW_COL[k] + 'BF'); el.className = k; void el.offsetWidth; el.classList.add('go');
+  clearTimeout(pwfxT); pwfxT = setTimeout(() => { el.className = ''; }, 1800);
+  ziaHide(); samp('streak', .7); setTimeout(() => samp('combo', .55), 250); buzz(35);
 }
 function powerFx(k, r0, c0, col) {
   const now = performance.now(), cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
@@ -1334,8 +1345,7 @@ function powerFx(k, r0, c0, col) {
     samp('whoosh', .9) || sfx.pocket(); buzz(20);
   }
   if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .9, cell * .48, '#FFFFFF', 350, true); }
-  const nm = t(PW[k][1]); float(nm + '!', L.bx + L.bs / 2, L.by + L.bs * .3, cell * .6, C.accent, 60, 'badge');
-  zia(k === 's' ? 'point' : k === 'd' ? 'joy' : 'cool', nm + '!', 1800, true);
+  pwSplash(k);
   stats.powers = (stats.powers || 0) + 1; LS.set('stats', stats); bump(1600); return pts;
 }
 // güç kutusu çizimi: altın çerçeveli parlak kutu, içinde zıplayan ikon, etrafında dönen ışıltı; kaybolmadan önce yanıp söner
@@ -1434,7 +1444,7 @@ function render() {
   home.hidden = view !== 'home'; modal.hidden = view !== 'pause' && view !== 'over' && view !== 'win' && view !== 'lang';
   if (view === 'home') {
     const sv = loadGame('classic'), dv = loadGame('daily'), db = bestFor('daily');
-    home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.png" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
+    home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
       <div class="tag">${t('tag')}</div>${stats.best ? `<div class="homebest">${CROWN(26)} ${fmt(stats.best)}</div><div style="margin-top:-6px;text-align:center;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--accent);opacity:.8">${t('record')}</div>` : `<div class="homebest">${CROWN(26)} <span style="font-size:.8em">${t('firstRec')}</span></div>`}
       <button class="btn" data-act="classic">${sv ? t('cont') : t('play')}<small>${t('classic')}${sv ? ' · ' + fmt(sv.score) : ''}</small></button>      <button class="btn alt" data-act="daily">${t('daily')}<small>${t('today')}${dv ? ' · ' + fmt(dv.score) : db ? ' · ' + CROWN(13) + ' ' + fmt(db) : ''}</small></button>${togs()}
       ${window.BLOKZIA_BUILD ? `<div style="margin-top:10px;font-size:11px;opacity:.45">sürüm ${window.BLOKZIA_BUILD}</div>` : ''}`;
@@ -1517,7 +1527,7 @@ const acts = {
   ziaTap: () => { // ana ekrandaki Zia'ya dokununca zıplar, poz değiştirir, konuşur
     const im = document.querySelector('.hzia'), bb = $('hbub'); if (!im) return;
     const k = (acts.ziaN = ((acts.ziaN || 0) + 1) % 4), pose = ['joy', 'cool', 'smirk', 'full'][k]; im.classList.toggle('bust', pose === 'cool' || pose === 'smirk'), lines = [t('zPlay'), t('zRec'), t('zGo'), t('zHi')];
-    im.src = 'zia/' + pose + '.png'; im.classList.remove('hop'); void im.offsetWidth; im.classList.add('hop');
+    im.src = 'zia/' + pose + '.webp'; im.classList.remove('hop'); void im.offsetWidth; im.classList.add('hop');
     if (bb) { bb.textContent = lines[k]; bb.style.animation = 'none'; void bb.offsetWidth; bb.style.animation = 'bubIn .35s cubic-bezier(.2,1.4,.4,1) both'; }
     samp('pick', .8); buzz(15);
   },
@@ -1539,6 +1549,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, pwSplash }; // test/hata ayıklama
 Ads.init();
 })();
