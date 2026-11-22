@@ -1,1 +1,1 @@
-window.BLOKZIA_BUILD = '22.11.2026 17:15';
+window.BLOKZIA_BUILD = '22.11.2026 20:30';
