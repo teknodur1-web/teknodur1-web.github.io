@@ -642,6 +642,15 @@ function sym(cx, cy, s, c = 1) {
   ctx.lineWidth = Math.max(1, s * .02); ctx.strokeStyle = d; ctx.globalAlpha = .35; ctx.stroke(); ctx.globalAlpha = 1;
   ctx.drawImage(emoImg(k), cx - s * .3, cy - s * .3, s * .6, s * .6);
   ctx.beginPath(); ctx.ellipse(cx - s * .1, cy - s * .2, s * .1, s * .045, -.5, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill();
+  // puan etiketi: emojinin vereceği puan (tepsideki küçük bloklarda gösterilmez)
+  if (L && s >= L.cell * .7) {
+    const txt = '+' + emoVal(), fs = s * .24; ctx.font = `900 ${fs}px ${C.ff}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const ph = fs * 1.25, pw = ctx.measureText(txt).width + fs * .6, x0 = cx + s * .5 - pw - s * .02, y0 = cy + s * .5 - ph - s * .02;
+    const pg = ctx.createLinearGradient(0, y0, 0, y0 + ph); pg.addColorStop(0, '#FFF1A8'); pg.addColorStop(1, '#F5A300');
+    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = s * .05; path(ctx, x0, y0, pw, ph, ph / 2); ctx.fillStyle = pg; ctx.fill();
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.lineWidth = Math.max(1, s * .025); ctx.strokeStyle = '#8A4A00'; ctx.stroke();
+    ctx.fillStyle = '#4A1A00'; ctx.fillText(txt, x0 + pw / 2, y0 + ph / 2 + fs * .04);
+  }
   ctx.restore();
 }
 function tile(c, x, y, s, gem) { ctx.drawImage((gem ? sprites : spritesF)[c - 1], x, y, s, s); if (gem) sym(x + s / 2, y + s / 2, s, c); }
