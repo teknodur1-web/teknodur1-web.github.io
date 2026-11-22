@@ -134,3 +134,11 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #danger.on{opacity:1;animation:heart 1.15s ease-in-out infinite}
 @keyframes heart{0%,100%{opacity:.55}12%{opacity:1}24%{opacity:.6}36%{opacity:.9}60%{opacity:.55}}
 @media (prefers-reduced-motion: reduce){#danger.on,.best.near{animation:none}}
+
+/* kombo ısısı: seri sayacının altında hızla azalan parlak enerji çubuğu; azalınca kırmızı yanıp söner, yüksek seride maviye döner */
+#heat{width:110px;height:6px;margin:3px auto 0;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;opacity:0;transform:scaleX(.6);transition:opacity .2s,transform .25s}
+#heat.on{opacity:1;transform:none}
+#heat i{display:block;height:100%;width:100%;border-radius:4px;background:linear-gradient(90deg,#FF5A1F,#FFB23E,#FFE45C);box-shadow:0 0 8px rgba(255,170,60,.9)}
+#heat.hot i{background:linear-gradient(90deg,#7A5CFF,#3FB6FF,#BDF2FF);box-shadow:0 0 10px rgba(80,180,255,.95)}
+#heat.low i{animation:heatLow .35s steps(2) infinite}
+@keyframes heatLow{50%{opacity:.35}}

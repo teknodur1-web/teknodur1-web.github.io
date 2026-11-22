@@ -136,8 +136,9 @@ const ZT = {
 const PKT = {"tr": "Parlayan güç kutusunun üstüne blok koy: güç patlar!", "en": "Place a block on the glowing power box to unleash it!", "es": "¡Pon un bloque sobre la caja de poder brillante para activarla!", "pt": "Coloque um bloco na caixa de poder brilhante para ativá-la!", "fr": "Posez un bloc sur la boîte de pouvoir brillante pour la déclencher !", "de": "Setz einen Block auf die leuchtende Kraftbox, um sie auszulösen!", "it": "Metti un blocco sulla scatola potere luminosa per attivarla!", "ru": "Поставь блок на светящуюся коробку силы — она сработает!", "ar": "ضع كتلة على صندوق القوة المتوهج لتفجيره!", "hi": "चमकते पावर बॉक्स पर ब्लॉक रखें, पावर फूटेगी!", "id": "Taruh blok di kotak kekuatan yang bersinar untuk melepaskannya!", "ja": "光るパワーボックスにブロックを置くとパワーが発動！", "zh": "把方块放在发光的能量盒上即可触发！", "ko": "빛나는 파워 상자 위에 블록을 놓으면 파워가 터져요!"};
 const PBT = {"tr": "Bomba", "en": "Bomb", "es": "Bomba", "pt": "Bomba", "fr": "Bombe", "de": "Bombe", "it": "Bomba", "ru": "Бомба", "ar": "قنبلة", "hi": "बम", "id": "Bom", "ja": "ボム", "zh": "炸弹", "ko": "폭탄"};
 const CHT = {"tr": "Zincir", "en": "Chain", "es": "Cadena", "pt": "Corrente", "fr": "Chaîne", "de": "Kette", "it": "Catena", "ru": "Цепь", "ar": "سلسلة", "hi": "चेन", "id": "Rantai", "ja": "チェーン", "zh": "连锁", "ko": "체인"};
+const CLT = {"tr": "Kıl Payı!", "en": "Close Call!", "es": "¡Por los pelos!", "pt": "Por um triz!", "fr": "De justesse !", "de": "Knapp!", "it": "Per un pelo!", "ru": "На волоске!", "ar": "بأعجوبة!", "hi": "बाल-बाल बचे!", "id": "Nyaris!", "ja": "ギリギリ！", "zh": "惊险！", "ko": "아슬아슬!"}, MGT = {"tr": "MEGA ZİNCİR!", "en": "MEGA CHAIN!", "es": "¡MEGA CADENA!", "pt": "MEGA CORRENTE!", "fr": "MÉGA CHAÎNE !", "de": "MEGA-KETTE!", "it": "MEGA CATENA!", "ru": "МЕГА ЦЕПЬ!", "ar": "سلسلة ضخمة!", "hi": "मेगा चेन!", "id": "MEGA RANTAI!", "ja": "メガチェーン！", "zh": "超级连锁！", "ko": "메가 체인!"};
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
-for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; }
+for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
 // sesli övgü: telefonun kendi seslendirme motoru, seçili dilde (internet gerekmez)
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
@@ -1103,7 +1104,7 @@ function draw(now) {
       continue;
     }
     if (p.kind === 'cube') { // dönerek küçülen parlak mini küp
-      p.vy += 900 * dt; p.rot += p.vr * dt; const z = p.s * (1 - k * .55); ctx.globalAlpha = k > .65 ? (1 - k) / .35 : 1;
+      p.vy += 900 * dt; p.rot += p.vr * dt; if (!p.bn && p.vy > 0 && p.y > L.by + L.bs + 4) { p.vy *= -.42; p.vx *= .7; p.vr *= -.6; p.bn = 1; } const z = p.s * (1 - k * .55); // tahtanın altına çarpınca seker ctx.globalAlpha = k > .65 ? (1 - k) / .35 : 1;
       ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
       const g = ctx.createLinearGradient(0, -z / 2, 0, z / 2); g.addColorStop(0, p.l); g.addColorStop(1, p.d);
       path(ctx, -z / 2, -z / 2, z, z, z * .28); ctx.fillStyle = g; ctx.fill();
@@ -1183,11 +1184,29 @@ function draw(now) {
   }
   ctx.globalAlpha = 1;
 }
+// seri büyüdükçe süre kısalır (9 sn → en az 4,5 sn); duraklatma/arka planda süre durur
+const HEAT_MS = st => Math.max(4500, 9000 - st * 350);
+let heat = { end: 0, total: 1, last: 0 };
+const heatOn = () => S && !S.over && S.streak >= 2 && heat.end > 0;
+function heatStart() { const ms = HEAT_MS(S.streak); heat = { end: performance.now() + ms, total: ms, last: performance.now() }; }
+function heatTick(now) {
+  const el = $('heat'); if (!el) return;
+  if (!heatOn()) { if (el.classList.contains('on')) el.classList.remove('on'); return; }
+  if (view !== 'game' || document.hidden) { heat.end += now - heat.last; heat.last = now; return; } // duraklatmada süre durur
+  heat.last = now; const left = Math.max(0, heat.end - now), k = left / heat.total;
+  el.classList.add('on'); el.classList.toggle('hot', S.streak >= 6); el.firstChild.style.width = (k * 100).toFixed(1) + '%'; el.classList.toggle('low', k < .3);
+  if (left <= 0) { S.streak = 0; heat.end = 0; const st = $('streak'); st.textContent = ''; st.classList.remove('on'); el.classList.remove('on'); save(); } // süre doldu: seri biter
+}
+setInterval(() => { if (heatOn()) bump(300); }, 250);
+let hitStopUntil = 0;
+const hitStop = ms => { hitStopUntil = Math.max(hitStopUntil, performance.now() + ms); };
 function frame(now) {
   raf = 0; if (!S || !L) return;
+  if (now < hitStopUntil) { raf = requestAnimationFrame(frame); return; } // vuruş anı: görüntü bir an donar
+  heatTick(now);
   if (shown !== S.score) { shown += (S.score - shown) * .22; if (Math.abs(S.score - shown) < 1) shown = S.score; $('score').textContent = fmt(Math.round(shown)); }
   draw(now);
-  if (now < animUntil || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
+  if (now < animUntil || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
 }
 function bump(ms = 700) { animUntil = Math.max(animUntil, performance.now() + ms); if (!raf) raf = requestAnimationFrame(frame); }
 
@@ -1224,7 +1243,7 @@ function afterMove() {
   }
   spawnPower();
   hud();
-  { const fill = S.grid.filter(Boolean).length / 64, dg = $('danger'); if (dg) dg.classList.toggle('on', !S.over && fill >= .66); // tahta dolunca kenarlarda kırmızı kalp atışı
+  { const fill = S.grid.filter(Boolean).length / 64, dg = $('danger'); if (dg) dg.classList.toggle('on', !S.over && fill >= .75); // tahta dolunca kenarlarda kırmızı kalp atışı
     const bb = document.querySelector('.best'); if (bb) bb.classList.toggle('near', S.mode !== 'adv' && S.prev > 0 && S.score >= S.prev * .9 && S.score <= S.prev); }
   // "sığmıyor" / Joker ipucu, sorun çözülünce hemen kaybolur
   const te = $('toast');
@@ -1253,7 +1272,7 @@ function place(kind, idx, piece, r, c) {
     for (let q = 0; q < 2; q++) parts.push({ kind: 'spark', s4: true, x: L.bx + (c + x + .2 + q * .6) * L.cell, y: L.by + (r + y + 1) * L.cell - 3, r: L.cell * .07, col: 'rgba(255,255,255,.9)', t0: now + 80, life: 260 }); });
   if (kind === 'tray') S.tray[idx] = null; else S.hold = null;
   const pkHit = S.pk && sh.cells.some(([y, x]) => (r + y) * N + c + x === S.pk.i) ? S.pk : null; if (pkHit) { S.pk = null; S.pkCd = 4; }
-  let gain = sh.n; S.lastC = piece.c;
+  let gain = sh.n; S.lastC = piece.c; const fill0 = (S.grid.filter(Boolean).length - sh.n) / 64; // hamleden önceki doluluk
   // güç-up yıldızı: üstüne blok konunca toplanır → Nova +2, +50 puan
   if (S.pu >= 0 && sh.cells.some(([y, x]) => (r + y) * N + c + x === S.pu)) {
     const sx = L.bx + (S.pu % N + .5) * cell, sy = L.by + ((S.pu / N | 0) + .5) * cell;
@@ -1274,12 +1293,12 @@ function place(kind, idx, piece, r, c) {
     let emoPts = 0; const emoCells = [];
     for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v, S.grid[i]]); }
     const icn = iconNo(); if (icn) emoCells.slice(0, 6).forEach(([i, , cc], q) => parts.push({ kind: 'iconfly', vx: 0, vy: 0, x0: L.bx + (i % N + .5) * cell, y0: L.by + ((i / N | 0) + .5) * cell, x1: L.bx + L.bs / 2, y1: L.by - cell * .9, n: icn, c: cc, t0: now + 80 + q * 70, life: 750 }));
-    for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { shards(i, S.grid[i], t1, 4, true); glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 320, t1); } kill(i, t1); }
+    for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { shards(i, S.grid[i], t1, n >= 2 ? 7 : 5, true); glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 320, t1); } kill(i, t1); }
     // patlayan çizgi boyunca sırayla yanan ışıltılar
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     rows.forEach(i => beams.push({ row: true, i, t0: now + 40 })); cols.forEach(i => beams.push({ row: false, i, t0: now + 40 }));
-    S.streak++; S.since = 0; S.lines += n; stats.lines += n;
+    S.streak++; S.since = 0; S.lines += n; stats.lines += n; heatStart();
     if (S.goal && S.goal.type === 'star') S.goal.have += gems;
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
     let pts = Math.round(10 * n * (n + 1) / 2 * S.streak * (B === 'combo' && S.streak >= 2 ? 1.5 : 1) + gems * (B === 'gem' ? 40 : 20) + (B === 'line' ? n * 15 : 0));
@@ -1315,6 +1334,7 @@ function place(kind, idx, piece, r, c) {
     if (praise) { const prY = Math.abs(py - (L.by + L.bs * .36)) < cell * 1.4 ? L.by + L.bs * .66 : L.by + L.bs * .36; // patlama noktasındaki puanla çakışmasın
       if (!celebOn()) { const tn = performance.now(); for (const f of floats) if (!f.pill && f.praise && f.t0 + f.life > tn) f.life = Math.max(0, tn + 140 - f.t0); // önceki övgü hemen söner, üst üste binmez
         float(praise, L.bx + L.bs / 2, prY, cell * .78, C.accent, 120); floats[floats.length - 1].praise = true; } setTimeout(() => say(praise, praiseEn), 150); }
+    if (n >= 3 || (n >= 2 && S.streak >= 3)) hitStop(70);
     if (n >= 2) { shakeEnd = now + 260; shakeAmp = Math.min(5, 1.5 + n); confetti(px, py, 10 + n * 6); punch(Math.min(.06, .015 * n + .005 * Math.min(S.streak, 6))); } else { confetti(px, py, 7, 170); if (S.streak >= 3) punch(.012); }
     if (clean) { shower(46); glow(L.bx + L.bs / 2, L.by + L.bs / 2, L.bs * .6, '#FFF3C4', 700, now); }
     if (S.streak >= 3) parts.push({ kind: 'ring', x: L.bx + L.bs / 2, y: L.by + L.bs / 2, r: L.bs * .3, R: L.bs * .6, col: '#FFB84D', t0: now, life: 650 });
@@ -1324,11 +1344,16 @@ function place(kind, idx, piece, r, c) {
     if (!stats.seenJB && !S.joker) { stats.seenJB = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('jbTip'), 5000)), 1200); }
     S.jbar = Math.min(JB_MAX, (S.jbar || 0) + n); if (n >= 2 || S.streak >= 3) S.jbar = JB_MAX; // çubuk: her satır doldurur, iyi hamle tamamlar
     if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); float('✦ ' + t('jokerGot'), L.bx + L.bs / 2, L.by + L.bs * .82, cell * .52, C.accent, 900, 'badge'); setTimeout(sfx.joker, 550); }
-  } else { S.since++; if (S.since >= 3) S.streak = 0; sfx.place(); buzz(12); }
+  } else { S.since++; if (S.since >= 3) { S.streak = 0; heat.end = 0; } sfx.place(); buzz(12); }
   S.score += gain;
   { const sc = $('score'); if (gain >= 30) { sc.classList.remove('pop', 'pop2'); void sc.offsetWidth; sc.classList.add(gain >= 300 ? 'pop2' : 'pop'); } }
-  if (pkHit) powerFx(pkHit.k, pkHit.i / N | 0, pkHit.i % N, piece.c);
+  if (pkHit) powerFx(pkHit.k, pkHit.i / N | 0, pkHit.i % N, piece.c, n);
   chainCheck();
+  if (n && fill0 >= .75 && S.grid.filter(Boolean).length / 64 <= fill0 - .15) { // kritik anda alan açıldı
+    S.score += 150; const cx2 = L.bx + L.bs / 2, cy2 = L.by + L.bs * .5;
+    float(t('close'), cx2, L.by + L.bs * .82, cell * .56, C.accent, 380, 'metal'); float('+150', cx2, cy2, cell * .66, '#FFD24A', 560, 'gold3d');
+    confetti(cx2, cy2, 22, 250); hitStop(70); setTimeout(() => samp('record', .6) || sfx.clean(), 300); zia('cool', t('close'), 1700, true, ['zyeah', .9]);
+    stats.close = (stats.close || 0) + 1; }
   // her 3.400 puanda aynı oyun içinde sıradaki gizli maceraya geçilir (sembol, puan kuralı, gizli hedef değişir; duyurulmaz)
   if (S.var) {
     if (!S.nextVarAt) S.nextVarAt = VAR_STEP;
@@ -1434,7 +1459,7 @@ function novaBlast(r, c) {
     parts.push({ kind: 'rays', x: nx, y: ny, R: L.cell * 3.2, t0: now, life: 520 }); parts.push({ kind: 'crack', x: nx, y: ny, t0: now, life: 400 });
     confetti(nx, ny, 16, 230); float('💥 NOVA!', nx, ny - L.cell * 1.9, L.cell * .55, C.accent, 60, 'badge'); }
   bump(1400);
-  S.nova = 0; S.score += cnt * 5; shakeEnd = now + 380; shakeAmp = 8; punch(.05); sfx.nova(); buzz(50);
+  S.nova = 0; S.score += cnt * 5; shakeEnd = now + 380; shakeAmp = 8; punch(.05); hitStop(80); sfx.nova(); buzz(50);
   float('+' + cnt * 5, L.bx + (c + 1.5) * L.cell, L.by + (r + 1.5) * L.cell, L.cell * .48, '#FFFFFF', 0, true);
   afterMove();
 }
@@ -1524,7 +1549,8 @@ function spawnPower() {
 }
 // güç anı: Zia ekranın kenarından çıkar (pozu ve sesi güce göre), tahtada güce özel hareketli efekt oynar
 const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['joy', ['zwoo', .9]], t: ['point', ['zyeah', .9]] };
-function powerFx(k, r0, c0, col) {
+let lastPowerAt = 0;
+function powerFx(k, r0, c0, col, nLines = 0) {
   const [pose, snd] = PW_ZIA[k], shown = zia(pose, t(PW[k][1]) + '!', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
   const D = shown ? 340 : 0, hand = shown ? ziaHand() : null, later = (fn, ms) => setTimeout(fn, ms + D);
   const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
@@ -1535,7 +1561,7 @@ function powerFx(k, r0, c0, col) {
     parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 });
     glow(L.bx + L.bs / 2, cy, L.bs * .7, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 });
     for (let q = 0; q < N; q++) { const i = r0 * N + q, t1 = now + 260 + Math.abs(q - c0) * 45; if (S.grid[i]) glow(L.bx + (q + .5) * cell, cy, cell * .7, '#FFFFFF', 300, t1 - 120); pts += 8 * pop(i, t1); }
-    shakeEnd = now + 420; shakeAmp = 6; later(() => { samp('nova', .7) || sfx.nova(); buzz(45); }, 0);
+    shakeEnd = now + 420; shakeAmp = 6; later(() => { samp('nova', .7) || sfx.nova(); buzz(45); }, 0); later(() => hitStop(60), 160);
   } else if (k === 'b') { // bomba: düşer, fitili yanar, kızarır ve patlar: alev topu, şok dalgası, duman, enkaz
     parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720, sx: hand && hand.x, sy: hand && hand.y });
     const T = now + 700;
@@ -1546,7 +1572,7 @@ function powerFx(k, r0, c0, col) {
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
     for (let y = r0 - 1; y <= r0 + 1; y++) for (let x = c0 - 1; x <= c0 + 1; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x;
       if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 10 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
-    later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); punch(.06); }, 700); // bomba patlama sesi
+    later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); punch(.06); hitStop(90); }, 700); // bomba patlama sesi
     later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
     parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2.6, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
@@ -1571,6 +1597,10 @@ function powerFx(k, r0, c0, col) {
   }
   if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .4, cell * .62, '#FFD24A', 750 + D, 'gold3d'); }
   float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
+  const megaNow = performance.now(), mega = nLines >= 2 || megaNow - lastPowerAt < 6000; lastPowerAt = megaNow;
+  if (mega) { // nadir büyük an: konfeti yağmuru, altın bonus, metal başlık
+    later(() => { S.score += 250; shower(70); float(t('mega'), L.bx + L.bs / 2, L.by + L.bs * .45, cell * .62, C.accent, 0, 'metal'); float('+250', L.bx + L.bs / 2, L.by + L.bs * .62, cell * .78, '#FFD24A', 150, 'gold3d');
+      punch(.06); hitStop(90); samp('levelwin', .8) || sfx.clean(); buzz(60); stats.mega = (stats.mega || 0) + 1; LS.set('stats', stats); hud(); }, 1100); }
   stats.powers = (stats.powers || 0) + 1; LS.set('stats', stats); bump(1800); return pts;
 }
 
@@ -1805,6 +1835,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, chainCheck, symGroups, floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, chainCheck, symGroups, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 })();
