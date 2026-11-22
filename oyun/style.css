@@ -62,13 +62,20 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #zia{position:absolute;left:50%;top:44%;z-index:60;pointer-events:none;display:flex;flex-direction:column;align-items:center;--zc:#A86CFF;
   opacity:0;transform:translate(-50%,-50%) scale(.55);transition:opacity .28s ease,transform .5s cubic-bezier(.2,1.35,.4,1)}
 #zia.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#zia.out{opacity:0;transform:translate(-50%,-56%) scale(.9);transition:opacity .3s ease,transform .3s ease}
+#zia.out{opacity:0;transform:translate(-50%,-50%) scale(.82);transition:opacity .32s ease-in,transform .32s cubic-bezier(.5,0,.75,0)}
 #zia::before{content:'';position:absolute;left:50%;top:58%;width:min(300px,72vw);height:min(300px,72vw);transform:translate(-50%,-50%) scale(.6);border-radius:50%;
   background:radial-gradient(closest-side,color-mix(in srgb,var(--zc) 55%,transparent),transparent);background:radial-gradient(closest-side,var(--zc2,rgba(168,108,255,.5)),transparent);
   opacity:0;transition:opacity .4s,transform .6s cubic-bezier(.2,1.2,.4,1)}
 #zia.show::before{opacity:1;transform:translate(-50%,-50%) scale(1);animation:ziaGlow 2.4s ease-in-out infinite}
-#zia img{position:relative;height:min(220px,27vh);width:auto;transform-origin:50% 90%;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));
-  -webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent)}
+#zia img{position:relative;z-index:1;height:min(230px,28vh);width:auto;transform-origin:50% 92%;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4));
+  will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;image-rendering:auto}
+#zia{will-change:transform,opacity;backface-visibility:hidden}
+/* zemin gölgesi: karakter zıplarken küçülür, yere inince büyür (yere basma hissi) */
+#zia::after{content:'';position:absolute;left:50%;bottom:-6px;width:46%;height:14px;margin-left:-23%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.5),rgba(0,0,0,0));opacity:0;transition:opacity .3s}
+#zia.show::after{opacity:1}
+#zia.show.joy::after{animation:ziaShadowHop .5s ease-in-out .55s infinite alternate}
+@keyframes ziaShadowHop{from{transform:scaleX(1);opacity:1}to{transform:scaleX(.7);opacity:.55}}
 #zia .zb{position:relative;z-index:2;order:-1;margin-bottom:8px;max-width:min(260px,72vw);width:max-content;text-align:center;
   background:#fff;color:#2A1840;font:900 16px/1.25 var(--ff);padding:9px 15px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,.32);
   transform:scale(0) translateY(10px);transition:transform .35s cubic-bezier(.2,1.5,.4,1) .18s}

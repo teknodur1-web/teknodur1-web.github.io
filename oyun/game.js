@@ -1284,6 +1284,8 @@ function toHold(idx) { const p = S.tray[idx]; S.tray[idx] = S.hold; S.hold = p; 
 // tepkiler: kombo/çok satır → sevinç, rekor/temizlik → havalı, sıkışma → düşünür, oyun bitti → muzip. Sık çıkmaz, dokunmayı engellemez.
 let ziaT = 0, ziaT2 = 0, ziaLast = 0, ziaWait = 0, charUntil = 0, pwfxUntil = 0;
 // poza göre ses: sevinç "woo", havalı "yeah boy", muzip/işaret "motor gazı", düşünen sessiz
+// tüm pozlar önceden yüklenir ve çözülür: ilk çıkışta boş/yarım kare görünmez, animasyon akıcı başlar
+const ZIA_IMG = {}; for (const k of ['joy', 'cool', 'think', 'smirk', 'point']) { const im = new Image(); im.decoding = 'async'; im.src = 'zia/' + k + '.webp'; if (im.decode) im.decode().catch(() => {}); ZIA_IMG[k] = im; }
 const ZIA_SND = { joy: ['zwoo', .85], cool: ['zyeah', .85], smirk: ['zengine', .5], point: ['zengine', .45] };
 function zia(pose, text, ms = 2000, force = false, snd) {
   const el = $('zia'), now = performance.now();
@@ -1298,8 +1300,9 @@ function zia(pose, text, ms = 2000, force = false, snd) {
   clearTimeout(ziaWait);
   ziaWait = setTimeout(() => {
     if (view !== 'game' && view !== 'over') return;
-    el.querySelector('img').src = 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = text || '';
-    el.className = pose; void el.offsetWidth; el.classList.add('show');
+    const img = el.querySelector('img'), src = ZIA_IMG[pose] ? ZIA_IMG[pose].src : 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = text || '';
+    if (img.src !== src) img.src = src;
+    el.className = pose; void el.offsetWidth; requestAnimationFrame(() => el.classList.add('show'));
     if (vs) samp(vs[0], vs[1]);
     clearTimeout(ziaT); clearTimeout(ziaT2);
     ziaT = setTimeout(() => { el.classList.add('out'); ziaT2 = setTimeout(() => { el.className = ''; }, 320); }, ms);
