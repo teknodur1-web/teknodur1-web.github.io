@@ -74,15 +74,26 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes pwPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 @keyframes pwPop{0%{transform:scale(.4) rotate(-30deg)}60%{transform:scale(1.35) rotate(10deg)}100%{transform:scale(1)}}
 /* ---- Zia maskotu: köşeden zıplayarak çıkar, konuşma balonu, dokunmayı engellemez ---- */
-#zia{position:absolute;left:0;bottom:0;z-index:60;pointer-events:none;display:flex;align-items:flex-end;opacity:0;transform:translate(-40%,60%) scale(.6);
-  transition:opacity .25s,transform .45s cubic-bezier(.2,1.2,.35,1)}
+#zia{position:absolute;left:0;bottom:0;z-index:60;pointer-events:none;display:flex;align-items:flex-end;opacity:0;--bx:0%;--hx:-40%;--hy:60%;
+  transform:translate(calc(var(--bx) + var(--hx)),var(--hy)) scale(.6);transition:opacity .25s,transform .45s cubic-bezier(.2,1.2,.35,1)}
+/* farklı yerler: köşeler, yanlar (ortada kenardan bakar), üst, tam orta */
+#zia.p-br{left:auto;right:0;--hx:40%}
+#zia.p-tl{bottom:auto;top:76px;--hy:-50%}
+#zia.p-tr{bottom:auto;top:76px;left:auto;right:0;--hx:40%;--hy:-50%}
+#zia.p-ml{bottom:auto;top:38%;--hx:-70%;--hy:0%}
+#zia.p-mr{bottom:auto;top:38%;left:auto;right:0;--hx:70%;--hy:0%}
+#zia.p-c{bottom:auto;top:30%;left:50%;--bx:-50%;--hx:0%;--hy:25%}
+#zia:is(.p-br,.p-tr,.p-mr) img{scale:-1 1}
+#zia:not(.p-bl):not(.p-br) img{-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+#zia:is(.p-br,.p-tr,.p-mr) .zb{left:auto;right:calc(min(150px,19vh) * .62);border-radius:16px 16px 4px 16px;transform-origin:100% 100%}
+#zia.p-c .zb{left:50%;bottom:100%;margin-left:calc(min(220px,58vw) / -2.4);border-radius:16px}
 #zia img{height:min(150px,19vh);width:auto;filter:drop-shadow(0 8px 10px rgba(0,0,0,.4));transform-origin:50% 100%}
-#zia.show{opacity:1;transform:none}
+#zia.show{opacity:1;transform:translate(var(--bx),0)}
 #zia.show img{animation:ziaBob 1.1s ease-in-out infinite}
 #zia.joy.show img{animation:ziaJump .55s cubic-bezier(.3,.7,.4,1) infinite alternate}
 #zia.think.show img{animation:ziaTilt 1.6s ease-in-out infinite}
 #zia.cool.show img{animation:ziaCool 1.4s ease-in-out infinite}
-#zia .zb{position:absolute;left:calc(min(150px,19vh) * .62);bottom:calc(min(150px,19vh) * .72);max-width:min(220px,58vw);width:max-content;
+#zia .zb{position:absolute;z-index:2;left:calc(min(150px,19vh) * .62);bottom:calc(min(150px,19vh) * .72);max-width:min(220px,58vw);width:max-content;
   background:#fff;color:#2A1840;font:900 15px/1.25 var(--ff);padding:9px 13px;border-radius:16px 16px 16px 4px;box-shadow:0 6px 16px rgba(0,0,0,.3);
   transform:scale(0);transform-origin:0 100%;transition:transform .3s cubic-bezier(.2,1.4,.4,1) .15s}
 #zia.show .zb{transform:scale(1)}

@@ -1276,12 +1276,15 @@ function toHold(idx) { const p = S.tray[idx]; S.tray[idx] = S.hold; S.hold = p; 
 
 /* ---------- Zia maskotu ---------- */
 // tepkiler: kombo/çok satır → sevinç, rekor/temizlik → havalı, sıkışma → düşünür, oyun bitti → muzip. Sık çıkmaz, dokunmayı engellemez.
-let ziaT = 0, ziaLast = 0;
+let ziaT = 0, ziaLast = 0, ziaPos = '';
 function zia(pose, text, ms = 2300, force = false) {
   const el = $('zia'), now = performance.now();
   if (!el || (!force && now - ziaLast < 8000) || (view !== 'game' && view !== 'over')) return false;
   ziaLast = now; const img = el.querySelector('img'); img.src = 'zia/' + pose + '.png';
-  el.querySelector('.zb').textContent = text || ''; el.className = pose;
+  el.querySelector('.zb').textContent = text || '';
+  // her seferinde farklı bir yerde: köşeler, yanlar, üst; büyük anlarda tam orta da olabilir
+  const spots = ['bl', 'br', 'tl', 'tr', 'ml', 'mr'].concat(force && (pose === 'joy' || pose === 'cool') ? ['c'] : []).filter(q => q !== ziaPos);
+  ziaPos = spots[Math.random() * spots.length | 0]; el.className = pose + ' p-' + ziaPos;
   void el.offsetWidth; el.classList.add('show'); clearTimeout(ziaT); ziaT = setTimeout(() => el.classList.remove('show'), ms); return true;
 }
 const ziaHide = () => { const el = $('zia'); if (el) { el.classList.remove('show'); clearTimeout(ziaT); } };
