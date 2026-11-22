@@ -974,19 +974,22 @@ function draw(now) {
       }
       ctx.restore(); continue;
     }
-    if (p.kind === 'disco') { // dönen disko topu: düşer, döner, renkli ışınlar saçar
-      const el = now - p.t0, drop = el < 400 ? back(el / 400) : 1, a = k > .8 ? (1 - k) / .2 : 1, tk = Math.min(1, el / 380), thr = p.sx != null, R2 = p.s / 2;
+    if (p.kind === 'disco') { // gerçekçi disko topu: elden atılır, zincirle asılı gibi döner; tahtada renkli ışık lekeleri ve hüzmeler dolaşır
+      const el = now - p.t0, drop = el < 400 ? back(el / 400) : 1, a = k > .82 ? (1 - k) / .18 : 1, tk = Math.min(1, el / 380), thr = p.sx != null, R2 = p.s / 2;
       const dx = thr ? p.sx + (p.x - p.sx) * ease(tk) : p.x, y = thr ? p.sy + (p.y - p.sy) * ease(tk) - Math.sin(tk * Math.PI) * L.cell * 2.2 : p.y - (1 - drop) * L.cell * 5;
-      ctx.save(); ctx.globalAlpha = a; ctx.translate(dx, y);
-      if (el > 350) { ctx.save(); ctx.rotate(el / 500); for (let q = 0; q < 12; q++) { ctx.rotate(Math.PI / 6); const g = ctx.createLinearGradient(0, 0, 0, -L.bs * .7);
-        g.addColorStop(0, q % 2 ? p.col[1] : '#FFFFFF'); g.addColorStop(1, 'rgba(255,255,255,0)'); ctx.globalAlpha = a * .55; ctx.fillStyle = g;
-        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-L.cell * .35, -L.bs * .7); ctx.lineTo(L.cell * .35, -L.bs * .7); ctx.closePath(); ctx.fill(); } ctx.restore(); ctx.globalAlpha = a; }
-      if (!thr) ctx.beginPath(); if (!thr) ctx.moveTo(0, -R2); if (!thr) ctx.lineTo(0, -R2 - L.cell * 6); ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 2; ctx.stroke();
-      ctx.beginPath(); ctx.arc(0, 0, R2, 0, 6.283); ctx.clip();
-      const bg = ctx.createRadialGradient(-R2 * .3, -R2 * .35, R2 * .1, 0, 0, R2); bg.addColorStop(0, '#FFFFFF'); bg.addColorStop(.5, '#C9D2E8'); bg.addColorStop(1, '#5A6385'); ctx.fillStyle = bg; ctx.fillRect(-R2, -R2, R2 * 2, R2 * 2);
-      const tile = R2 / 3.2, off = (el / 12) % tile;
-      for (let yy = -R2; yy < R2; yy += tile) for (let xx = -R2 - tile + off; xx < R2; xx += tile) { const hsh = Math.sin((xx - off) * 12.9 + yy * 78.2 + Math.floor(el / 140)) * 43758.5 % 1;
-        ctx.fillStyle = hsh > .55 ? 'rgba(255,255,255,.85)' : hsh > .2 ? p.col[1] : 'rgba(40,40,70,.25)'; ctx.globalAlpha = a * .8; ctx.fillRect(xx + 1, yy + 1, tile - 2, tile - 2); }
+      const rot = el / 420, on = el > 360 ? Math.min(1, (el - 360) / 200) : 0;
+      if (on) { // tahtada dönen renkli ışık lekeleri + tavandan hüzmeler (sadece tahta içinde)
+        ctx.save(); path(ctx, L.bx - 8, L.by - 8, L.bs + 16, L.bs + 16, L.cell * .34); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
+        const RB = ['#FF4D6D', '#FF9F1C', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF', '#FF4FD8', p.col[1]];
+        for (let q = 0; q < 16; q++) { const an = q * 2.39996 + rot * (q % 2 ? 1.3 : -1), dist = L.cell * (1.2 + (q * 37 % 100) / 100 * 3.6), sx2 = dx + Math.cos(an) * dist, sy2 = y + Math.sin(an) * dist * .82, c2 = RB[q % RB.length];
+          ctx.globalAlpha = a * on * .16; ctx.fillStyle = c2; ctx.beginPath(); ctx.moveTo(dx, y); ctx.lineTo(sx2 - L.cell * .25, sy2); ctx.lineTo(sx2 + L.cell * .25, sy2); ctx.closePath(); ctx.fill();
+          const g = ctx.createRadialGradient(sx2, sy2, 0, sx2, sy2, L.cell * .62); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.22, c2); g.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalAlpha = a * on * (.7 + .3 * Math.sin(now / 90 + q)); ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(sx2, sy2, L.cell * .62, L.cell * .44, an, 0, 6.283); ctx.fill(); }
+        ctx.restore();
+      }
+      ctx.save(); ctx.globalAlpha = a;
+      if (!thr || tk >= 1) { ctx.strokeStyle = 'rgba(220,225,240,.7)'; ctx.lineWidth = 1.5; ctx.setLineDash([3, 2]); ctx.beginPath(); ctx.moveTo(dx, y - R2); ctx.lineTo(dx, L.by - 10); ctx.stroke(); ctx.setLineDash([]); } // asılı zincir
+      mirrorBall(dx, y, R2 * (1 + .04 * Math.sin(now / 130) * on), thr && tk < 1 ? tk * 12 : rot, now, p.col);
       ctx.restore(); continue;
     }
     if (p.kind === 'aim') { // HD nişangah: dönen kesikli halka, içe kapanan köşe parantezleri, nabız gibi atan merkez, kilitlenince beyaz çakma
@@ -1545,7 +1548,7 @@ function powerFx(k, r0, c0, col) {
     later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); punch(.06); }, 700); // bomba patlama sesi
     later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
-    parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
+    parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2.6, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
     S.grid.forEach((v, i) => { if (v !== col) return; const x = L.bx + (i % N + .5) * cell, y = L.by + ((i / N | 0) + .5) * cell, t1 = now + 500 + Math.hypot(x - cx, y - cy) / cell * 55;
       glow(x, y, cell * .9, PALETTE[col - 1][1], 380, t1 - 160); glow(x, y, cell * .7, '#FFFFFF', 260, t1); pts += 6 * pop(i, t1); });
     later(() => samp('combo', .8) || sfx.clean(), 480); later(() => { buzz(40); confetti(cx, cy, 26, 260); }, 520);
@@ -1571,14 +1574,33 @@ function powerFx(k, r0, c0, col) {
 }
 
 // mini disko topu (güç kutusunun içinde döner)
-function discoBall(x, y, R2, now, col) {
-  ctx.save(); ctx.beginPath(); ctx.arc(x, y, R2, 0, 6.283); ctx.clip();
-  const bg = ctx.createRadialGradient(x - R2 * .3, y - R2 * .35, R2 * .1, x, y, R2); bg.addColorStop(0, '#FFFFFF'); bg.addColorStop(.55, '#C9D2E8'); bg.addColorStop(1, '#4A5378');
-  ctx.fillStyle = bg; ctx.fillRect(x - R2, y - R2, R2 * 2, R2 * 2);
-  const tile = R2 / 2.4, off = (now / 30) % tile;
-  for (let yy = -R2; yy < R2; yy += tile) for (let xx = -R2 - tile + off; xx < R2; xx += tile) { const h = Math.abs(Math.sin((xx - off) * 7.1 + yy * 3.7 + Math.floor(now / 160)) * 999) % 1;
-    ctx.globalAlpha = .85; ctx.fillStyle = h > .6 ? '#FFFFFF' : h > .3 ? col[1] : 'rgba(40,40,80,.35)'; ctx.fillRect(x + xx + .6, y + yy + .6, tile - 1.2, tile - 1.2); }
-  ctx.restore(); ctx.save(); ctx.globalAlpha = .9; spark4(x - R2 * .35, y - R2 * .4, R2 * .32 * (1 + .3 * Math.sin(now / 90)), '#FFFFFF'); ctx.restore();
+function discoBall(x, y, R2, now, col) { mirrorBall(x, y, R2, now / 700, now, col); }
+// 3D ayna küre: enlem-boylam aynacıkları küre üzerine izdüşürülür, her biri ışığa göre parlar; dönerken renkli yansımalar ve ışıltılar çakar
+function mirrorBall(x, y, R2, rot, now, col) {
+  ctx.save(); ctx.translate(x, y);
+  ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = R2 * .35; ctx.shadowOffsetY = R2 * .12; ctx.beginPath(); ctx.arc(0, 0, R2, 0, 6.283); ctx.fillStyle = '#3A4060'; ctx.fill();
+  ctx.shadowColor = 'transparent'; ctx.save(); ctx.beginPath(); ctx.arc(0, 0, R2, 0, 6.283); ctx.clip();
+  const bg = ctx.createRadialGradient(-R2 * .35, -R2 * .4, R2 * .05, 0, 0, R2 * 1.05); bg.addColorStop(0, '#E8ECF8'); bg.addColorStop(.6, '#7C86A8'); bg.addColorStop(1, '#262B44');
+  ctx.fillStyle = bg; ctx.fillRect(-R2, -R2, R2 * 2, R2 * 2);
+  const rows = R2 > 20 ? 10 : 7, Lx = -.45, Ly = -.55, Lz = .7, RB = ['#FF4D6D', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF', '#FF4FD8'];
+  for (let r = 0; r < rows; r++) {
+    const la0 = -Math.PI / 2 + Math.PI * r / rows, la1 = la0 + Math.PI / rows, la = (la0 + la1) / 2, cl = Math.cos(la), cols = Math.max(4, Math.round(rows * 2 * cl));
+    for (let c = 0; c < cols; c++) {
+      const lo = (c + .5) / cols * Math.PI * 2 + rot, sl = Math.sin(lo), co = Math.cos(lo); if (co <= .05) continue; // arka yüz görünmez
+      const nx = cl * sl, ny = Math.sin(la), nz = cl * co, px = R2 * nx, py = R2 * ny, w = R2 * cl * (Math.PI * 2 / cols) * co * .86, h = R2 * (Math.PI / rows) * Math.cos(la) * .86 + R2 * .02;
+      const lam = Math.max(0, nx * Lx + ny * Ly + nz * Lz), spec = Math.pow(Math.max(0, lam), 12), hs = Math.abs(Math.sin(r * 12.9898 + c * 78.233 + Math.floor(now / 120)) * 43758.5) % 1;
+      const g = Math.round(60 + 170 * lam); ctx.fillStyle = hs > .9 ? RB[(r + c) % RB.length] : hs > .78 ? col[1] : `rgb(${g},${g + 6},${Math.min(255, g + 22)})`;
+      ctx.globalAlpha = .55 + .45 * lam; ctx.fillRect(px - w / 2, py - h / 2, w, h);
+      if (spec > .35 || hs > .97) { ctx.globalAlpha = Math.min(1, spec + .3); ctx.fillStyle = '#FFFFFF'; ctx.fillRect(px - w / 2, py - h / 2, w, h); }
+    }
+  }
+  ctx.globalAlpha = 1; const hl = ctx.createRadialGradient(-R2 * .38, -R2 * .42, 0, -R2 * .38, -R2 * .42, R2 * .55); hl.addColorStop(0, 'rgba(255,255,255,.75)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = hl; ctx.fillRect(-R2, -R2, R2 * 2, R2 * 2);
+  const rim = ctx.createRadialGradient(0, 0, R2 * .75, 0, 0, R2); rim.addColorStop(0, 'rgba(0,0,0,0)'); rim.addColorStop(1, 'rgba(10,12,30,.55)'); ctx.fillStyle = rim; ctx.fillRect(-R2, -R2, R2 * 2, R2 * 2);
+  ctx.restore();
+  ctx.lineWidth = Math.max(1, R2 * .05); ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(0, 0, R2, 0, 6.283); ctx.stroke();
+  for (let q = 0; q < 3; q++) { const an = q * 2.1 + now / 400, rr2 = R2 * (.35 + .25 * ((q * 37) % 3)), tw = .5 + .5 * Math.sin(now / 70 + q * 2); if (tw > .55) spark4(Math.cos(an) * rr2, Math.sin(an) * rr2 * .9, R2 * .2 * tw, '#FFFFFF'); }
+  ctx.restore();
 }
 // güç kutusu çizimi: altın çerçeveli parlak kutu, içinde zıplayan ikon, etrafında dönen ışıltı; kaybolmadan önce yanıp söner
 function drawPK(now) {
