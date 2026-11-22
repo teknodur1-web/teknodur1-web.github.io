@@ -776,6 +776,8 @@ function draw(now) {
   ctx.save();
   if (now < shakeEnd) { const e = 1 - (shakeEnd - now) / 260; ctx.translate(Math.sin(e * Math.PI * 3) * shakeAmp * (1 - e) ** 2, 0); }
   path(ctx, bx - 8, by - 8, bs + 16, bs + 16, cell * .34); ctx.fillStyle = C.board; ctx.fill();
+  { const rg = ctx.createLinearGradient(0, by - 8, 0, by + bs + 8); rg.addColorStop(0, 'rgba(255,255,255,.55)'); rg.addColorStop(.12, 'rgba(255,255,255,.12)'); rg.addColorStop(.85, 'rgba(255,255,255,.06)'); rg.addColorStop(1, 'rgba(0,0,0,.35)');
+    ctx.lineWidth = 3; ctx.strokeStyle = rg; ctx.stroke(); path(ctx, bx - 4, by - 4, bs + 8, bs + 8, cell * .3); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.stroke(); } // cam çerçeve
   ctx.fillStyle = C.cell;
   for (let i = 0; i < 64; i++) { path(ctx, bx + (i % N) * cell + 2, by + (i / N | 0) * cell + 2, cell - 4, cell - 4, cell * .2); ctx.fill(); }
   if (S.over) ctx.globalAlpha = .45;
@@ -875,6 +877,23 @@ function draw(now) {
   for (const p of parts) {
     if (now < p.t0) continue;
     const k = (now - p.t0) / p.life;
+    if (p.kind === 'diamond') { // Joker elması: yükselir, döner gibi parlar, ışınlar ve ışıltılar saçar
+      const im = iconImg(3), e = back(Math.min(1, k / .25)), z = L.cell * 1.9 * e, y = p.y - ease(Math.min(1, k / .5)) * L.cell * 1.2, a = k > .8 ? (1 - k) / .2 : 1;
+      ctx.save(); ctx.globalAlpha = a; ctx.translate(p.x, y);
+      ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.rotate(k * 2); for (let q = 0; q < 10; q++) { ctx.rotate(Math.PI / 5); const g = ctx.createLinearGradient(0, 0, 0, -L.cell * 2.2); g.addColorStop(0, 'rgba(180,230,255,.7)'); g.addColorStop(1, 'rgba(180,230,255,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-L.cell * .16, -L.cell * 2.2); ctx.lineTo(L.cell * .16, -L.cell * 2.2); ctx.closePath(); ctx.fill(); } ctx.restore();
+      ctx.scale(Math.max(.15, Math.abs(Math.cos(k * 7))) * .3 + .7, 1); ctx.shadowColor = 'rgba(120,200,255,.9)'; ctx.shadowBlur = L.cell * .6;
+      if (im.complete && im.naturalWidth) ctx.drawImage(im, -z / 2, -z / 2, z, z); ctx.restore();
+      for (let q = 0; q < 3; q++) { const an = now / 300 + q * 2.1; spark4(p.x + Math.cos(an) * L.cell * 1.1, y + Math.sin(an) * L.cell * .9, L.cell * .14, '#FFFFFF'); }
+      continue;
+    }
+    if (p.kind === 'rainbow') { // renk kombosu: çizgi boyunca kayan gökkuşağı şeridi
+      const sw = ease(Math.min(1, k / .5)), a = k < .6 ? 1 : (1 - k) / .4, cols = ['#FF4D6D', '#FF9F1C', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF'], th = L.cell * .9;
+      ctx.save(); ctx.globalAlpha = a * .85; ctx.globalCompositeOperation = 'lighter';
+      cols.forEach((c2, q) => { ctx.fillStyle = c2; const o = -th / 2 + q * th / cols.length;
+        if (p.row) ctx.fillRect(L.bx, L.by + (p.i + .5) * L.cell + o, L.bs * sw, th / cols.length); else ctx.fillRect(L.bx + (p.i + .5) * L.cell + o, L.by, th / cols.length, L.bs * sw); });
+      const hx = p.row ? L.bx + L.bs * sw : L.bx + (p.i + .5) * L.cell, hy = p.row ? L.by + (p.i + .5) * L.cell : L.by + L.bs * sw; spark4(hx, hy, L.cell * .45, '#FFFFFF');
+      ctx.restore(); continue;
+    }
     if (p.kind === 'link') { // zincir: bloktan bloğa akan titreşen elektrik bağı
       let sd = (p.seed + Math.floor(now / 50) * 71) % 233280; const rr = () => ((sd = (sd * 9301 + 49297) % 233280) / 233280) - .5;
       const e = ease(Math.min(1, k / .35)), ex = p.x0 + (p.x1 - p.x0) * e, ey = p.y0 + (p.y1 - p.y0) * e;
@@ -894,13 +913,14 @@ function draw(now) {
     }
     if (p.kind === 'bomb') { // bomba: düşer, zıplar, fitili kıvılcım saçar, kırmızı yanıp söner, şişer
       const el = now - p.t0, im = iconImg(19), s0 = L.cell * 1.25, drop = el < 260 ? back(el / 260) : 1, pulse = el > 260 ? Math.sin((el - 260) / 1000 * Math.PI * 2 * (3 + (el - 260) / 90)) : 0;
-      const sw = 1 + (el > 520 ? (el - 520) / 200 * .35 : 0) + pulse * .05, y = p.y - (1 - drop) * L.cell * 4;
-      ctx.save(); ctx.translate(p.x, y); ctx.rotate(Math.sin(el / 60) * .08); ctx.scale(sw, sw);
+      const sw = 1 + (el > 520 ? (el - 520) / 200 * .35 : 0) + pulse * .05, thr = p.sx != null && el < 260, tk = Math.min(1, el / 260);
+      const bxp = thr ? p.sx + (p.x - p.sx) * tk : p.x, y = thr ? p.sy + (p.y - p.sy) * tk - Math.sin(tk * Math.PI) * L.cell * 2.6 : p.sx != null ? p.y - Math.abs(Math.sin((el - 260) / 90)) * L.cell * .25 * Math.max(0, 1 - (el - 260) / 260) : p.y - (1 - drop) * L.cell * 4;
+      ctx.save(); ctx.translate(bxp, y); ctx.rotate(thr ? tk * 9 : Math.sin(el / 60) * .08); ctx.scale(sw, sw);
       ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
       if (im.complete && im.naturalWidth) ctx.drawImage(im, -s0 / 2, -s0 / 2, s0, s0);
       if (el > 260 && pulse > .2) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (pulse - .2) * .8; ctx.beginPath(); ctx.arc(0, s0 * .08, s0 * .36, 0, 6.283); ctx.fillStyle = '#FF3B30'; ctx.fill(); }
       ctx.restore();
-      if (el > 200) for (let q = 0; q < 2; q++) { const a = Math.random() * 6.283, d0 = Math.random() * L.cell * .35; spark4(p.x + s0 * .3 * sw + Math.cos(a) * d0, y - s0 * .42 * sw + Math.sin(a) * d0, L.cell * (.07 + Math.random() * .08), Math.random() < .5 ? '#FFE45C' : '#FF9F1C'); }
+      if (el > 200) for (let q = 0; q < 2; q++) { const a = Math.random() * 6.283, d0 = Math.random() * L.cell * .35; spark4(bxp + s0 * .3 * sw + Math.cos(a) * d0, y - s0 * .42 * sw + Math.sin(a) * d0, L.cell * (.07 + Math.random() * .08), Math.random() < .5 ? '#FFE45C' : '#FF9F1C'); }
       continue;
     }
     if (p.kind === 'fire') { // alev topu: beyaz çekirdek, turuncu-kırmızı halka, genişleyip söner
@@ -928,7 +948,7 @@ function draw(now) {
       const reach = Math.min(1, k / .22), fl = k < .72 ? .78 + .22 * Math.sin(now / 23 + p.seed) : (1 - k) / .28;
       if (k < .16) { ctx.save(); ctx.globalAlpha = (.16 - k) / .16 * .32; ctx.fillStyle = '#D8EEFF'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); } // gökyüzü çakması
       let sd = (p.seed + Math.floor(now / 55) * 131) % 233280; const rr = () => ((sd = (sd * 9301 + 49297) % 233280) / 233280) - .5;
-      const segs = 14, x0 = p.row ? p.x + rr() * L.bs * .25 : p.x, y0 = -L.cell, pts = [];
+      const segs = 14, x0 = p.sx !== undefined && p.sx !== null ? p.sx : p.row ? p.x + rr() * L.bs * .25 : p.x, y0 = p.sy !== undefined && p.sy !== null ? p.sy : -L.cell, pts = [];
       for (let q = 0; q <= segs; q++) { const f = q / segs, amp = Math.sin(f * Math.PI) * L.cell * 1.1; pts.push([x0 + (p.x - x0) * f + (q && q < segs ? rr() * amp : 0), y0 + (p.y - y0) * f]); }
       const upto = Math.max(1, Math.round(segs * reach)), paths = [pts.slice(0, upto + 1)];
       for (let b = 0; b < 4; b++) { const at = 2 + Math.floor((rr() + .5) * (upto - 3)); if (at < 1 || at >= upto) continue; // dallar
@@ -947,12 +967,13 @@ function draw(now) {
       ctx.restore(); continue;
     }
     if (p.kind === 'disco') { // dönen disko topu: düşer, döner, renkli ışınlar saçar
-      const el = now - p.t0, drop = el < 400 ? back(el / 400) : 1, a = k > .8 ? (1 - k) / .2 : 1, y = p.y - (1 - drop) * L.cell * 5, R2 = p.s / 2;
-      ctx.save(); ctx.globalAlpha = a; ctx.translate(p.x, y);
+      const el = now - p.t0, drop = el < 400 ? back(el / 400) : 1, a = k > .8 ? (1 - k) / .2 : 1, tk = Math.min(1, el / 380), thr = p.sx != null, R2 = p.s / 2;
+      const dx = thr ? p.sx + (p.x - p.sx) * ease(tk) : p.x, y = thr ? p.sy + (p.y - p.sy) * ease(tk) - Math.sin(tk * Math.PI) * L.cell * 2.2 : p.y - (1 - drop) * L.cell * 5;
+      ctx.save(); ctx.globalAlpha = a; ctx.translate(dx, y);
       if (el > 350) { ctx.save(); ctx.rotate(el / 500); for (let q = 0; q < 12; q++) { ctx.rotate(Math.PI / 6); const g = ctx.createLinearGradient(0, 0, 0, -L.bs * .7);
         g.addColorStop(0, q % 2 ? p.col[1] : '#FFFFFF'); g.addColorStop(1, 'rgba(255,255,255,0)'); ctx.globalAlpha = a * .55; ctx.fillStyle = g;
         ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-L.cell * .35, -L.bs * .7); ctx.lineTo(L.cell * .35, -L.bs * .7); ctx.closePath(); ctx.fill(); } ctx.restore(); ctx.globalAlpha = a; }
-      ctx.beginPath(); ctx.moveTo(0, -R2 - (1 - drop) * 0); ctx.lineTo(0, -R2 - L.cell * 6); ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 2; ctx.stroke();
+      if (!thr) ctx.beginPath(); if (!thr) ctx.moveTo(0, -R2); if (!thr) ctx.lineTo(0, -R2 - L.cell * 6); ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 2; ctx.stroke();
       ctx.beginPath(); ctx.arc(0, 0, R2, 0, 6.283); ctx.clip();
       const bg = ctx.createRadialGradient(-R2 * .3, -R2 * .35, R2 * .1, 0, 0, R2); bg.addColorStop(0, '#FFFFFF'); bg.addColorStop(.5, '#C9D2E8'); bg.addColorStop(1, '#5A6385'); ctx.fillStyle = bg; ctx.fillRect(-R2, -R2, R2 * 2, R2 * 2);
       const tile = R2 / 3.2, off = (el / 12) % tile;
@@ -1098,13 +1119,33 @@ function draw(now) {
   for (const f of floats) {
     const el = now - f.t0, k = el / f.life; if (k < 0) continue;
     // sakin görünüm: zıplama ve kalın kontur yok; yumuşak belirme, kısa yükselme, yumuşak kaybolma
-    const s = f.pill === 'badge' || f.pill === 'gold' ? f.size * (k < .14 ? .4 + .6 * back(k / .14) : 1) : f.size * (k < .18 ? .85 + .15 * ease(k / .18) : 1);
+    const s = f.pill === 'gold3d' ? f.size * (k < .16 ? .3 + .7 * back(k / .16) : 1 + .04 * Math.sin(el / 90)) : f.pill === 'badge' || f.pill === 'gold' || f.pill === 'metal' ? f.size * (k < .14 ? .4 + .6 * back(k / .14) : 1) : f.size * (k < .18 ? .85 + .15 * ease(k / .18) : 1);
     ctx.globalAlpha = el < 120 ? el / 120 : f.life - el < 350 ? Math.max(0, (f.life - el) / 350) : 1; // sabit süreli belirme/kaybolma
-    ctx.font = `${f.pill === 'badge' || f.pill === 'gold' ? 900 : 800} ${s}px ${C.ff}`;
-    const w = ctx.measureText(f.txt).width, padX = f.pill === 'badge' || f.pill === 'gold' ? s * .85 : f.pill ? s * .6 : 0, half = w / 2 + padX + 4;
+    const big = f.pill === 'gold3d' || f.pill === 'badge' || f.pill === 'gold' || f.pill === 'metal'; ctx.font = `${big ? 900 : 800} ${s}px ${C.ff}`;
+    const w = ctx.measureText(f.txt).width, padX = f.pill === 'gold3d' ? s * .1 : big ? s * .85 : f.pill ? s * .6 : 0, half = w / 2 + padX + 4;
     // yazı tahtanın dışına taşmasın
     const x = Math.min(Math.max(f.x, L.bx + half), L.bx + L.bs - half), y = f.y - ease(k) * 28;
-    if (f.pill === 'badge' || f.pill === 'gold') { // modern rozet: canlı degrade hap, cam parlaklığı, beyaz iç + altın dış kenar, kayan ışık, uçlarda ışıltı
+    if (f.pill === 'metal') { // güç adı: koyu bronz metal levha, perçinler, parlak kenar, krem-altın harfler
+      const h = s * 1.8, x0 = x - w / 2 - padX, bw = w + padX * 2, y0 = y - h / 2, r = h * .22;
+      const mg = ctx.createLinearGradient(0, y0, 0, y0 + h); mg.addColorStop(0, '#7A6248'); mg.addColorStop(.48, '#3E3024'); mg.addColorStop(.52, '#2C2119'); mg.addColorStop(1, '#4A3A2B');
+      ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = s * .7; ctx.shadowOffsetY = s * .15; path(ctx, x0, y0, bw, h, r); ctx.fillStyle = mg; ctx.fill();
+      ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+      const eg = ctx.createLinearGradient(0, y0, 0, y0 + h); eg.addColorStop(0, '#FFE2A8'); eg.addColorStop(.5, '#C08A45'); eg.addColorStop(1, '#7A4E20');
+      ctx.lineWidth = Math.max(2.5, s * .13); ctx.strokeStyle = eg; ctx.stroke();
+      path(ctx, x0 + s * .16, y0 + s * .16, bw - s * .32, h - s * .32, r * .7); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,230,180,.35)'; ctx.stroke();
+      for (const [rx, ry] of [[x0 + s * .32, y0 + s * .32], [x0 + bw - s * .32, y0 + s * .32], [x0 + s * .32, y0 + h - s * .32], [x0 + bw - s * .32, y0 + h - s * .32]]) {
+        const rg = ctx.createRadialGradient(rx - 1, ry - 1, 0, rx, ry, s * .11); rg.addColorStop(0, '#FFF3D0'); rg.addColorStop(1, '#8A6030'); ctx.beginPath(); ctx.arc(rx, ry, s * .1, 0, 6.283); ctx.fillStyle = rg; ctx.fill(); }
+      if (el > 120 && el < 800) { ctx.save(); path(ctx, x0, y0, bw, h, r); ctx.clip(); const sx = x0 - h + (bw + h * 2) * ((el - 120) / 680), lg = ctx.createLinearGradient(sx - h * .5, 0, sx + h * .5, 0);
+        lg.addColorStop(0, 'rgba(255,240,200,0)'); lg.addColorStop(.5, 'rgba(255,240,200,.45)'); lg.addColorStop(1, 'rgba(255,240,200,0)'); ctx.fillStyle = lg; ctx.fillRect(x0, y0, bw, h); ctx.restore(); }
+      const tg = ctx.createLinearGradient(0, y - s / 2, 0, y + s / 2); tg.addColorStop(0, '#FFFBEA'); tg.addColorStop(.5, '#FFE1A0'); tg.addColorStop(1, '#E9A646');
+      ctx.lineJoin = 'round'; ctx.lineWidth = s * .2; ctx.strokeStyle = '#1E140C'; ctx.strokeText(f.txt, x, y + s * .05); ctx.fillStyle = tg; ctx.fillText(f.txt, x, y + s * .05);
+    } else if (f.pill === 'gold3d') { // büyük altın 3D puan: alt katman gölgesi, kalın koyu kontur, altın degrade, parıltı
+      ctx.lineJoin = 'round';
+      for (let q = 4; q >= 1; q--) { ctx.fillStyle = '#7A3E00'; ctx.fillText(f.txt, x, y + q * s * .025); }
+      ctx.shadowColor = 'rgba(255,190,60,.8)'; ctx.shadowBlur = s * .5; ctx.lineWidth = s * .2; ctx.strokeStyle = '#3A1A00'; ctx.strokeText(f.txt, x, y); ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+      const tg = ctx.createLinearGradient(0, y - s / 2, 0, y + s / 2); tg.addColorStop(0, '#FFFDE8'); tg.addColorStop(.35, '#FFE16A'); tg.addColorStop(.7, '#FFB21E'); tg.addColorStop(1, '#E07B00');
+      ctx.fillStyle = tg; ctx.fillText(f.txt, x, y); spark4(x + w * .42, y - s * .38, s * .22 * (1 + .4 * Math.sin(el / 80)), '#FFFFFF');
+    } else if (f.pill === 'badge' || f.pill === 'gold') { // modern rozet: canlı degrade hap, cam parlaklığı, beyaz iç + altın dış kenar, kayan ışık, uçlarda ışıltı
       const gold = f.pill === 'gold', h = s * 1.75, x0 = x - w / 2 - padX, bw = w + padX * 2, y0 = y - h / 2, bg = ctx.createLinearGradient(0, y0, 0, y0 + h);
       if (gold) { bg.addColorStop(0, '#FFF1A8'); bg.addColorStop(.5, '#FFC23C'); bg.addColorStop(1, '#F08A00'); } else { bg.addColorStop(0, '#9B5CFF'); bg.addColorStop(.55, '#6A3BE0'); bg.addColorStop(1, '#C2328A'); }
       ctx.shadowColor = gold ? 'rgba(240,140,0,.55)' : 'rgba(150,70,255,.6)'; ctx.shadowBlur = s * .9; ctx.shadowOffsetY = s * .1;
@@ -1239,8 +1280,8 @@ function place(kind, idx, piece, r, c) {
       pts += Math.round(10 * n * (n + 1) / 2 * S.streak * 2 * mono / n); S.jbar = JB_MAX;
       const [, cl] = PALETTE[monoCol - 1], cy2 = L.by + L.bs * .2;
       float('🌈 ' + t('combo'), L.bx + L.bs / 2, cy2, cell * .52, C.accent, 60, 'badge');
-      monoR.forEach(rw => glow(L.bx + L.bs / 2, L.by + (rw + .5) * cell, L.bs * .55, cl, 600, now));
-      monoC.forEach(cc => glow(L.bx + (cc + .5) * cell, L.by + L.bs / 2, L.bs * .55, cl, 600, now));
+      monoR.forEach(rw => { glow(L.bx + L.bs / 2, L.by + (rw + .5) * cell, L.bs * .55, cl, 600, now); parts.push({ kind: 'rainbow', row: true, i: rw, t0: now + 40, life: 800 }); });
+      monoC.forEach(cc => { glow(L.bx + (cc + .5) * cell, L.by + L.bs / 2, L.bs * .55, cl, 600, now); parts.push({ kind: 'rainbow', row: false, i: cc, t0: now + 40, life: 800 }); });
       confetti(px, py, 26, 260); setTimeout(() => say(t('combo'), T.en.combo), 700); buzz(35); zia('joy', '🌈 ' + t('combo'), 2000, true, ['zwow', .9]);
     }
     // gizli sembol hedefi: oyuncu bilmez; tamamlanınca sürpriz ödül
@@ -1266,7 +1307,7 @@ function place(kind, idx, piece, r, c) {
     if (clean) setTimeout(sfx.clean, 250);
     if (!stats.seenJB && !S.joker) { stats.seenJB = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('jbTip'), 5000)), 1200); }
     S.jbar = Math.min(JB_MAX, (S.jbar || 0) + n); if (n >= 2 || S.streak >= 3) S.jbar = JB_MAX; // çubuk: her satır doldurur, iyi hamle tamamlar
-    if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; float('✦ ' + t('jokerGot'), L.bx + L.bs / 2, L.by + L.bs * .82, cell * .52, C.accent, 900, 'badge'); setTimeout(sfx.joker, 550); }
+    if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); float('✦ ' + t('jokerGot'), L.bx + L.bs / 2, L.by + L.bs * .82, cell * .52, C.accent, 900, 'badge'); setTimeout(sfx.joker, 550); }
   } else { S.since++; if (S.since >= 3) S.streak = 0; sfx.place(); buzz(12); }
   S.score += gain;
   if (pkHit) powerFx(pkHit.k, pkHit.i / N | 0, pkHit.i % N, piece.c);
@@ -1415,7 +1456,7 @@ let ziaT = 0, ziaT2 = 0, ziaLast = 0, ziaWait = 0, charUntil = 0, pwfxUntil = 0;
 // tüm pozlar önceden yüklenir ve çözülür: ilk çıkışta boş/yarım kare görünmez, animasyon akıcı başlar
 const ZIA_IMG = {}; for (const k of ['joy', 'cool', 'think', 'smirk', 'point']) { const im = new Image(); im.decoding = 'async'; im.src = 'zia/' + k + '.webp'; if (im.decode) im.decode().catch(() => {}); ZIA_IMG[k] = im; }
 const ZIA_SND = { joy: ['zwoo', .85], cool: ['zyeah', .85], smirk: ['zengine', .5], point: ['zengine', .45] };
-let ziaSide = 0;
+let ziaSide = 0, ziaLastSide = 'p-l', ziaShowAt = 0;
 function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
   const el = $('zia'), now = performance.now();
   if (!el || (!force && now - ziaLast < 8000) || (view !== 'game' && view !== 'over')) return false;
@@ -1425,19 +1466,26 @@ function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
   if (!now0) for (const f of floats) if (!/^\+\d+$/.test(f.txt) && f.t0 + f.life > now) at = Math.max(at, Math.min(f.t0 + f.life, f.t0 + 1100));
   if (at - now > 3500 && !force) return false;
   if (!now0) for (const f of floats) if (!/^\+\d+$/.test(f.txt) && f.t0 + f.life > at) f.life = Math.max(0, at + 250 - f.t0);
+  const side = ziaSide++ % 2 ? 'p-r' : 'p-l'; ziaLastSide = side; ziaShowAt = at; // sırayla sol ve sağ kenar
   charUntil = at + ms + 300; const vs = snd || ZIA_SND[pose]; if (vs && vs[0] !== 'zengine') ziaVoiceAt = at;
   clearTimeout(ziaWait);
   ziaWait = setTimeout(() => {
     if (view !== 'game' && view !== 'over') return;
     const img = el.querySelector('img'), src = ZIA_IMG[pose] ? ZIA_IMG[pose].src : 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = text || '';
     if (img.src !== src) img.src = src;
-    const side = ziaSide++ % 2 ? 'p-r' : 'p-l'; // sırayla sol ve sağ kenar (tahtanın yanında, tepsinin üstüne binmez)
     el.className = pose + ' ' + side; void el.offsetWidth; requestAnimationFrame(() => el.classList.add('show'));
     if (vs) samp(vs[0], vs[1]);
     clearTimeout(ziaT); clearTimeout(ziaT2);
     ziaT = setTimeout(() => { el.classList.add('out'); ziaT2 = setTimeout(() => { el.className = ''; }, 360); }, ms);
   }, Math.max(0, at - now));
   return true;
+}
+// Zia'nın uzattığı elin tuval üzerindeki konumu (güçler buradan çıkar)
+function ziaHand() {
+  const el = $('zia'), app = $('app').getBoundingClientRect(), cvr = cv.getBoundingClientRect();
+  const ih = Math.min(175, innerHeight * .22), iw = ih * .9, top = app.height * .34 + 44;
+  const x = ziaLastSide === 'p-r' ? app.width - iw * .62 : iw * .62, y = top + ih * .42;
+  return { x: x - (cvr.left - app.left), y: y - (cvr.top - app.top) };
 }
 const ziaHide = () => { const el = $('zia'); clearTimeout(ziaWait); charUntil = 0; if (el) { el.className = ''; clearTimeout(ziaT); clearTimeout(ziaT2); } };
 /* ---------- güç kutuları ---------- */
@@ -1460,16 +1508,19 @@ function spawnPower() {
 // güç anı: Zia ekranın kenarından çıkar (pozu ve sesi güce göre), tahtada güce özel hareketli efekt oynar
 const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['joy', ['zwoo', .9]], t: ['point', ['zyeah', .9]] };
 function powerFx(k, r0, c0, col) {
-  const now = performance.now(), cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
+  const [pose, snd] = PW_ZIA[k], shown = zia(pose, t(PW[k][1]) + '!', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
+  const D = shown ? 340 : 0, hand = shown ? ziaHand() : null, later = (fn, ms) => setTimeout(fn, ms + D);
+  const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
+  if (hand) { glow(hand.x, hand.y, cell * 1.1, { z: '#BDEBFF', b: '#FFB347', d: '#FF8BF0', t: '#FF6B6B' }[k], 380, now - 120); for (let q = 0; q < 6; q++) parts.push({ kind: 'spark', s4: true, x: hand.x + (Math.random() - .5) * cell, y: hand.y + (Math.random() - .5) * cell, r: cell * .14, col: '#FFFFFF', t0: now - 140 + q * 25, life: 380 }); }
   const pop = (i, t1, n = 4) => { if (!S.grid[i]) return 0; shards(i, S.grid[i], t1, n, true); kill(i, t1); return 1; };
   if (k === 'z') { // şimşek: gökten satıra iner, satır boyunca elektrik çatırdar, bloklar beyaz parlayıp dağılır
-    parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4 });
+    parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
     parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 });
     glow(L.bx + L.bs / 2, cy, L.bs * .7, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 });
     for (let q = 0; q < N; q++) { const i = r0 * N + q, t1 = now + 260 + Math.abs(q - c0) * 45; if (S.grid[i]) glow(L.bx + (q + .5) * cell, cy, cell * .7, '#FFFFFF', 300, t1 - 120); pts += 8 * pop(i, t1); }
-    shakeEnd = now + 420; shakeAmp = 6; samp('nova', .7) || sfx.nova(); buzz(45);
+    shakeEnd = now + 420; shakeAmp = 6; later(() => { samp('nova', .7) || sfx.nova(); buzz(45); }, 0);
   } else if (k === 'b') { // bomba: düşer, fitili yanar, kızarır ve patlar: alev topu, şok dalgası, duman, enkaz
-    parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720 });
+    parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720, sx: hand && hand.x, sy: hand && hand.y });
     const T = now + 700;
     parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 2.3, t0: T, life: 560 }); parts.push({ kind: 'crack', x: cx, y: cy, t0: T, life: 380 });
     parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .4, R: cell * 3.4, col: '#FFB347', t0: T, life: 520 });
@@ -1478,13 +1529,13 @@ function powerFx(k, r0, c0, col) {
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
     for (let y = r0 - 1; y <= r0 + 1; y++) for (let x = c0 - 1; x <= c0 + 1; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x;
       if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 10 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
-    setTimeout(() => { samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); }, 700);
-    setTimeout(() => samp('press', .5, 1.6), 250); setTimeout(() => samp('press', .5, 1.9), 450);
+    later(() => { samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); }, 700);
+    later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
-    parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2, col: PALETTE[col - 1], t0: now, life: 1500 });
+    parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
     S.grid.forEach((v, i) => { if (v !== col) return; const x = L.bx + (i % N + .5) * cell, y = L.by + ((i / N | 0) + .5) * cell, t1 = now + 500 + Math.hypot(x - cx, y - cy) / cell * 55;
       glow(x, y, cell * .9, PALETTE[col - 1][1], 380, t1 - 160); glow(x, y, cell * .7, '#FFFFFF', 260, t1); pts += 6 * pop(i, t1); });
-    setTimeout(() => samp('combo', .8) || sfx.clean(), 480); buzz(40); confetti(cx, cy, 26, 260);
+    later(() => samp('combo', .8) || sfx.clean(), 480); later(() => { buzz(40); confetti(cx, cy, 26, 260); }, 520);
   } else if (k === 't') { // hedef: en yalnız blok kilitlenir, kenardan ok uçar ve tam ortadan vurur
     let best = -1, bs = 1e9;
     S.grid.forEach((v, i) => { if (!v || i === r0 * N + c0) return; const x = i % N, y = i / N | 0;
@@ -1493,17 +1544,16 @@ function powerFx(k, r0, c0, col) {
     if (best < 0) best = r0 * N + c0;
     const tx = L.bx + (best % N + .5) * cell, ty = L.by + ((best / N | 0) + .5) * cell, fromL = tx > L.W / 2;
     parts.push({ kind: 'aim', x: tx, y: ty, s: cell * 2.6, t0: now, life: 520 });
-    parts.push({ kind: 'arrow', x0: fromL ? -cell : L.W + cell, y0: ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300, life: 330 });
+    parts.push({ kind: 'arrow', x0: hand ? hand.x : fromL ? -cell : L.W + cell, y0: hand ? hand.y : ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300, life: 330 });
     const T = now + 630;
     parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .2, R: cell * 1.8, col: '#FF4D4D', t0: T, life: 450 }); parts.push({ kind: 'crack', x: tx, y: ty, t0: T, life: 420 });
     parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .1, R: cell * 1.1, col: '#FFFFFF', t0: T + 70, life: 360 });
     glow(tx, ty, cell * 1.3, '#FFD0D0', 380, T);
     if (S.grid[best]) { shards(best, S.grid[best], T, 6); pts += 25 * pop(best, T, 6); }
-    setTimeout(() => samp('whoosh', .8), 300); setTimeout(() => { samp('nova', .55) || sfx.nova(); shakeEnd = performance.now() + 220; shakeAmp = 4; buzz(40); }, 630);
+    later(() => samp('whoosh', .8), 300); later(() => { samp('nova', .55) || sfx.nova(); shakeEnd = performance.now() + 220; shakeAmp = 4; buzz(40); }, 630);
   }
-  if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .9, cell * .48, '#FFFFFF', 750, true); }
-  float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by - cell * .55, cell * .56, C.accent, 0, 'badge');
-  const [pose, snd] = PW_ZIA[k]; zia(pose, t(PW[k][1]) + '!', 1700, true, snd, true);
+  if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .4, cell * .62, '#FFD24A', 750 + D, 'gold3d'); }
+  float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by - cell * .55, cell * .56, C.accent, 0, 'metal');
   stats.powers = (stats.powers || 0) + 1; LS.set('stats', stats); bump(1800); return pts;
 }
 
