@@ -387,7 +387,7 @@ function buzz(ms) {
       // @capacitor/core paketlenmediği için yerel eklentiye köprü üzerinden doğrudan ulaşılır
       if (cap.nativePromise) { cap.nativePromise('Haptics', 'impact', { style }).catch(() => {}); return; }
     }
-    if (navigator.vibrate) navigator.vibrate(Math.min(ms, 40));
+    if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(Math.min(ms, 40));
   } catch {}
 }
 
@@ -1293,12 +1293,12 @@ function place(kind, idx, piece, r, c) {
     }
     gain += pts; S.nova = Math.min(NOVA_MAX, S.nova + gems + (n >= 2 ? 1 : 0));
     float('+' + pts, px, py, cell * .48, '#FFFFFF', 0, true);
-    if (S.streak >= 2) float(`🔥 ${t('streak')} x${S.streak}`, px, py + cell * .88, cell * .46, '#FFD27A', 90, true);
     // övgü: 2 satır "Güzel", 3 satır ya da 3'lü seri "Harika", 4 satır ya da 5'li seri "Muhteşem", 5 satır "Efsane"
     const pi = Math.min(5, Math.max(n, S.streak >= 5 ? 4 : S.streak >= 3 ? 3 : 0)), praise = clean ? t('clean') : t('praise')[pi];
     const praiseEn = clean ? T.en.clean : T.en.praise[pi];
     if (praise && (clean || pi >= 3)) zia(clean ? 'cool' : 'joy', praise);
-    if (praise) { if (!celebOn()) float(praise, L.bx + L.bs / 2, L.by + L.bs * .36, cell * .78, C.accent, 120); setTimeout(() => say(praise, praiseEn), 150); }
+    if (praise) { const prY = Math.abs(py - (L.by + L.bs * .36)) < cell * 1.4 ? L.by + L.bs * .66 : L.by + L.bs * .36; // patlama noktasındaki puanla çakışmasın
+      if (!celebOn()) float(praise, L.bx + L.bs / 2, prY, cell * .78, C.accent, 120); setTimeout(() => say(praise, praiseEn), 150); }
     if (n >= 2) { shakeEnd = now + 260; shakeAmp = Math.min(5, 1.5 + n); confetti(px, py, 10 + n * 6); } else confetti(px, py, 7, 170);
     if (clean) { shower(46); glow(L.bx + L.bs / 2, L.by + L.bs / 2, L.bs * .6, '#FFF3C4', 700, now); }
     if (S.streak >= 3) parts.push({ kind: 'ring', x: L.bx + L.bs / 2, y: L.by + L.bs / 2, r: L.bs * .3, R: L.bs * .6, col: '#FFB84D', t0: now, life: 650 });
@@ -1553,7 +1553,7 @@ function powerFx(k, r0, c0, col) {
     later(() => samp('whoosh', .8), 300); later(() => { samp('nova', .55) || sfx.nova(); shakeEnd = performance.now() + 220; shakeAmp = 4; buzz(40); }, 630);
   }
   if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .4, cell * .62, '#FFD24A', 750 + D, 'gold3d'); }
-  float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by - cell * .55, cell * .56, C.accent, 0, 'metal');
+  float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
   stats.powers = (stats.powers || 0) + 1; LS.set('stats', stats); bump(1800); return pts;
 }
 
