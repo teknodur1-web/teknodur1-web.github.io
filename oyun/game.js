@@ -141,8 +141,10 @@ const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
 let lastSay = 0;
 const voiceOK = {}; // dil başına: telefonda o dilin sesi var mı
+let ziaVoiceAt = -1e9;
 function say(text, enText) {
   if (!cfg.sound || !text) return;
+  if (Math.abs(performance.now() - ziaVoiceAt) < 1500) return; // Zia konuşuyorsa sesli övgü susar
   const now = Date.now(); if (now - lastSay < 900) return; lastSay = now; // üst üste konuşmasın
   const c = window.Capacitor; if (!c || !c.isNativePlatform || !c.isNativePlatform() || !c.nativePromise) return;
   const lang = VOICE[cfg.lang] || 'en-US';
@@ -281,7 +283,7 @@ const PENTA = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24];
 const hz = semi => 261.63 * 2 ** (semi / 12);
 /* hazır ses dosyaları (www/sounds): yüklenemezse sentez sesleri yedek olarak çalışır */
 const SMP = {}; let smpLoaded = false, smpActive = 0;
-const SMP_NAMES = ['press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
+const SMP_NAMES = ['zengine','zyeah','zwow','zwoo','press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
 function loadSamples() {
   if (smpLoaded) return; smpLoaded = true;
   try { audio(); } catch { return; }
@@ -1063,6 +1065,7 @@ function kill(i, t0) {
 }
 // ekranda kalma süresi: puanlar kısa, yazılar okunacak kadar uzun, kupa en uzun
 function float(txt, x, y, size, col, delay = 0, pill = false) {
+  if (!/^\+\d+$/.test(txt)) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
   floats.push({ txt, x, y, size, col, pill, life, t0: performance.now() + delay }); bump(delay + life + 100);
 }
@@ -1092,7 +1095,7 @@ function afterMove() {
   const st = $('streak'); st.textContent = S.streak >= 2 ? `🔥 ${t('streak')} x${S.streak}` : ''; st.classList.toggle('on', S.streak >= 2);
   // oyun içi rekor kutlaması
   if (S.mode !== 'adv' && S.prev > 0 && !S.cheered && S.score > S.prev) {
-    S.cheered = true; celebrate(() => { shower(34); say(t('newBest'), T.en.newBest); zia('cool', t('zRec'), 2800, true); float(t('newBest'), L.bx + L.bs / 2, L.by + L.bs * .56, L.cell * .8, C.accent, 450); setTimeout(() => samp('record', .9) || sfx.clean(), 400); buzz(30); }, 2300);
+    S.cheered = true; celebrate(() => { shower(34); zia('cool', t('zRec'), 2400, true); say(t('newBest'), T.en.newBest); float(t('newBest'), L.bx + L.bs / 2, L.by + L.bs * .56, L.cell * .8, C.accent, 450); setTimeout(() => samp('record', .9) || sfx.clean(), 400); buzz(30); }, 2300);
   }
   // macera: hedefe ulaşıldı mı?
   const g = S.goal;
@@ -1153,7 +1156,7 @@ function place(kind, idx, piece, r, c) {
       float('🌈 ' + t('combo'), L.bx + L.bs / 2, cy2, cell * .52, C.accent, 60, 'badge');
       monoR.forEach(rw => glow(L.bx + L.bs / 2, L.by + (rw + .5) * cell, L.bs * .55, cl, 600, now));
       monoC.forEach(cc => glow(L.bx + (cc + .5) * cell, L.by + L.bs / 2, L.bs * .55, cl, 600, now));
-      confetti(px, py, 26, 260); setTimeout(() => say(t('combo'), T.en.combo), 700); buzz(35); zia('joy', '🌈 ' + t('combo'), 2300, true);
+      confetti(px, py, 26, 260); setTimeout(() => say(t('combo'), T.en.combo), 700); buzz(35); zia('joy', '🌈 ' + t('combo'), 2000, true, ['zwow', .9]);
     }
     // gizli sembol hedefi: oyuncu bilmez; tamamlanınca sürpriz ödül
     if (S.hidden && !S.hidden.done && gems) {
@@ -1279,18 +1282,31 @@ function toHold(idx) { const p = S.tray[idx]; S.tray[idx] = S.hold; S.hold = p; 
 
 /* ---------- Zia maskotu ---------- */
 // tepkiler: kombo/çok satır → sevinç, rekor/temizlik → havalı, sıkışma → düşünür, oyun bitti → muzip. Sık çıkmaz, dokunmayı engellemez.
-let ziaT = 0, ziaLast = 0, ziaPos = '';
-function zia(pose, text, ms = 2300, force = false) {
+let ziaT = 0, ziaT2 = 0, ziaLast = 0, ziaWait = 0, charUntil = 0, pwfxUntil = 0;
+// poza göre ses: sevinç "woo", havalı "yeah boy", muzip/işaret "motor gazı", düşünen sessiz
+const ZIA_SND = { joy: ['zwoo', .85], cool: ['zyeah', .85], smirk: ['zengine', .5], point: ['zengine', .45] };
+function zia(pose, text, ms = 2000, force = false, snd) {
   const el = $('zia'), now = performance.now();
   if (!el || (!force && now - ziaLast < 8000) || (view !== 'game' && view !== 'over')) return false;
-  ziaLast = now; const img = el.querySelector('img'); img.src = 'zia/' + pose + '.webp';
-  el.querySelector('.zb').textContent = text || '';
-  // her seferinde farklı bir yerde: köşeler, yanlar, üst; büyük anlarda tam orta da olabilir
-  const spots = ['bl', 'br', 'tl', 'tr', 'ml', 'mr'].concat(force && (pose === 'joy' || pose === 'cool') ? ['c'] : []).filter(q => q !== ziaPos);
-  ziaPos = spots[Math.random() * spots.length | 0]; el.className = pose + ' p-' + ziaPos;
-  void el.offsetWidth; el.classList.add('show'); clearTimeout(ziaT); ziaT = setTimeout(() => el.classList.remove('show'), ms); return true;
+  ziaLast = now;
+  // üst üste binmesin: ekrandaki yazılar en az 1,1 sn okunsun, sonra solarak çekilsin; kupa/hediye/güç kartı bitene kadar beklesin
+  let at = Math.max(now, celebBusyUntil, pwfxUntil);
+  for (const f of floats) if (!/^\+\d+$/.test(f.txt) && f.t0 + f.life > now) at = Math.max(at, Math.min(f.t0 + f.life, f.t0 + 1100));
+  if (at - now > 3500 && !force) return false;
+  for (const f of floats) if (!/^\+\d+$/.test(f.txt) && f.t0 + f.life > at) f.life = Math.max(0, at + 250 - f.t0);
+  charUntil = at + ms + 300; const vs = snd || ZIA_SND[pose]; if (vs && vs[0] !== 'zengine') ziaVoiceAt = at;
+  clearTimeout(ziaWait);
+  ziaWait = setTimeout(() => {
+    if (view !== 'game' && view !== 'over') return;
+    el.querySelector('img').src = 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = text || '';
+    el.className = pose; void el.offsetWidth; el.classList.add('show');
+    if (vs) samp(vs[0], vs[1]);
+    clearTimeout(ziaT); clearTimeout(ziaT2);
+    ziaT = setTimeout(() => { el.classList.add('out'); ziaT2 = setTimeout(() => { el.className = ''; }, 320); }, ms);
+  }, Math.max(0, at - now));
+  return true;
 }
-const ziaHide = () => { const el = $('zia'); if (el) { el.classList.remove('show'); clearTimeout(ziaT); } };
+const ziaHide = () => { const el = $('zia'); clearTimeout(ziaWait); charUntil = 0; if (el) { el.className = ''; clearTimeout(ziaT); clearTimeout(ziaT2); } };
 /* ---------- güç kutuları ---------- */
 // Tahtada ara sıra parlayan bir güç kutusu belirir; üstüne blok konunca güç o noktada kendiliğinden patlar.
 // ⚡ şimşek: o hücrenin satırı + sütunu · 🌈 disko: konan bloğun rengi · 🎯 hedef: çevresindeki 3x3 · 🔀 karıştır: tepsi yenilenir
@@ -1316,7 +1332,9 @@ function pwSplash(k) {
   el.querySelector('img').src = PW_IMG[k].src; el.querySelector('.ttl').textContent = t(PW[k][1]) + '!';
   el.style.setProperty('--c', PW_COL[k]); el.style.setProperty('--c2', PW_COL[k] + 'BF'); el.className = k; void el.offsetWidth; el.classList.add('go');
   clearTimeout(pwfxT); pwfxT = setTimeout(() => { el.className = ''; }, 1800);
-  ziaHide(); samp('streak', .7); setTimeout(() => samp('combo', .55), 250); buzz(35);
+  ziaHide(); pwfxUntil = charUntil = performance.now() + 1800;
+  const vs = { z: ['zengine', .7], d: ['zwow', .9], s: ['zwoo', .9], t: ['zyeah', .9] }[k]; samp(vs[0], vs[1]); if (k !== 'z') ziaVoiceAt = performance.now();
+  setTimeout(() => samp('streak', .5), 120); buzz(35);
 }
 function powerFx(k, r0, c0, col) {
   const now = performance.now(), cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
@@ -1549,6 +1567,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, pwSplash }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, pwSplash, floatsLast: () => floats[floats.length - 1] }; // test/hata ayıklama
 Ads.init();
 })();
