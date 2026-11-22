@@ -445,6 +445,11 @@ const emojiOK = (() => {
     };
   } catch { return () => true; }
 })();
+// emoji değeri: türüne göre 5/10/15, bitirilen her 10 bölümde +5
+function emoVal() {
+  const ix = EMOJI_SYMS.indexOf(S && S.var ? S.var.sym : ''); const tier = ix >= 0 ? ix % 3 : 0;
+  return 5 * (tier + 1) + 5 * Math.floor((varState && varState.done ? varState.done.length : 0) / 10);
+}
 const VAR_SYMS = (s => s.length >= 8 ? s : ['star', '◆', '♥', '✚', '●', '▲', '☀', '☾', '♣', '✿', '⚡', '♛'])(EMOJI_SYMS.filter(emojiOK));
 const VAR_PATTERNS = ['empty', 'scatter', 'corners', 'frame', 'diag', 'cross', 'pillars', 'steps', 'checker', 'heart', 'ring', 'zigzag'];
 const VAR_BONUS = ['none', 'combo', 'clean', 'gem', 'line'];
@@ -611,22 +616,35 @@ function spark4(cx, cy, R, col = '#fff') {
   ctx.closePath(); ctx.fillStyle = col; ctx.fill();
 }
 // özel hücre sembolü: her gizli macerada farklı
-function sym(cx, cy, s) {
+// emoji görseli: yüksek çözünürlükte bir kez çizilip önbelleğe alınır (her ekranda keskin), ince beyaz kontur ve gölge
+const EMO_IMG = {};
+function emoImg(k) {
+  if (EMO_IMG[k]) return EMO_IMG[k];
+  const c = document.createElement('canvas'); c.width = c.height = 160; const x = c.getContext('2d');
+  x.font = '112px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = 6; x.shadowOffsetY = 4; x.fillText(k, 80, 88);
+  x.shadowColor = 'rgba(255,255,255,.95)'; x.shadowBlur = 5; x.shadowOffsetY = 0; x.fillText(k, 80, 86);
+  return (EMO_IMG[k] = c);
+}
+// özel blok rozeti: blok renginde parlak halka, beyaz parlak iç, üst parıltı, keskin emoji
+function sym(cx, cy, s, c = 1) {
   const k = S && S.var ? S.var.sym : 'star';
   if (k === 'star') return star(cx, cy, s * .26);
+  const [, l, d] = PALETTE[(c || 1) - 1];
   ctx.save();
-  // emojinin arkasında yarı saydam beyaz daire: her renkte blokta net görünsün
-  // parlak rozet: gölge, merkezden kenara beyaz geçiş, ince parlak halka
-  ctx.shadowColor = 'rgba(0,0,0,.28)'; ctx.shadowBlur = s * .08; ctx.shadowOffsetY = s * .03;
-  const bg = ctx.createRadialGradient(cx - s * .08, cy - s * .1, s * .02, cx, cy, s * .35);
-  bg.addColorStop(0, 'rgba(255,255,255,.95)'); bg.addColorStop(.7, 'rgba(255,255,255,.72)'); bg.addColorStop(1, 'rgba(255,255,255,.45)');
-  ctx.beginPath(); ctx.arc(cx, cy, s * .34, 0, 6.283); ctx.fillStyle = bg; ctx.fill();
+  ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = s * .08; ctx.shadowOffsetY = s * .03;
+  const rg = ctx.createLinearGradient(0, cy - s * .36, 0, cy + s * .36); rg.addColorStop(0, '#FFFFFF'); rg.addColorStop(1, l);
+  ctx.beginPath(); ctx.arc(cx, cy, s * .36, 0, 6.283); ctx.fillStyle = rg; ctx.fill();
   ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
-  ctx.lineWidth = Math.max(1, s * .025); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.stroke();
-  ctx.font = `900 ${s * .5}px ${C.ff}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(0,0,0,.25)'; ctx.shadowBlur = s * .06; ctx.fillText(k, cx, cy + s * .02); ctx.restore();
+  const bg = ctx.createRadialGradient(cx - s * .08, cy - s * .1, s * .02, cx, cy, s * .3);
+  bg.addColorStop(0, '#FFFFFF'); bg.addColorStop(1, 'rgba(255,255,255,.78)');
+  ctx.beginPath(); ctx.arc(cx, cy, s * .3, 0, 6.283); ctx.fillStyle = bg; ctx.fill();
+  ctx.lineWidth = Math.max(1, s * .02); ctx.strokeStyle = d; ctx.globalAlpha = .35; ctx.stroke(); ctx.globalAlpha = 1;
+  ctx.drawImage(emoImg(k), cx - s * .3, cy - s * .3, s * .6, s * .6);
+  ctx.beginPath(); ctx.ellipse(cx - s * .1, cy - s * .2, s * .1, s * .045, -.5, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fill();
+  ctx.restore();
 }
-function tile(c, x, y, s, gem) { ctx.drawImage((gem ? sprites : spritesF)[c - 1], x, y, s, s); if (gem) sym(x + s / 2, y + s / 2, s); }
+function tile(c, x, y, s, gem) { ctx.drawImage((gem ? sprites : spritesF)[c - 1], x, y, s, s); if (gem) sym(x + s / 2, y + s / 2, s, c); }
 function drawPiece(p, cx, cy, cs) { const sh = SHAPES[p.s], x0 = cx - sh.w * cs / 2, y0 = cy - sh.h * cs / 2; sh.cells.forEach(([y, x], k) => tile(p.c, x0 + x * cs, y0 + y * cs, cs, k === p.g)); }
 const center = b => ({ x: b.x + b.w / 2, y: b.y + b.h / 2 + L.cell * .12 });
 const slotC = i => ({ x: L.bx + L.slotW * (i + .5), y: L.trayY + L.trayH / 2 });
@@ -973,6 +991,8 @@ function place(kind, idx, piece, r, c) {
     const monoR = rows.filter(rw => { const c0 = S.grid[rw * N]; for (let j = 1; j < N; j++) if (S.grid[rw * N + j] !== c0) return false; return true; });
     const monoC = cols.filter(cl => { const c0 = S.grid[cl]; for (let j = 1; j < N; j++) if (S.grid[j * N + cl] !== c0) return false; return true; });
     const mono = monoR.length + monoC.length, monoCol = mono ? S.grid[monoR.length ? monoR[0] * N : monoC[0]] : 0;
+    let emoPts = 0; const emoCells = [];
+    for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v]); }
     for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { shards(i, S.grid[i], t1, 4, true); glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 320, t1); } kill(i, t1); }
     // patlayan çizgi boyunca sırayla yanan ışıltılar
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
@@ -983,6 +1003,11 @@ function place(kind, idx, piece, r, c) {
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
     let pts = Math.round(10 * n * (n + 1) / 2 * S.streak * (B === 'combo' && S.streak >= 2 ? 1.5 : 1) + gems * (B === 'gem' ? 40 : 20) + (B === 'line' ? n * 15 : 0));
     const clean = S.grid.every(v => !v); if (clean) pts += B === 'clean' ? 500 : 200;
+    if (emoPts) { // her patlayan emoji kendi puanını gösterir (çoksa tek toplam)
+      pts += emoPts;
+      if (emoCells.length <= 4) emoCells.forEach(([i, v], q) => float('+' + v, L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .2) * cell, cell * .4, '#FFE27A', 180 + q * 90, true));
+      else float('+' + emoPts, px, py - cell * .9, cell * .46, '#FFE27A', 200, true);
+    }
     if (mono) { // tek renk çizginin puanı 3 katı, Joker çubuğu dolar, kutlama
       pts += Math.round(10 * n * (n + 1) / 2 * S.streak * 2 * mono / n); S.jbar = JB_MAX;
       const [, cl] = PALETTE[monoCol - 1], cy2 = L.by + L.bs * .2;
