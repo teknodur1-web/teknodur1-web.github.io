@@ -396,9 +396,8 @@ function buzz(ms) {
   try {
     const cap = window.Capacitor;
     if (cap && cap.isNativePlatform && cap.isNativePlatform()) {
-      const style = ms >= 40 ? 'HEAVY' : ms >= 20 ? 'MEDIUM' : 'LIGHT';
-      // @capacitor/core paketlenmediği için yerel eklentiye köprü üzerinden doğrudan ulaşılır
-      if (cap.nativePromise) { cap.nativePromise('Haptics', 'impact', { style }).catch(() => {}); return; }
+      // her telefonda hissedilen düz titreşim (impact bazı cihazlarda çok zayıf/sessiz kalıyordu); süre hamlenin gücüne göre
+      if (cap.nativePromise) { cap.nativePromise('Haptics', 'vibrate', { duration: Math.max(18, Math.min(ms, 60)) }).catch(() => {}); return; }
     }
     if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(Math.min(ms, 40));
   } catch {}
