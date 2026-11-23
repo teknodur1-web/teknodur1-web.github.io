@@ -1815,6 +1815,7 @@ function spawnPower() {
 const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['joy', ['zwoo', .9]], t: ['point', ['zyeah', .9]] };
 let lastPowerAt = 0;
 function powerFx(k, r0, c0, col, nLines = 0) {
+  if (!PW_ZIA[k]) return 0; // bilinmeyen güç (eski kayıt) çökertmesin
   const [pose, snd] = PW_ZIA[k], shown = zia(pose, t(PW[k][1]) + '!', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
   const D = shown ? 340 : 0, hand = shown ? ziaHand() : null, later = (fn, ms) => setTimeout(fn, ms + D);
   const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
@@ -1918,7 +1919,7 @@ function mirrorBallDraw(x, y, R2, rot, now, col) {
 }
 // güç kutusu çizimi: altın çerçeveli parlak kutu, içinde zıplayan ikon, etrafında dönen ışıltı; kaybolmadan önce yanıp söner
 function drawPK(now) {
-  const pk = S.pk; if (!pk || S.over || S.grid[pk.i]) return;
+  const pk = S.pk; if (pk && !PW[pk.k]) { S.pk = null; return; } if (!pk || S.over || S.grid[pk.i]) return;
   const cell = L.cell, x = L.bx + (pk.i % N + .5) * cell, y = L.by + ((pk.i / N | 0) + .5) * cell, ap = Math.min(1, Math.max(0, (now - (pk.t0 || 0)) / 350));
   const blink = pk.left <= 3 ? .55 + .45 * Math.sin(now / 90) : 1, pz = (1 + .07 * Math.sin(now / 180)) * Math.max(.05, back(ap)), s2 = cell * .86 * pz;
   ctx.save(); ctx.globalAlpha = blink;
@@ -2061,7 +2062,8 @@ function placeToast(el) {
   if (view !== 'game' || !L) return;
   const app = $('app').getBoundingClientRect(), cvr = $('cv').getBoundingClientRect();
   const boardTop = cvr.top + L.by - 8 - app.top; // çerçeve hücrelerin 8 px üstünden başlar
-  el.style.top = Math.max(4, boardTop - el.offsetHeight - 6) + 'px';
+  const hudB = $('hud').getBoundingClientRect().bottom - app.top + 4; // skor/seri yazısının üstüne binmez
+  el.style.top = Math.max(hudB, boardTop - el.offsetHeight - 6) + 'px';
 }
 // nazik mola önerisi: oyun ekranında toplam 45 dk oynanınca, günde bir kez, bir oyun bittiğinde küçük bir not olarak çıkar.
 // Oyun ortasında kesinti yok, bildirim yok, sayaç ya da baskı yok.
