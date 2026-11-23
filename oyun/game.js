@@ -486,7 +486,7 @@ function iconImg(n) { if (!ICON_IMG[n]) { const im = new Image(); im.onload = ()
 const iconNo = () => { const k = S && S.var ? String(S.var.sym) : ''; return k.startsWith('ic') ? +k.slice(2) : 0; };
 // pil dostu: ikon hareketleri sürekli değil, birkaç saniyede bir kısa süre oynar
 let iconAnimUntil = 0;
-setInterval(() => { if (S && view === 'game' && !document.hidden && ICON_ANIM[iconNo()] && (S.gem.some(Boolean) || S.tray.some(p => p && p.g >= 0))) { iconAnimUntil = performance.now() + 1100; bump(1150); } }, 2600);
+// (birleşik süs zamanlayıcısına taşındı)
 // özel blok değeri: ikonun nadirliğine göre 5/10/15 (emojide türüne göre), bitirilen her 10 bölümde +5
 function emoVal() {
   const ic = iconNo(), ix = EMOJI_SYMS.indexOf(S && S.var ? S.var.sym : '');
@@ -715,6 +715,7 @@ function layout() {
   const jbY = by + bs + 14, jbH = cell * .5, trayY = jbY + jbH + 4, trayH = cell * 2.7, powY = trayY + trayH + 8, powH = cell * 2;
   L = { W, H, cell, bs, bx, by, trayY, trayH, jbar: { x: bx, y: jbY + jbH * .2, w: bs * .64, h: jbH * .6 }, jbtn: { x: bx + bs * .68, y: jbY, w: bs * .32, h: jbH }, slotW: bs / 3, mini: cell * .5, hs: cell * .28,
     hold: { x: bx, y: powY, w: bs * .48, h: powH }, nova: { x: bx + bs * .52, y: powY, w: bs * .48, h: powH } };
+  { const g = $('bglow'); if (g) { g.style.left = (bx - 9) + 'px'; g.style.top = (by - 9) + 'px'; g.style.width = g.style.height = (bs + 18) + 'px'; g.style.borderRadius = (cell * .36) + 'px'; } glowLvl = -1; glowSync(); }
   const px = Math.ceil(cell * dpr);
   // jöle bloklar: parlak gövde, iç ışık, üst parlak şerit, ışıltı noktası; normal bloklarda sevimli yüz
   const mk = face => PALETTE.map(([b, l, d]) => {
@@ -900,26 +901,13 @@ function draw(now) {
       lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.5, 'rgba(255,255,255,.55)'); lg.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = lg; ctx.fillRect(x, y, cell, cell); ctx.restore(); }
     for (const tw of twinkles) { if (!S.grid[tw]) continue; const tk = Math.sin(Math.min(1, sk * 1.4) * Math.PI); spark4(bx + (tw % N + .72) * cell, by + ((tw / N | 0) + .26) * cell, cell * .2 * tk, '#FFFFFF'); }
     ctx.restore(); }
-  if (S.streak >= 3 && !S.over) { const it = Math.min(1, (S.streak - 2) / 7), col = S.streak >= 9 ? '#5FD0FF' : S.streak >= 6 ? '#FF4FA0' : '#FF8A1E', fl = .65 + .35 * Math.sin(now / 70) * Math.sin(now / 131);
-    ctx.save(); ctx.globalCompositeOperation = 'lighter'; path(ctx, bx - 9, by - 9, bs + 18, bs + 18, cell * .36);
-    for (const [lw, al] of [[16 + it * 14, .08], [9 + it * 8, .16], [4 + it * 3, .5]]) { ctx.lineWidth = lw; ctx.strokeStyle = col; ctx.globalAlpha = al * (.7 + .3 * fl) * (1 + it * .5); ctx.stroke(); } // yumuşak hale (gölgesiz, hızlı)
-    ctx.lineWidth = 1.5; ctx.strokeStyle = '#FFFFFF'; ctx.globalAlpha = .6 * fl; ctx.stroke(); // beyaz çekirdek
-    const per = (bs + 18) * 4, runners = 2 + Math.floor(it * 2), spd = 260 + it * 380, ptAt = d => { d = ((d % per) + per) % per; const sd = bs + 18, x0 = bx - 9, y0 = by - 9;
-      return d < sd ? [x0 + d, y0] : d < sd * 2 ? [x0 + sd, y0 + d - sd] : d < sd * 3 ? [x0 + sd * 3 - d, y0 + sd] : [x0, y0 + sd * 4 - d]; };
-    ctx.fillStyle = col;
-    for (let q = 0; q < runners; q++) { const head = now / 1000 * spd + q * per / runners;
-      for (let tr = 0; tr < 7; tr++) { const [rx, ry] = ptAt(head - tr * 12), fa = 1 - tr / 7; ctx.globalAlpha = fa * (.5 + .4 * it); ctx.beginPath(); ctx.arc(rx, ry, (5 + it * 4) * fa + 1.5, 0, 6.283); ctx.fill(); }
-      const [hx, hy] = ptAt(head); ctx.globalAlpha = 1; spark4(hx, hy, cell * (.22 + .1 * it), '#FFFFFF'); }
-    // köşelerde nabız gibi atan parlamalar
-    for (const [kx, ky] of [[bx - 9, by - 9], [bx + bs + 9, by - 9], [bx + bs + 9, by + bs + 9], [bx - 9, by + bs + 9]]) { const kp = .5 + .5 * Math.sin(now / 160 + kx * .01 + ky * .02);
-      const rr4 = cell * (.7 + .5 * it); ctx.globalAlpha = .6 + .4 * kp; ctx.drawImage(glowDot(col), kx - rr4, ky - rr4, rr4 * 2, rr4 * 2); }
-    ctx.restore();
-    if (Math.random() < .4 + it * .5) { const ex = bx + Math.random() * bs, top = Math.random() < .5; parts.push({ kind: 'spark', s4: true, x: top ? ex : (Math.random() < .5 ? bx - 6 : bx + bs + 6), y: top ? by - 8 : by + Math.random() * bs, r: cell * (.08 + Math.random() * .08), col, t0: now, life: 380 }); } }
+  if (S.streak >= 3 && !S.over && Math.random() < .25) { const col = S.streak >= 9 ? '#5FD0FF' : S.streak >= 6 ? '#FF4FA0' : '#FF8A1E', ex = bx + Math.random() * bs, top = Math.random() < .5; // kıvılcım (sadece başka efekt varken)
+    parts.push({ kind: 'spark', s4: true, x: top ? ex : (Math.random() < .5 ? bx - 6 : bx + bs + 6), y: top ? by - 8 : by + Math.random() * bs, r: cell * (.08 + Math.random() * .08), col, t0: now, life: 380 }); }
   if (rareFx && now - rareFx.t0 < rareFx.life && !S.over) { const rk = (now - rareFx.t0) / rareFx.life, ra = Math.sin(rk * Math.PI);
     ctx.save(); path(ctx, bx - 8, by - 8, bs + 16, bs + 16, cell * .34); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
     if (rareFx.kind === 'aurora') { // kuzey ışığı: dalgalanan yeşil-mor-mavi perdeler
-      [['80,255,190', 0], ['150,110,255', 1.7], ['90,190,255', 3.3]].forEach(([c2, ph]) => { ctx.beginPath(); ctx.moveTo(bx - 8, by + bs);
-        for (let q = 0; q <= 40; q++) { const xx = bx - 8 + (bs + 16) * q / 40; ctx.lineTo(xx, by + bs * (.38 + .14 * Math.sin(q * .22 + now / 620 + ph) + .04 * Math.sin(q * .5 - now / 420))); }
+      [['80,255,190', 0], ['150,110,255', 2.2]].forEach(([c2, ph]) => { ctx.beginPath(); ctx.moveTo(bx - 8, by + bs);
+        for (let q = 0; q <= 20; q++) { const xx = bx - 8 + (bs + 16) * q / 20; ctx.lineTo(xx, by + bs * (.38 + .14 * Math.sin(q * .22 + now / 620 + ph) + .04 * Math.sin(q * .5 - now / 420))); }
         ctx.lineTo(bx + bs + 8, by + bs); ctx.closePath(); const g = ctx.createLinearGradient(0, by, 0, by + bs); g.addColorStop(0, `rgba(${c2},0)`); g.addColorStop(.45, `rgba(${c2},.32)`); g.addColorStop(1, `rgba(${c2},0)`);
         ctx.globalAlpha = ra * .9; ctx.fillStyle = g; ctx.fill(); });
     } else { // mercek parlaması: çapraz geçen ışık şeridi, yolunda halkalar ve yıldızlar
@@ -1349,6 +1337,13 @@ function draw(now) {
 const HEAT_MS = st => Math.max(4500, 9000 - st * 350);
 let heat = { end: 0, total: 1, last: 0 };
 const heatOn = () => S && !S.over && S.streak >= 2 && heat.end > 0;
+// çerçeve ışığı: tahtanın üstünde ayrı katman; sadece opaklık/dönüş animasyonu (ekran kartı oynatır, oyun döngüsünü yormaz)
+let glowLvl = -1;
+function glowSync() {
+  const el = $('bglow'); if (!el || !L) return;
+  const lv = view === 'game' && S && !S.over && S.streak >= 3 ? (S.streak >= 9 ? 3 : S.streak >= 6 ? 2 : 1) : 0; if (lv === glowLvl) return; glowLvl = lv;
+  el.className = lv ? 'on g' + lv : '';
+}
 function heatStart() { if (S.streak === 2) setTimeout(() => tipOnce('heat', t('tipHeat')), 1500); const ms = HEAT_MS(S.streak); heat = { end: performance.now() + ms, total: ms, last: performance.now() }; }
 function heatTick(now) {
   const el = $('heat'); if (!el) return;
@@ -1358,9 +1353,9 @@ function heatTick(now) {
   el.classList.add('on'); el.classList.toggle('hot', S.streak >= 6); el.firstChild.style.width = (k * 100).toFixed(1) + '%'; el.classList.toggle('low', k < .3);
   if (left <= 0) { S.streak = 0; heat.end = 0; const st = $('streak'); st.textContent = ''; st.classList.remove('on'); el.classList.remove('on'); save(); } // süre doldu: seri biter
 }
-setInterval(() => { if (heatOn()) bump(300); }, 250);
+setInterval(() => { if (S && L) { heatTick(performance.now()); glowSync(); } }, 120); // ısı çubuğu ve çerçeve ışığı tuvalden bağımsız güncellenir
 setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && Math.random() < .35) { rareFx = { kind: Math.random() < .55 ? 'aurora' : 'flare', t0: performance.now(), life: Math.random() < .55 ? 3200 : 1500 }; bump(rareFx.life + 50); } }, 12000); // nadir ışık olayı
-setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && S.grid.some(Boolean)) { sweepT = performance.now(); const f = S.grid.map((v, i) => v ? i : -1).filter(i => i >= 0); twinkles = [0, 1, 2].map(() => f[Math.random() * f.length | 0]); bump(950); } }, 3800); // bloklar ışıldar
+// (birleşik süs zamanlayıcısına taşındı)
 let hitStopUntil = 0;
 const hitStop = ms => {}; // kaldırıldı: görüntü hiç donmaz
 const GLOW_DOT = {};
@@ -1372,11 +1367,18 @@ function glowDot(col) { if (GLOW_DOT[col]) return GLOW_DOT[col]; const c = docum
 function frame(now) {
   raf = 0; if (!S || !L) return;
   if (now < hitStopUntil) { raf = requestAnimationFrame(frame); return; } // vuruş anı: görüntü bir an donar
-  heatTick(now);
   if (shown !== S.score) { shown += (S.score - shown) * .22; if (Math.abs(S.score - shown) < 1) shown = S.score; $('score').textContent = fmt(Math.round(shown)); }
   draw(now);
-  if (now < animUntil || (rareFx && now - rareFx.t0 < rareFx.life) || hint || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
+  if (now < animUntil || (rareFx && now - rareFx.t0 < rareFx.life) || hint || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
+  else if (now < ambUntil) { raf = -1; setTimeout(() => { raf = requestAnimationFrame(frame); }, 28); } // süs efekti: yarım hızda çiz
 }
+let ambUntil = 0, ambTurn = 0;
+function amb(ms) { ambUntil = Math.max(ambUntil, performance.now() + ms); if (!raf) raf = requestAnimationFrame(frame); }
+setInterval(() => { if (!S || view !== 'game' || document.hidden || S.over || performance.now() < animUntil) return; // oyun efekti oynarken süs bekler
+  for (let q = 0; q < 3; q++) { const k = ambTurn++ % 3;
+    if (k === 0 && ICON_ANIM[iconNo()] && (S.gem.some(Boolean) || S.tray.some(p => p && p.g >= 0))) { iconAnimUntil = performance.now() + 1100; amb(1150); return; }
+    if (k === 1 && S.grid.some(Boolean)) { sweepT = performance.now(); const f = S.grid.map((v, i) => v ? i : -1).filter(i => i >= 0); twinkles = [0, 1, 2].map(() => f[Math.random() * f.length | 0]); amb(950); return; }
+    if (k === 2 && S.joker) { shineUntil = performance.now() + 900; amb(950); return; } } }, 2500);
 function bump(ms = 700) { animUntil = Math.max(animUntil, performance.now() + ms); if (!raf) raf = requestAnimationFrame(frame); }
 
 /* ---------- hamleler ---------- */
@@ -1986,7 +1988,7 @@ function render() {
 }
 let toastT = 0, autoT = 0, langBack = 'home', shineUntil = 0;
 // pil dostu: Joker hazırken çubuktaki parlama sürekli değil, 4 saniyede bir kısa süre çalışır
-setInterval(() => { if (S && S.joker && view === 'game' && !document.hidden) { shineUntil = performance.now() + 900; bump(950); } }, 4000);
+// (birleşik süs zamanlayıcısına taşındı)
 function toast(msg, ms = 3500) { const el = $('toast'); el.textContent = msg; placeToast(el); el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), ms); }
 // oyun ekranında ipucu kutusu tahtanın hemen üstünde durur, tahta çerçevesini kapatmaz
 function placeToast(el) {

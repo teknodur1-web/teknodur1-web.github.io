@@ -218,3 +218,20 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .nzia{width:40px!important;bottom:44px!important}
 .rnext{text-align:center;font-size:12.5px;font-weight:800;color:#FFD27A;margin-top:2px}
 @media (max-height:700px){.hzia{height:19vh!important}.hero .hlogo{width:min(32vw,14vh)}}
+
+/* ---- seri çerçeve ışığı: ayrı katman, sadece opacity/dönüş animasyonu (akıcı, donmaz) ---- */
+@property --ga{syntax:'<angle>';inherits:false;initial-value:0deg}
+#bglow{position:absolute;pointer-events:none;z-index:3;opacity:0;transition:opacity .35s;--gc:#FF8A1E}
+#bglow.on{opacity:1}
+#bglow.g2{--gc:#FF4FA0}#bglow.g3{--gc:#5FD0FF}
+#bglow .ring,#bglow .run{position:absolute;inset:0;border-radius:inherit}
+#bglow .ring{border:3px solid var(--gc);box-shadow:0 0 14px 3px var(--gc),inset 0 0 10px var(--gc);will-change:opacity;animation:gFlick 1.1s ease-in-out infinite alternate}
+#bglow.g2 .ring{box-shadow:0 0 20px 5px var(--gc),inset 0 0 14px var(--gc)}
+#bglow.g3 .ring{box-shadow:0 0 26px 7px var(--gc),inset 0 0 18px var(--gc);animation-duration:.7s}
+#bglow .run{padding:4px;background:conic-gradient(from var(--ga),transparent 0 62%,var(--gc) 78%,#fff 84%,transparent 86% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:gSpin 2.4s linear infinite;filter:drop-shadow(0 0 4px var(--gc))}
+#bglow.g2 .run{animation-duration:1.7s}#bglow.g3 .run{animation-duration:1.2s}
+@keyframes gFlick{from{opacity:.6}to{opacity:1}}
+@keyframes gSpin{to{--ga:360deg}}
+@media (prefers-reduced-motion: reduce){#bglow .ring,#bglow .run{animation:none}}
