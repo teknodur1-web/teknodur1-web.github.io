@@ -144,8 +144,9 @@ const RMT = {"tr": ["Yol Haritası", "İpucu: Büyük blokları kenara koy, orta
 const UXT = {"tr": ["Görevler", "Haftalık", "Sonraki ödül", "Geri"], "en": ["Missions", "Weekly", "Next reward", "Back"], "es": ["Misiones", "Semanal", "Próximo premio", "Atrás"], "pt": ["Missões", "Semanal", "Próximo prêmio", "Voltar"], "fr": ["Missions", "Hebdo", "Prochaine récompense", "Retour"], "de": ["Missionen", "Woche", "Nächste Belohnung", "Zurück"], "it": ["Missioni", "Settimana", "Prossimo premio", "Indietro"], "ru": ["Задания", "Неделя", "Следующая награда", "Назад"], "ar": ["المهام", "أسبوعي", "الجائزة التالية", "رجوع"], "hi": ["मिशन", "साप्ताहिक", "अगला इनाम", "वापस"], "id": ["Misi", "Mingguan", "Hadiah berikutnya", "Kembali"], "ja": ["ミッション", "週間", "次の報酬", "戻る"], "zh": ["任务", "每周", "下一个奖励", "返回"], "ko": ["미션", "주간", "다음 보상", "뒤로"]};
 const MAPN = {"tr": "Macera Yolu", "en": "Adventure Road", "es": "Camino de Aventura", "pt": "Caminho da Aventura", "fr": "Route de l'aventure", "de": "Abenteuerweg", "it": "Via dell'avventura", "ru": "Путь приключений", "ar": "طريق المغامرة", "hi": "साहसिक राह", "id": "Jalan Petualangan", "ja": "冒険の道", "zh": "冒险之路", "ko": "모험의 길"}, ADVU = {"tr": ["Yol", "Görevler", "Şu an buradasın", "Kilitli", "Tamamlandı", "{n} satır kaldı", "Bölge", "🎁 Macera ödülü alındı!", "Nova Yükü", "Güç Sandığı", "Büyük Hazine", "Bölge Hazinesi", "Sonraki oyun +2 Nova", "Sonraki oyun dolu Nova + bomba kutusu", "2 oyun dolu Nova + bomba kutusu", "Yeni bölge + 3 oyun dolu Nova"], "en": ["Road", "Missions", "You are here", "Locked", "Completed", "{n} lines to go", "Zone", "🎁 Adventure reward claimed!", "Nova Charge", "Power Chest", "Big Treasure", "Zone Treasure", "Next game +2 Nova", "Next game full Nova + bomb box", "2 games full Nova + bomb box", "New zone + 3 games full Nova"], "es": ["Camino", "Misiones", "Estás aquí", "Bloqueado", "Completado", "Faltan {n} líneas", "Zona", "🎁 ¡Premio de aventura!", "Carga Nova", "Cofre de poder", "Gran tesoro", "Tesoro de zona", "Próxima partida +2 Nova", "Próxima partida Nova llena + bomba", "2 partidas Nova llena + bomba", "Nueva zona + 3 partidas Nova llena"], "pt": ["Caminho", "Missões", "Você está aqui", "Bloqueado", "Concluído", "Faltam {n} linhas", "Zona", "🎁 Prêmio de aventura!", "Carga Nova", "Baú de poder", "Grande tesouro", "Tesouro da zona", "Próximo jogo +2 Nova", "Próximo jogo Nova cheia + bomba", "2 jogos Nova cheia + bomba", "Nova zona + 3 jogos Nova cheia"], "fr": ["Route", "Missions", "Tu es ici", "Verrouillé", "Terminé", "Encore {n} lignes", "Zone", "🎁 Récompense d’aventure !", "Charge Nova", "Coffre de pouvoir", "Grand trésor", "Trésor de zone", "Partie suivante +2 Nova", "Partie suivante Nova pleine + bombe", "2 parties Nova pleine + bombe", "Nouvelle zone + 3 parties Nova pleine"], "de": ["Weg", "Missionen", "Du bist hier", "Gesperrt", "Geschafft", "Noch {n} Reihen", "Zone", "🎁 Abenteuer-Belohnung!", "Nova-Ladung", "Kraft-Truhe", "Großer Schatz", "Zonen-Schatz", "Nächstes Spiel +2 Nova", "Nächstes Spiel volle Nova + Bombe", "2 Spiele volle Nova + Bombe", "Neue Zone + 3 Spiele volle Nova"], "it": ["Strada", "Missioni", "Sei qui", "Bloccato", "Completato", "Mancano {n} linee", "Zona", "🎁 Premio avventura!", "Carica Nova", "Forziere potere", "Grande tesoro", "Tesoro di zona", "Prossima partita +2 Nova", "Prossima partita Nova piena + bomba", "2 partite Nova piena + bomba", "Nuova zona + 3 partite Nova piena"], "ru": ["Путь", "Задания", "Ты здесь", "Закрыто", "Пройдено", "Осталось {n} линий", "Зона", "🎁 Награда приключения!", "Заряд Новы", "Сундук силы", "Большой клад", "Клад зоны", "След. игра +2 Новы", "След. игра полная Нова + бомба", "2 игры полная Нова + бомба", "Новая зона + 3 игры полная Нова"], "ar": ["الطريق", "المهام", "أنت هنا", "مقفل", "مكتمل", "متبقٍ {n} سطر", "منطقة", "🎁 جائزة المغامرة!", "شحنة نوفا", "صندوق القوة", "كنز كبير", "كنز المنطقة", "اللعبة التالية +2 نوفا", "اللعبة التالية نوفا ممتلئة + قنبلة", "لعبتان نوفا ممتلئة + قنبلة", "منطقة جديدة + 3 ألعاب نوفا ممتلئة"], "hi": ["राह", "मिशन", "आप यहाँ हैं", "बंद", "पूरा", "{n} लाइनें बाकी", "क्षेत्र", "🎁 साहसिक इनाम!", "नोवा चार्ज", "पावर संदूक", "बड़ा खज़ाना", "क्षेत्र खज़ाना", "अगले गेम +2 नोवा", "अगले गेम पूरी नोवा + बम", "2 गेम पूरी नोवा + बम", "नया क्षेत्र + 3 गेम पूरी नोवा"], "id": ["Jalan", "Misi", "Kamu di sini", "Terkunci", "Selesai", "{n} baris lagi", "Zona", "🎁 Hadiah petualangan!", "Muatan Nova", "Peti kekuatan", "Harta besar", "Harta zona", "Game berikut +2 Nova", "Game berikut Nova penuh + bom", "2 game Nova penuh + bom", "Zona baru + 3 game Nova penuh"], "ja": ["道", "ミッション", "いまここ", "ロック中", "クリア", "あと{n}ライン", "ゾーン", "🎁 冒険の報酬！", "ノヴァチャージ", "パワー宝箱", "大きな宝", "ゾーンの宝", "次のゲーム ノヴァ+2", "次のゲーム ノヴァ満タン＋ボム", "2ゲーム ノヴァ満タン＋ボム", "新ゾーン＋3ゲーム ノヴァ満タン"], "zh": ["道路", "任务", "你在这里", "未解锁", "已完成", "还差{n}行", "区域", "🎁 冒险奖励已领取！", "Nova 充能", "能量宝箱", "大宝藏", "区域宝藏", "下局 Nova +2", "下局 Nova 充满 + 炸弹", "2局 Nova 充满 + 炸弹", "新区域 + 3局 Nova 充满"], "ko": ["길", "미션", "현재 위치", "잠김", "완료", "{n}줄 남음", "구역", "🎁 모험 보상 획득!", "노바 충전", "파워 상자", "큰 보물", "구역 보물", "다음 판 노바 +2", "다음 판 노바 가득 + 폭탄", "2판 노바 가득 + 폭탄", "새 구역 + 3판 노바 가득"]}, ADVK = ["tabRoad", "tabTasks", "here", "locked", "done2", "left", "zone", "rwGot", "rw_plus", "rw_box", "rw_big", "rw_zone", "rwd_plus", "rwd_box", "rwd_big", "rwd_zone"];
 const LVT = {"tr": ["{n} sembollü blok topla", "Seviye görevi", "Her seviyenin küçük bir görevi var. Görevi yap, seviye atla!", "Her seviyede ödül kazanırsın; 5, 10 ve 25. seviyelerde büyük hazineler var.", "Görevin ilerlemesini oyun sırasında sağ üstte görebilirsin. Hadi başlayalım!", "İleri", "Başla", "Seviye atladın!"], "en": ["Collect {n} symbol blocks", "Level task", "Every level has a small task. Do it to level up!", "You earn a reward each level; big treasures at levels 5, 10 and 25.", "Watch your task progress at the top right while playing. Let’s go!", "Next", "Start", "Level up!"], "es": ["Recoge {n} bloques con símbolo", "Tarea del nivel", "Cada nivel tiene una pequeña tarea. ¡Cúmplela para subir!", "Ganas premio en cada nivel; grandes tesoros en los niveles 5, 10 y 25.", "Mira el progreso arriba a la derecha mientras juegas. ¡Vamos!", "Siguiente", "Empezar", "¡Subiste de nivel!"], "pt": ["Colete {n} blocos com símbolo", "Tarefa do nível", "Cada nível tem uma pequena tarefa. Cumpra para subir!", "Você ganha prêmio a cada nível; grandes tesouros nos níveis 5, 10 e 25.", "Veja o progresso no canto superior direito. Vamos!", "Próximo", "Começar", "Subiu de nível!"], "fr": ["Récupère {n} blocs à symbole", "Tâche du niveau", "Chaque niveau a une petite tâche. Réussis-la pour monter !", "Une récompense à chaque niveau ; gros trésors aux niveaux 5, 10 et 25.", "Suis ta progression en haut à droite en jouant. C’est parti !", "Suivant", "Commencer", "Niveau supérieur !"], "de": ["Sammle {n} Symbolblöcke", "Level-Aufgabe", "Jedes Level hat eine kleine Aufgabe. Schaff sie und steig auf!", "Jedes Level gibt eine Belohnung; große Schätze bei Level 5, 10 und 25.", "Den Fortschritt siehst du oben rechts. Los geht’s!", "Weiter", "Start", "Level aufgestiegen!"], "it": ["Raccogli {n} blocchi simbolo", "Compito del livello", "Ogni livello ha un piccolo compito. Completalo per salire!", "Premio a ogni livello; grandi tesori ai livelli 5, 10 e 25.", "Vedi il progresso in alto a destra mentre giochi. Via!", "Avanti", "Inizia", "Livello superato!"], "ru": ["Собери {n} блоков с символом", "Задача уровня", "У каждого уровня есть задача. Выполни её — и вверх!", "Награда за каждый уровень; большие клады на 5, 10 и 25 уровнях.", "Прогресс виден справа вверху во время игры. Вперёд!", "Далее", "Начать", "Новый уровень!"], "ar": ["اجمع {n} كتل برموز", "مهمة المستوى", "لكل مستوى مهمة صغيرة. أنجزها لترتقي!", "جائزة في كل مستوى؛ كنوز كبيرة في المستويات 5 و10 و25.", "تابع تقدمك أعلى اليمين أثناء اللعب. هيا!", "التالي", "ابدأ", "ارتقيت مستوى!"], "hi": ["{n} सिंबल ब्लॉक इकट्ठा करें", "स्तर का काम", "हर स्तर का एक छोटा काम है। पूरा करो और आगे बढ़ो!", "हर स्तर पर इनाम; 5, 10 और 25 पर बड़े खज़ाने।", "खेलते समय ऊपर दाईं ओर प्रगति देखें। चलो!", "आगे", "शुरू", "स्तर बढ़ा!"], "id": ["Kumpulkan {n} blok simbol", "Tugas level", "Setiap level punya tugas kecil. Selesaikan untuk naik!", "Hadiah tiap level; harta besar di level 5, 10, dan 25.", "Lihat progres di kanan atas saat bermain. Ayo!", "Lanjut", "Mulai", "Naik level!"], "ja": ["シンボルブロックを{n}個集める", "レベル課題", "レベルごとに小さな課題があるよ。クリアしてレベルアップ！", "毎レベル報酬あり。5・10・25レベルで大きな宝！", "進み具合はプレイ中に右上で見られるよ。さあ始めよう！", "次へ", "スタート", "レベルアップ！"], "zh": ["收集{n}个符号方块", "等级任务", "每个等级都有一个小任务，完成就能升级！", "每级都有奖励；5、10、25级有大宝藏。", "游戏时右上角可看到任务进度。开始吧！", "下一步", "开始", "升级了！"], "ko": ["심볼 블록 {n}개 모으기", "레벨 과제", "레벨마다 작은 과제가 있어요. 해내면 레벨 업!", "레벨마다 보상; 5·10·25레벨엔 큰 보물!", "진행 상황은 플레이 중 오른쪽 위에서 볼 수 있어요. 시작!", "다음", "시작", "레벨 업!"]}, LVK = ["m_gems", "lvTask", "tut1", "tut2", "tut3", "tutNext", "tutGo", "lvUp"];
+const UNLT = {"tr": ["Yeni özellik", "Harika!", "Açılır", "ATEŞ MODU x2"], "en": ["New feature", "Awesome!", "Unlocks", "FIRE MODE x2"], "es": ["Nueva función", "¡Genial!", "Se desbloquea", "MODO FUEGO x2"], "pt": ["Novo recurso", "Demais!", "Desbloqueia", "MODO FOGO x2"], "fr": ["Nouveauté", "Super !", "Débloque", "MODE FEU x2"], "de": ["Neue Funktion", "Super!", "Schaltet frei", "FEUERMODUS x2"], "it": ["Novità", "Fantastico!", "Sblocca", "MODALITÀ FUOCO x2"], "ru": ["Новая функция", "Круто!", "Открывает", "ОГНЕННЫЙ РЕЖИМ x2"], "ar": ["ميزة جديدة", "رائع!", "يفتح", "وضع النار x2"], "hi": ["नई सुविधा", "बढ़िया!", "खुलेगा", "फायर मोड x2"], "id": ["Fitur baru", "Keren!", "Membuka", "MODE API x2"], "ja": ["新機能", "やった！", "解放", "ファイアモード x2"], "zh": ["新功能", "太棒了！", "解锁", "火焰模式 x2"], "ko": ["새 기능", "멋져요!", "해금", "파이어 모드 x2"]};
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
-for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); RMK.forEach((k2, i2) => { T[lg][k2] = RMT[lg][i2]; }); ['uMis', 'uWeek', 'uNext', 'uBack'].forEach((k2, i2) => { T[lg][k2] = UXT[lg][i2]; }); T[lg].map = MAPN[lg]; LVK.forEach((k2, i2) => { T[lg][k2] = LVT[lg][i2]; }); ADVK.forEach((k2, i2) => { T[lg][k2] = ADVU[lg][i2]; }); }
+for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); RMK.forEach((k2, i2) => { T[lg][k2] = RMT[lg][i2]; }); ['uMis', 'uWeek', 'uNext', 'uBack'].forEach((k2, i2) => { T[lg][k2] = UXT[lg][i2]; }); T[lg].map = MAPN[lg]; ['unlNew', 'unlOk', 'unlAt', 'fireOn'].forEach((k2, i2) => { T[lg][k2] = UNLT[lg][i2]; }); LVK.forEach((k2, i2) => { T[lg][k2] = LVT[lg][i2]; }); ADVK.forEach((k2, i2) => { T[lg][k2] = ADVU[lg][i2]; }); }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
 // sesli övgü: telefonun kendi seslendirme motoru, seçili dilde (internet gerekmez)
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
@@ -441,7 +442,9 @@ function pickShape(fill) {
   return 0;
 }
 const mkPiece = si => ({ s: si, c: S.lastC && rnd() < .3 ? S.lastC : 1 + Math.floor(rnd() * 7), // %30 son rengin aynısı: tek renk satır kurulabilsin
-  g: rnd() < (S.mode === 'adv' ? .35 : S.var ? S.var.gemRate : .22) ? Math.floor(rnd() * SHAPES[si].n) : -1 });
+  g: rnd() < (S.mode === 'adv' ? .35 : S.var ? S.var.gemRate : .22) ? Math.floor(rnd() * SHAPES[si].n) : -1, sp: specFor(si) });
+function specFor(si) { const r2 = Math.random(), i2 = Math.floor(Math.random() * SHAPES[si].n);
+  if (has('gold') && r2 < .07) return { i: i2, t: 1 }; if (has('crystal') && r2 < .12) return { i: i2, t: 4 }; if (has('rainbow') && r2 < .16) return { i: i2, t: 5 }; return null; }
 function genTray() {
   const fill = S.grid.filter(Boolean).length / 64;
   const tries = Math.max(2, 16 - (S.score / 1200 | 0)); // skor arttıkça cömertlik azalır
@@ -649,11 +652,11 @@ function mapHTML() {
   const dGold = lv < first ? '' : `M${PX[0]} 104 L${PX[0]} ${PY[0]} ` + (gi > 0 ? seg(0, gi).slice(seg(0, gi).indexOf('C')) : '') + (lv > lvls[5] ? ` L${PX[5]} -4` : '');
   const nodes = lvls.map((n, q) => { const li = lvlInfo(n), st = n < lv ? 'done' : n === lv ? 'cur' : 'lock', ms = li.kind !== 'plus';
     return `<button class="anode ${st}${ms ? ' ms ' + li.kind : ''}${isNew && n === lv ? ' new' : ''}${mapSel === n ? ' sel' : ''}" data-act="mapSel" data-lv="${n}" style="left:${PX[q]}%;top:${PY[q]}%;--c:${li.col};animation-delay:${q * .25}s">
-      <span class="md"><img src="${li.src}" alt=""></span><b>${n}</b>${st === 'done' ? '<i class="ok">✔</i>' : st === 'lock' ? '<i class="lk">🔒</i>' : ''}${ms ? `<em>${li.kind === 'zone' ? '🏰' : li.kind === 'big' ? '💰' : '🎁'}</em>` : ''}</button>`; }).join('');
+      <span class="md"><img src="${li.src}" alt=""></span><b>${n}</b>${st === 'done' ? '<i class="ok">✔</i>' : st === 'lock' ? '<i class="lk">🔒</i>' : ''}${ms ? `<em>${li.kind === 'zone' ? '🏰' : li.kind === 'big' ? '💰' : '🎁'}</em>` : ''}${UNL.find(x => x[0] === n) ? `<img class="unb" src="${unlSrc(UNL.find(x => x[0] === n))}" alt="">` : ''}</button>`; }).join('');
   const zx = lvls.indexOf(lv), zFrom = isNew ? Math.max(0, zx - 1) : zx, ziaPos = zx >= 0 ? `left:${PX[zFrom]}%;top:${PY[zFrom]}%` : '';
   const sel = mapSel ? lvlInfo(mapSel) : lvlInfo(lv), sst = sel.n < lv ? 'done' : sel.n === lv ? 'cur' : 'lock';
   const info = `<div class="ainfo" style="--c:${sel.col}"><img src="${sel.src}" alt=""><div><b>${t('lvl')} ${sel.n} – ${sel.name}</b><small>🎁 ${sel.rwName}: ${sel.rwDesc}</small>
-    <small>🎯 ${t('lvTask')}: ${taskText(lvTask(sel.n))}</small>
+    <small>🎯 ${t('lvTask')}: ${taskText(lvTask(sel.n))}</small>${UNL.find(x => x[0] === sel.n) ? `<small>🔓 ${t('unlAt')}: ${unlTxt(UNL.find(x => x[0] === sel.n))[0]}</small>` : ''}
     <small class="st ${sst}">${sst === 'done' ? '✔ ' + t('done2') : sst === 'cur' ? '⭐ ' + t('here') + ' · ' + fmt(advLv().have) + '/' + fmt(lvTask(lv).n) : '🔒 ' + t('locked')}</small></div></div>`;
   const DI = [[14, 'left:4%;top:8%;width:15%'], [16, 'right:5%;top:30%;width:17%'], [3, 'left:6%;top:44%;width:12%'], [17, 'right:8%;top:70%;width:14%'], [2, 'left:8%;top:76%;width:11%'], [12, 'right:6%;top:6%;width:13%']];
   const dz = `<i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="isl i1"></i><i class="isl i2"></i>` + DI.map(([ic, st], i2) => `<img class="deco" src="icons/${(ic + mapPage * 7) % 100 || 2}.png" style="${st};animation-delay:${i2 * .6}s" alt="">`).join('');
@@ -687,6 +690,7 @@ function advRewards(celeb) {
   const lv = curLv(); let base = LS.get('rwBase', null); if (base === null) { LS.set('rwBase', lv); return; }
   const got = LS.get('rwc', []), q = LS.get('rwq', { plus: 0, full: 0, box: 0 }), fresh = [];
   for (let n = base + 1; n <= lv; n++) { if (got.includes(n)) continue; got.push(n); fresh.push(n); const kd = lvlInfo(n).kind;
+    if (has('master')) q.plus++; // usta: her seviyede ek ödül
     if (kd === 'plus') q.plus++; else if (kd === 'box') { q.full = Math.max(q.full, 1); q.box++; } else if (kd === 'big') { q.full += 2; q.box++; } else { q.full += 3; q.box++; } }
   if (!fresh.length) return; LS.set('rwc', got.slice(-400)); LS.set('rwq', q);
   if (celeb && view === 'game' && L) fresh.slice(-2).forEach(n => { const li = lvlInfo(n); celebrate(() => {
@@ -714,7 +718,7 @@ const taskText = tk => t('m_' + tk.t).replace('{n}', fmt(tk.n));
 function advProgress(type, val, setMax) {
   const a = advLv(), tk = lvTask(a.lv); if (tk.t !== type) return;
   a.have = setMax ? Math.max(a.have, val) : a.have + val;
-  if (a.have >= tk.n) { a.lv++; a.have = 0; LS.set('lvl2', a); lvUpFx(); } else LS.set('lvl2', a);
+  if (a.have >= tk.n) { a.lv++; a.have = 0; LS.set('lvl2', a); lvUpFx(); applyTheme(); const u = UNL.find(x => x[0] === a.lv); if (u) setTimeout(() => showUnlock(u), view === 'game' ? 4200 : 300); } else LS.set('lvl2', a);
   hudLv();
 }
 function lvUpFx() {
@@ -728,6 +732,34 @@ function hudLv() { // oyun ekranında sağ üstte: seviye, görev simgesi, ilerl
   el.innerHTML = `<span>⭐${a.lv}</span><img src="icons/${MIS_ICON[tk.t] || 2}.png" alt=""><span class="lb"><i style="width:${(k2 * 100).toFixed(0)}%"></i></span><span>${fmt(a.have)}/${fmt(tk.n)}</span>`;
   el.title = taskText(tk);
 }
+/* ---------- kilit açma: özellikler seviyeyle sırayla gelir ---------- */
+const UNL = [[3, "t", 35, "Hedef gücü", "Target power", "Güç kutusu çıkar: üstüne blok koy, 4 bloğu vurur.", "Power boxes appear: place a block on one to hit 4 blocks."], [5, "z", 10, "Şimşek gücü", "Lightning power", "Satırı ve sütunu birlikte patlatır.", "Clears a row and a column at once."], [8, "b", 19, "Bomba gücü", "Bomb power", "5×5 alanı patlatır, çok puan verir.", "Blasts a 5×5 area for big points."], [12, "d", 84, "Disko gücü", "Disco power", "Koyduğun bloğun rengindeki tüm blokları patlatır.", "Clears every block of the color you place."], [15, "chain", 33, "Sembol Zinciri", "Symbol Chain", "Aynı renk 3 sembollü blok değince x2 puanla patlar.", "3 touching same-color symbol blocks pop for x2."], [20, "gold", 2, "Altın blok", "Gold block", "Altın blok satırda patlarsa o satırın puanı 2 katı.", "A gold block doubles the points of its line clear."], [25, "theme", "map/trophy.webp", "Bölge temaları", "Zone themes", "Ekran bulunduğun bölgenin rengine bürünür.", "The screen takes on your zone’s colors."], [30, "ice", 8, "Buz blok", "Ice block", "Tahtada buz blok belirir: kırmak için 2 kez patlat.", "Ice blocks appear: clear them twice to break."], [40, "crystal", 14, "Kristal blok", "Crystal block", "Patlayınca çevresindeki 4 bloğu da patlatır.", "When cleared it also pops its 4 neighbors."], [50, "fire", 9, "Ateş serisi", "Fire streak", "Seri x10'da 8 saniye boyunca tüm puanlar 2 katı!", "At a x10 streak all points double for 8 seconds!"], [75, "rainbow", 7, "Gökkuşağı blok", "Rainbow block", "Her renkle eşleşir; renk kombosu kolaylaşır.", "Matches any color; color combos get easier."], [100, "master", 11, "Usta modu", "Master mode", "Daha hızlı tempo, her seviyede daha büyük ödül.", "Faster tempo and bigger rewards every level."]];
+const has = k => { const u = UNL.find(x => x[1] === k); return !u || curLv() >= u[0]; };
+const unlTxt = u => cfg.lang === 'tr' ? [u[3], u[5]] : [u[4], u[6]];
+const unlSrc = u => typeof u[2] === 'number' ? 'icons/' + u[2] + '.png' : u[2];
+function showUnlock(u) { // yeni özellik kartı: Zia tanıtır
+  const [nm, ds] = unlTxt(u), el = document.createElement('div'); el.className = 'unl';
+  el.innerHTML = `<div class="unc"><img class="uz" src="zia/joy.webp" alt=""><div class="uh">🔓 ${t('unlNew')}</div><img class="ui" src="${unlSrc(u)}" alt=""><b>${nm}</b><p>${ds}</p><button class="btn" data-act="unlOk">${t('unlOk')}</button></div>`;
+  $('app').appendChild(el); samp('levelwin', .8); buzz(40);
+}
+const zoneColor = () => lvlInfo(curLv()).col;
+function applyTheme() { document.documentElement.style.setProperty('--zone', has('theme') ? zoneColor() : 'transparent'); }
+// özel bloklar: 1 altın, 2 buz, 3 çatlak buz, 4 kristal, 5 gökkuşağı
+function drawSpec(tp, x, y, s, now) {
+  ctx.save();
+  if (tp === 1) { ctx.lineWidth = s * .08; ctx.strokeStyle = '#FFD24A'; path(ctx, x + s * .07, y + s * .07, s * .86, s * .86, s * .22); ctx.stroke();
+    const ph = ((now / 1600) % 1) * 2 - .5; ctx.globalAlpha = .5; ctx.fillStyle = '#FFF6C8'; ctx.save(); path(ctx, x + s * .07, y + s * .07, s * .86, s * .86, s * .22); ctx.clip(); ctx.fillRect(x + s * ph, y, s * .18, s); ctx.restore();
+    ctx.globalAlpha = 1; spark4(x + s * .78, y + s * .22, s * .14, '#FFFFFF'); }
+  else if (tp === 2 || tp === 3) { path(ctx, x + s * .06, y + s * .06, s * .88, s * .88, s * .2); ctx.fillStyle = tp === 2 ? 'rgba(220,242,255,.62)' : 'rgba(220,242,255,.3)'; ctx.fill();
+    ctx.lineWidth = Math.max(1.5, s * .05); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.stroke(); ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(x + s * .2, y + s * .16, s * .32, s * .08);
+    if (tp === 3) { ctx.strokeStyle = 'rgba(40,80,120,.8)'; ctx.lineWidth = Math.max(1, s * .035); ctx.beginPath(); ctx.moveTo(x + s * .2, y + s * .3); ctx.lineTo(x + s * .45, y + s * .5); ctx.lineTo(x + s * .38, y + s * .7); ctx.moveTo(x + s * .45, y + s * .5); ctx.lineTo(x + s * .8, y + s * .58); ctx.stroke(); } }
+  else if (tp === 4) { const im = iconImg(14); if (im.complete && im.naturalWidth) ctx.drawImage(im, x + s * .2, y + s * .18, s * .6, s * .6); }
+  else if (tp === 5) { const RB = ['#FF4D6D', '#FF9F1C', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF']; ctx.lineWidth = s * .09;
+    RB.forEach((c2, q) => { ctx.strokeStyle = c2; ctx.beginPath(); ctx.arc(x + s / 2, y + s / 2, s * .33, q * 1.047 + now / 700, (q + 1) * 1.047 + now / 700); ctx.stroke(); }); }
+  ctx.restore();
+}
+let fireUntil = 0;
+const fireOn = () => performance.now() < fireUntil;
 const bestFor = mode => mode === 'adv' ? 0 : mode === 'daily' ? (stats.daily.date === dateKey() ? stats.daily.best : 0) : stats.best;
 function newGame(mode) {
   S = { mode, grid: Array(64).fill(0), gem: Array(64).fill(0), tray: [null, null, null], hold: null, score: 0, streak: 0, since: 0, nova: 0,
@@ -904,7 +936,7 @@ function sym(cx, cy, s, c = 1) {
   ctx.restore(); ptTag(cx, cy, s);
 }
 function tile(c, x, y, s, gem) { ctx.drawImage((gem ? sprites : spritesF)[c - 1], x, y, s, s); if (gem) sym(x + s / 2, y + s / 2, s, c); }
-function drawPiece(p, cx, cy, cs) { const sh = SHAPES[p.s], x0 = cx - sh.w * cs / 2, y0 = cy - sh.h * cs / 2; sh.cells.forEach(([y, x], k) => tile(p.c, x0 + x * cs, y0 + y * cs, cs, k === p.g)); }
+function drawPiece(p, cx, cy, cs) { const sh = SHAPES[p.s], x0 = cx - sh.w * cs / 2, y0 = cy - sh.h * cs / 2; sh.cells.forEach(([y, x], k) => { tile(p.c, x0 + x * cs, y0 + y * cs, cs, k === p.g); if (p.sp && p.sp.i === k) drawSpec(p.sp.t, x0 + x * cs, y0 + y * cs, cs, performance.now()); }); }
 const center = b => ({ x: b.x + b.w / 2, y: b.y + b.h / 2 + L.cell * .12 });
 const slotC = i => ({ x: L.bx + L.slotW * (i + .5), y: L.trayY + L.trayH / 2 });
 const inBox = (b, x, y, pad = 0) => x >= b.x - pad && x <= b.x + b.w + pad && y >= b.y - pad && y <= b.y + b.h + pad;
@@ -954,7 +986,7 @@ function draw(now) {
     if (shakeRot) { const cxs = bx + bs / 2, cys = by + bs / 2; ctx.translate(cxs, cys); ctx.rotate(Math.sin(e * Math.PI * 6) * shakeRot * dmp); ctx.translate(-cxs, -cys); } }
   else if (shakeRot) { shakeRot = 0; shakeLen = 0; }
   if (now < punchEnd) { const e = 1 - (punchEnd - now) / 360, z = 1 + punchAmp * Math.sin(Math.min(1, e) * Math.PI) * (1 - e * .5), cxp = bx + bs / 2, cyp = by + bs / 2; ctx.translate(cxp, cyp); ctx.scale(z, z); ctx.translate(-cxp, -cyp); }
-  path(ctx, bx - 8, by - 8, bs + 16, bs + 16, cell * .34); ctx.fillStyle = C.board; ctx.fill();
+  path(ctx, bx - 8, by - 8, bs + 16, bs + 16, cell * .34); ctx.fillStyle = C.board; ctx.fill(); if (has('theme')) { ctx.save(); ctx.globalAlpha = .14; ctx.fillStyle = zoneColor(); ctx.fill(); ctx.globalAlpha = .7; ctx.lineWidth = 2.5; ctx.strokeStyle = zoneColor(); ctx.stroke(); ctx.restore(); } // bölge teması
   { const rg = ctx.createLinearGradient(0, by - 8, 0, by + bs + 8); rg.addColorStop(0, 'rgba(255,255,255,.55)'); rg.addColorStop(.12, 'rgba(255,255,255,.12)'); rg.addColorStop(.85, 'rgba(255,255,255,.06)'); rg.addColorStop(1, 'rgba(0,0,0,.35)');
     ctx.lineWidth = 3; ctx.strokeStyle = rg; ctx.stroke(); path(ctx, bx - 4, by - 4, bs + 8, bs + 8, cell * .3); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.stroke(); } // cam çerçeve
   ctx.fillStyle = C.cell;
@@ -965,6 +997,7 @@ function draw(now) {
     const x = bx + (i % N) * cell, y = by + (i / N | 0) * cell, k = (now - placeT[i]) / 200;
     if (k < 1) { const kk = Math.max(0, k), drop = kk < .45 ? (1 - ease(kk / .45)) * cell * .22 : 0, sq = kk >= .45 ? Math.sin((kk - .45) / .55 * Math.PI) * .09 : 0;
       ctx.save(); ctx.translate(x + cell / 2, y + cell - drop); ctx.scale(1 + sq, 1 - sq); tile(v, -cell / 2, -cell, cell, S.gem[i]); ctx.restore(); } else tile(v, x, y, cell, S.gem[i]);
+    if (S.spec && S.spec[i]) drawSpec(S.spec[i], x, y, cell, now);
   }
   ctx.globalAlpha = 1;
   if (now - sweepT < 900 && !S.over) { const sk = (now - sweepT) / 900, band = -2 + sk * (N * 2 + 4); // çapraz ışık bandı
@@ -1412,14 +1445,14 @@ function draw(now) {
   ctx.globalAlpha = 1;
 }
 // seri büyüdükçe süre kısalır (9 sn → en az 4,5 sn); duraklatma/arka planda süre durur
-const HEAT_MS = st => Math.max(4500, 9000 - st * 350);
+const HEAT_MS = st => Math.max(4500, 9000 - st * 350) * (has('master') ? .75 : 1);
 let heat = { end: 0, total: 1, last: 0 };
 const heatOn = () => S && !S.over && S.streak >= 2 && heat.end > 0;
 // çerçeve ışığı: tahtanın üstünde ayrı katman; sadece opaklık/dönüş animasyonu (ekran kartı oynatır, oyun döngüsünü yormaz)
 let glowLvl = -1;
 function glowSync() {
   const el = $('bglow'); if (!el || !L) return;
-  const lv = view === 'game' && S && !S.over && S.streak >= 3 ? (S.streak >= 9 ? 3 : S.streak >= 6 ? 2 : 1) : 0; if (lv === glowLvl) return; glowLvl = lv;
+  const lv = view === 'game' && S && !S.over && (S.streak >= 3 || fireOn()) ? (S.streak >= 9 || fireOn() ? 3 : S.streak >= 6 ? 2 : 1) : 0; if (lv === glowLvl) return; glowLvl = lv;
   el.className = lv ? 'on g' + lv : '';
 }
 function heatStart() { if (S.streak === 2) setTimeout(() => tipOnce('heat', t('tipHeat')), 1500); const ms = HEAT_MS(S.streak); heat = { end: performance.now() + ms, total: ms, last: performance.now() }; }
@@ -1477,6 +1510,7 @@ function bump(ms = 700) { animUntil = Math.max(animUntil, performance.now() + ms
 
 /* ---------- hamleler ---------- */
 function kill(i, t0) {
+  if (S.spec) S.spec[i] = 0;
   const c = S.grid[i]; if (!c) return;
   dying.push({ i, c, g: S.gem[i], t0 }); S.grid[i] = 0; S.gem[i] = 0;
   const x = L.bx + (i % N + .5) * L.cell, y = L.by + ((i / N | 0) + .5) * L.cell;
@@ -1512,14 +1546,16 @@ function afterMove() {
     const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
     if (e.length > 8) { S.pu = e[Math.random() * e.length | 0]; S.puLeft = 8; bump(400); if (!stats.seenPU) { stats.seenPU = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('puTip'), 5000)), 600); } }
   }
-  spawnPower(); achCheck(true); if (!S.over && S.grid.filter(Boolean).length / 64 >= .6) tipOnce('fill', t('tipFill'));
+  spawnPower(); achCheck(true);
+  if (has('ice') && !S.over && Math.random() < .06) { const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i); // buz blok
+    if (e.length > 12) { const i = e[Math.random() * e.length | 0]; S.grid[i] = 1 + (Math.random() * 7 | 0); const f = fullLines(S.grid); if (f.rows.length || f.cols.length) S.grid[i] = 0; else { if (!S.spec) S.spec = Array(64).fill(0); S.spec[i] = 2; placeT[i] = performance.now(); glow(L.bx + (i % N + .5) * L.cell, L.by + ((i / N | 0) + .5) * L.cell, L.cell, '#DDF3FF', 400); bump(500); } } } if (!S.over && S.grid.filter(Boolean).length / 64 >= .6) tipOnce('fill', t('tipFill'));
   hud();
   { const fill = S.grid.filter(Boolean).length / 64, dg = $('danger'); if (dg) dg.classList.toggle('on', !S.over && fill >= .75); // tahta dolunca kenarlarda kırmızı kalp atışı
     const bb = document.querySelector('.best'); if (bb) bb.classList.toggle('near', S.mode !== 'adv' && S.prev > 0 && S.score >= S.prev * .9 && S.score <= S.prev); }
   // "sığmıyor" / Joker ipucu, sorun çözülünce hemen kaybolur
   const te = $('toast');
   if (te.classList.contains('show') && (te.textContent === t('stuck') || te.textContent === t('jokerHint')) && !stuck()) { te.classList.remove('show'); clearTimeout(toastT); }
-  const st = $('streak'); st.textContent = S.streak >= 2 ? `🔥 ${t('streak')} x${S.streak}` : ''; st.classList.toggle('on', S.streak >= 2);
+  const st = $('streak'); st.textContent = S.streak >= 2 ? `🔥 ${t('streak')} x${S.streak}${fireOn() ? ' · x2' : ''}` : ''; st.classList.toggle('on', S.streak >= 2);
   // oyun içi rekor kutlaması
   if (S.mode !== 'adv' && S.prev > 0 && !S.cheered && S.score > S.prev) {
     S.cheered = true; celebrate(() => { shower(34); zia('cool', t('zRec'), 2400, true); say(t('newBest'), T.en.newBest); float(t('newBest'), L.bx + L.bs / 2, L.by + L.bs * .56, L.cell * .8, C.accent, 450); setTimeout(() => samp('record', .9) || sfx.clean(), 400); buzz(30); }, 2300);
@@ -1538,7 +1574,8 @@ function afterMove() {
 }
 function place(kind, idx, piece, r, c) {
   const sh = SHAPES[piece.s], now = performance.now(), cell = L.cell;
-  sh.cells.forEach(([y, x], k) => { const i = (r + y) * N + c + x; S.grid[i] = piece.c; S.gem[i] = k === piece.g ? 1 : 0; placeT[i] = now; });
+  if (!S.spec) S.spec = Array(64).fill(0);
+  sh.cells.forEach(([y, x], k) => { const i = (r + y) * N + c + x; S.grid[i] = piece.c; S.gem[i] = k === piece.g ? 1 : 0; S.spec[i] = piece.sp && piece.sp.i === k ? piece.sp.t : 0; placeT[i] = now; });
   sh.cells.forEach(([y, x]) => { if (sh.cells.some(([y2, x2]) => y2 === y + 1 && x2 === x)) return; // parçanın alt kenarından toz kalkar
     for (let q = 0; q < 2; q++) parts.push({ kind: 'spark', s4: true, x: L.bx + (c + x + .2 + q * .6) * L.cell, y: L.by + (r + y + 1) * L.cell - 3, r: L.cell * .07, col: 'rgba(255,255,255,.9)', t0: now + 80, life: 260 }); });
   if (kind === 'tray') S.tray[idx] = null; else S.hold = null;
@@ -1556,11 +1593,13 @@ function place(kind, idx, piece, r, c) {
   const px = L.bx + (c + sh.w / 2) * cell, py = L.by + (r + sh.h / 2) * cell;
   if (n) {
     const set = new Set(); rows.forEach(i => { for (let j = 0; j < N; j++) set.add(i * N + j); }); cols.forEach(i => { for (let j = 0; j < N; j++) set.add(j * N + i); });
-    let gems = 0;
+    let gems = 0; const SP = S.spec || Array(64).fill(0), goldHit = [...set].some(i => SP[i] === 1), crys = [...set].filter(i => SP[i] === 4);
+    [...set].filter(i => SP[i] === 2).forEach(i => { set.delete(i); SP[i] = 3; const gx = L.bx + (i % N + .5) * cell, gy = L.by + ((i / N | 0) + .5) * cell; // buz çatlar, blok kalır
+      parts.push({ kind: 'crack', x: gx, y: gy, t0: now + 80, life: 380 }); glow(gx, gy, cell * .8, '#DDF3FF', 320, now + 80); });
     // renk kombosu: tamamen tek renk çizgiler
-    const monoR = rows.filter(rw => { const c0 = S.grid[rw * N]; for (let j = 1; j < N; j++) if (S.grid[rw * N + j] !== c0) return false; return true; });
-    const monoC = cols.filter(cl => { const c0 = S.grid[cl]; for (let j = 1; j < N; j++) if (S.grid[j * N + cl] !== c0) return false; return true; });
-    const mono = monoR.length + monoC.length, monoCol = mono ? S.grid[monoR.length ? monoR[0] * N : monoC[0]] : 0;
+    const monoLine = idx => { let c0 = 0; for (const i of idx) { if (SP[i] === 5) continue; if (!c0) c0 = S.grid[i]; else if (S.grid[i] !== c0) return false; } return true; }; // gökkuşağı her renge uyar
+    const monoR = rows.filter(rw => monoLine([...Array(N).keys()].map(j => rw * N + j))), monoC = cols.filter(cl => monoLine([...Array(N).keys()].map(j => j * N + cl)));
+    const mono = monoR.length + monoC.length, monoIdx = mono ? (monoR.length ? [...Array(N).keys()].map(j => monoR[0] * N + j) : [...Array(N).keys()].map(j => j * N + monoC[0])) : [], monoCol = mono ? (S.grid[monoIdx.find(i => SP[i] !== 5)] || S.grid[monoIdx[0]]) : 0;
     let emoPts = 0; const emoCells = [];
     for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v, S.grid[i]]); }
     const icn = iconNo(); if (icn) emoCells.slice(0, 6).forEach(([i, , cc], q) => parts.push({ kind: 'iconfly', vx: 0, vy: 0, x0: L.bx + (i % N + .5) * cell, y0: L.by + ((i / N | 0) + .5) * cell, x1: L.bx + L.bs / 2, y1: L.by - cell * .9, n: icn, c: cc, t0: now + 80 + q * 70, life: 750 }));
@@ -1570,11 +1609,16 @@ function place(kind, idx, piece, r, c) {
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     rows.forEach(i => beams.push({ row: true, i, t0: now + 40 })); cols.forEach(i => beams.push({ row: false, i, t0: now + 40 }));
-    S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak; S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
+    S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak;
+    if (S.streak >= 10 && has('fire') && !fireOn()) { fireUntil = now + 8000; floatNow = true; float('🔥 ' + t('fireOn'), L.bx + L.bs / 2, L.by + L.bs * .5, cell * .6, '#FF7A1A', 300, 'metal'); floatNow = false; shower(40); samp('record', .7); buzz(50); } S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
     if (S.goal && S.goal.type === 'star') S.goal.have += gems; if (gems) misProgress('gems', gems);
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
     let pts = Math.round(10 * n * (n + 1) / 2 * S.streak * (B === 'combo' && S.streak >= 2 ? 1.5 : 1) + gems * (B === 'gem' ? 40 : 20) + (B === 'line' ? n * 15 : 0));
+    crys.forEach(i => { const x0 = i % N, y0 = i / N | 0; [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => { const xx = x0 + dx, yy = y0 + dy; if (xx < 0 || yy < 0 || xx >= N || yy >= N) return; const j = yy * N + xx; // kristal: komşular da patlar
+      if (S.grid[j] && !set.has(j)) { const tj = now + 260; shards(j, S.grid[j], tj, 5, true); glow(L.bx + (xx + .5) * cell, L.by + (yy + .5) * cell, cell * .8, '#C8F0FF', 300, tj); kill(j, tj); pts += 15; } }); });
+    if (goldHit) { pts *= 2; float('🌟 x2', px, py - cell * 1.2, cell * .5, '#FFD24A', 200, 'gold3d'); }
     const clean = S.grid.every(v => !v); if (clean) pts += B === 'clean' ? 500 : 200;
+    if (fireOn()) pts *= 2;
     const pairX2 = emoCells.some(([i, , cc]) => emoCells.some(([j, , c2]) => c2 === cc && ((j === i + 1 && j % N) || j === i + N))); // yan yana aynı renk sembol çifti
     if (pairX2 && emoPts) { emoPts *= 2; emoCells.forEach(e => { e[1] *= 2; }); float('🔗 x2', px, py - cell * 1.6, cell * .46, '#9FE7FF', 260, true); }
     if (emoPts) { // her patlayan emoji kendi puanını gösterir (çoksa tek toplam)
@@ -1673,6 +1717,7 @@ function symGroups() {
 const hiddenGift = () => celebrate(() => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); setTimeout(() => buzz(40), 1050); }, 3900);
 // 🔗 Sembol Zinciri: aynı renkte 3+ sembollü blok birbirine değerse zincir sırayla patlar, sembol puanları x2
 function chainCheck() {
+  if (!has('chain')) return 0;
   const now = performance.now(), cell = L.cell; let total = 0, cnt = 0;
   for (const g of symGroups()) { if (g.length < 3) continue;
     const col = S.grid[g[0]], [, lc] = PALETTE[col - 1];
@@ -1695,7 +1740,7 @@ function chainCheck() {
 }
 // tahtada 2'li aynı renk sembol çiftleri arasında parlayan ışık bağı: "bir tane daha getir, zincir patlasın"
 function drawLinks(now) {
-  if (S.over) return; const cell = L.cell;
+  if (S.over || !has('chain')) return; const cell = L.cell;
   for (const g of symGroups()) { if (g.length !== 2) continue;
     const [a, b2] = g, x0 = L.bx + (a % N + .5) * cell, y0 = L.by + ((a / N | 0) + .5) * cell, x1 = L.bx + (b2 % N + .5) * cell, y1 = L.by + ((b2 / N | 0) + .5) * cell, [, lc] = PALETTE[S.grid[a] - 1];
     const pz = .55 + .45 * Math.sin(now / 260); ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
@@ -1836,7 +1881,8 @@ function spawnPower() {
   if (S.over || Math.random() > .11) return;
   const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i] && i !== S.pu) e.push(i);
   if (e.length < 10) return;
-  S.pk = { i: e[Math.random() * e.length | 0], k: PK_W[Math.random() * PK_W.length | 0], left: 9, t0: performance.now() }; bump(600);
+  const opts = PK_W.filter(k2 => has(k2)); if (!opts.length) return;
+  S.pk = { i: e[Math.random() * e.length | 0], k: opts[Math.random() * opts.length | 0], left: 9, t0: performance.now() }; bump(600);
   const x = L.bx + (S.pk.i % N + .5) * L.cell, y = L.by + ((S.pk.i / N | 0) + .5) * L.cell;
   parts.push({ kind: 'ring', x, y, r: L.cell * .2, R: L.cell * 1.1, col: '#FFE08A', t0: performance.now(), life: 450 });
   if (!stats.seenPK) { stats.seenPK = 1; LS.set('stats', stats); setTimeout(() => { if (view === 'game') { toast(t('pkTip'), 5500); zia('point', t(PW[S.pk ? S.pk.k : 'z'][1]) + '!', 2600, true); } }, 500); }
@@ -2118,7 +2164,7 @@ function start(mode, fresh) {
   if (stuck()) toast(t('stuck'), 8000);
   else if (S.goal && !sv) toast(S.goal.type === 'star' ? t('goalStar')(S.goal.need) : t('goalScore')(S.goal.need), 4000);
   try { history.pushState({ g: 1 }, ''); } catch {}
-  hint = null; lastAct = performance.now(); hudLv(); ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
+  hint = null; lastAct = performance.now(); if (!S.spec) S.spec = Array(64).fill(0); applyTheme(); hudLv(); ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
   if (S.lvlStart) { S.lvlStart = false; setTimeout(() => { if (view !== 'game') return; toast(t('rwGot'), 3500); shower(30);
     if (S.advBox) { S.advBox = false; const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i); if (e.length) S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; } bump(800); }, 600); }
   if (S.weekStart) { S.weekStart = false; setTimeout(() => { if (view === 'game') { toast(t('weekGot'), 3500); bump(500); } }, 500); }
@@ -2154,6 +2200,7 @@ const acts = {
   tutNext: () => { LS.set('mapTut', LS.get('mapTut', 0) + 1); render(); },
   mapUp: () => { mapPage++; mapSel = 0; render(); }, mapDn: () => { mapPage = Math.max(0, mapPage - 1); mapSel = 0; render(); },
   mapTab: () => {}, mapSel: () => {},
+  unlOk: () => { document.querySelectorAll('.unl').forEach(e => e.remove()); },
   privacy: () => Ads.privacyOptions(),
   tNotif: () => { cfg.notif = !cfg.notif; if (cfg.notif) { cfg.notifAsked = false; LS.set('cfg', cfg); Notif.ask(); } else { LS.set('cfg', cfg); Notif.cancel(); } render(); },
   tSound: flip('sound'), tMusic: flip('music'), tHaptic: flip('haptic'),
@@ -2172,6 +2219,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, has, UNL, showUnlock, drawSpec, get fireUntil() { return fireUntil; }, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 })();
