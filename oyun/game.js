@@ -137,7 +137,7 @@ const PKT = {"tr": "Parlayan güç kutusunun üstüne blok koy: güç patlar!", 
 const PBT = {"tr": "Bomba", "en": "Bomb", "es": "Bomba", "pt": "Bomba", "fr": "Bombe", "de": "Bombe", "it": "Bomba", "ru": "Бомба", "ar": "قنبلة", "hi": "बम", "id": "Bom", "ja": "ボム", "zh": "炸弹", "ko": "폭탄"};
 const CHT = {"tr": "Zincir", "en": "Chain", "es": "Cadena", "pt": "Corrente", "fr": "Chaîne", "de": "Kette", "it": "Catena", "ru": "Цепь", "ar": "سلسلة", "hi": "चेन", "id": "Rantai", "ja": "チェーン", "zh": "连锁", "ko": "체인"};
 const CLT = {"tr": "Kıl Payı!", "en": "Close Call!", "es": "¡Por los pelos!", "pt": "Por um triz!", "fr": "De justesse !", "de": "Knapp!", "it": "Per un pelo!", "ru": "На волоске!", "ar": "بأعجوبة!", "hi": "बाल-बाल बचे!", "id": "Nyaris!", "ja": "ギリギリ！", "zh": "惊险！", "ko": "아슬아슬!"}, MGT = {"tr": "MEGA ZİNCİR!", "en": "MEGA CHAIN!", "es": "¡MEGA CADENA!", "pt": "MEGA CORRENTE!", "fr": "MÉGA CHAÎNE !", "de": "MEGA-KETTE!", "it": "MEGA CATENA!", "ru": "МЕГА ЦЕПЬ!", "ar": "سلسلة ضخمة!", "hi": "मेगा चेन!", "id": "MEGA RANTAI!", "ja": "メガチェーン！", "zh": "超级连锁！", "ko": "메가 체인!"};
-const PWD = {"tr": {"z": "⚡ Satır ve sütunu patlatır", "b": "💣 3×3 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 4 bloğu vurur"}, "en": {"z": "⚡ Clears row and column", "b": "💣 Clears a 3×3 area", "d": "🪩 Clears one color", "t": "🎯 Hits 4 blocks"}, "es": {"z": "⚡ Limpia fila y columna", "b": "💣 Limpia un área 3×3", "d": "🪩 Limpia un color", "t": "🎯 Golpea 4 bloques"}, "pt": {"z": "⚡ Limpa linha e coluna", "b": "💣 Limpa uma área 3×3", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta 4 blocos"}, "fr": {"z": "⚡ Efface ligne et colonne", "b": "💣 Efface une zone 3×3", "d": "🪩 Efface une couleur", "t": "🎯 Touche 4 blocs"}, "de": {"z": "⚡ Räumt Reihe und Spalte", "b": "💣 Räumt 3×3 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft 4 Blöcke"}, "it": {"z": "⚡ Elimina riga e colonna", "b": "💣 Elimina un’area 3×3", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce 4 blocchi"}, "ru": {"z": "⚡ Убирает ряд и столбец", "b": "💣 Убирает зону 3×3", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт 4 блока"}, "ar": {"z": "⚡ يمسح الصف والعمود", "b": "💣 يمسح منطقة 3×3", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب 4 كتل"}, "hi": {"z": "⚡ पंक्ति और कॉलम साफ़", "b": "💣 3×3 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 4 ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris dan kolom", "b": "💣 Hapus area 3×3", "d": "🪩 Hapus satu warna", "t": "🎯 Kena 4 blok"}, "ja": {"z": "⚡ 縦横一列を消す", "b": "💣 3×3を消す", "d": "🪩 同じ色を消す", "t": "🎯 4ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行和整列", "b": "💣 消除3×3区域", "d": "🪩 消除同色方块", "t": "🎯 击中4个方块"}, "ko": {"z": "⚡ 가로세로 줄 제거", "b": "💣 3×3 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 4개 명중"}};
+const PWD = {"tr": {"z": "⚡ Satır ve sütunu patlatır", "b": "💣 5×5 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 4 bloğu vurur"}, "en": {"z": "⚡ Clears row and column", "b": "💣 Clears a 5×5 area", "d": "🪩 Clears one color", "t": "🎯 Hits 4 blocks"}, "es": {"z": "⚡ Limpia fila y columna", "b": "💣 Limpia un área 5×5", "d": "🪩 Limpia un color", "t": "🎯 Golpea 4 bloques"}, "pt": {"z": "⚡ Limpa linha e coluna", "b": "💣 Limpa uma área 5×5", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta 4 blocos"}, "fr": {"z": "⚡ Efface ligne et colonne", "b": "💣 Efface une zone 5×5", "d": "🪩 Efface une couleur", "t": "🎯 Touche 4 blocs"}, "de": {"z": "⚡ Räumt Reihe und Spalte", "b": "💣 Räumt 5×5 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft 4 Blöcke"}, "it": {"z": "⚡ Elimina riga e colonna", "b": "💣 Elimina un’area 5×5", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce 4 blocchi"}, "ru": {"z": "⚡ Убирает ряд и столбец", "b": "💣 Убирает зону 5×5", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт 4 блока"}, "ar": {"z": "⚡ يمسح الصف والعمود", "b": "💣 يمسح منطقة 5×5", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب 4 كتل"}, "hi": {"z": "⚡ पंक्ति और कॉलम साफ़", "b": "💣 5×5 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 4 ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris dan kolom", "b": "💣 Hapus area 5×5", "d": "🪩 Hapus satu warna", "t": "🎯 Kena 4 blok"}, "ja": {"z": "⚡ 縦横一列を消す", "b": "💣 5×5を消す", "d": "🪩 同じ色を消す", "t": "🎯 4ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行和整列", "b": "💣 消除5×5区域", "d": "🪩 消除同色方块", "t": "🎯 击中4个方块"}, "ko": {"z": "⚡ 가로세로 줄 제거", "b": "💣 5×5 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 4개 명중"}};
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
 for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
@@ -602,6 +602,7 @@ const stuck = () => !S.over && !S.hold && S.nova < NOVA_MAX && S.tray.filter(Boo
 const cv = $('cv'), ctx = cv.getContext('2d');
 let dpr = 1, L = null, C = {}, sprites = [], spritesF = [];
 const placeT = new Float64Array(64).fill(-1e9);
+let sweepT = -1e9, twinkles = [];
 let dying = [], parts = [], floats = [], beams = [], shakeEnd = 0, shakeAmp = 0, trayT = -1e9, punchEnd = 0, punchAmp = 0;
 // büyük anlarda tahta bir an büyüyüp geri oturur (vuruş hissi)
 const punch = (amp, ms = 360) => { punchAmp = Math.max(amp, performance.now() < punchEnd ? punchAmp : 0); punchEnd = performance.now() + ms; bump(ms + 50); };
@@ -793,6 +794,14 @@ function draw(now) {
       ctx.save(); ctx.translate(x + cell / 2, y + cell - drop); ctx.scale(1 + sq, 1 - sq); tile(v, -cell / 2, -cell, cell, S.gem[i]); ctx.restore(); } else tile(v, x, y, cell, S.gem[i]);
   }
   ctx.globalAlpha = 1;
+  if (now - sweepT < 900 && !S.over) { const sk = (now - sweepT) / 900, band = -2 + sk * (N * 2 + 4); // çapraz ışık bandı
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 64; i++) { if (!S.grid[i]) continue; const cx3 = i % N, cy3 = i / N | 0, d = (cx3 + cy3) - band; if (d < -1.2 || d > 1.2) continue;
+      const x = bx + cx3 * cell, y = by + cy3 * cell; ctx.save(); path(ctx, x + cell * .06, y + cell * .06, cell * .88, cell * .88, cell * .24); ctx.clip();
+      const off = -d * cell * .7, lg = ctx.createLinearGradient(x + off - cell * .4, y + off - cell * .4, x + off + cell * .4, y + off + cell * .4);
+      lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.5, 'rgba(255,255,255,.55)'); lg.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = lg; ctx.fillRect(x, y, cell, cell); ctx.restore(); }
+    for (const tw of twinkles) { if (!S.grid[tw]) continue; const tk = Math.sin(Math.min(1, sk * 1.4) * Math.PI); spark4(bx + (tw % N + .72) * cell, by + ((tw / N | 0) + .26) * cell, cell * .2 * tk, '#FFFFFF'); }
+    ctx.restore(); }
   if (S.streak >= 3 && !S.over) { const it = Math.min(1, (S.streak - 2) / 7), col = S.streak >= 9 ? '#5FD0FF' : S.streak >= 6 ? '#FF4FA0' : '#FF8A1E', fl = .65 + .35 * Math.sin(now / 70) * Math.sin(now / 131);
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; path(ctx, bx - 9, by - 9, bs + 18, bs + 18, cell * .36);
     ctx.shadowColor = col; ctx.shadowBlur = cell * (.5 + it) * fl; ctx.lineWidth = 2 + it * 3; ctx.strokeStyle = col; ctx.globalAlpha = .55 + .4 * it * fl; ctx.stroke(); ctx.restore();
@@ -966,18 +975,18 @@ function draw(now) {
     }
     if (p.kind === 'bolt') { // HD şimşek: gökten iner, dallanır, 55 ms'de bir titreşir; mavi hale + camgöbeği gövde + beyaz çekirdek
       const reach = Math.min(1, k / .22), fl = k < .72 ? .78 + .22 * Math.sin(now / 23 + p.seed) : (1 - k) / .28;
-      if (k < .16) { ctx.save(); ctx.globalAlpha = (.16 - k) / .16 * .32; ctx.fillStyle = '#D8EEFF'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); } // gökyüzü çakması
+      if (k < .16) { ctx.save(); ctx.globalAlpha = (.16 - k) / .16 * .5; ctx.fillStyle = '#E4F3FF'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); } // gökyüzü çakması (güçlü)
       let sd = (p.seed + Math.floor(now / 55) * 131) % 233280; const rr = () => ((sd = (sd * 9301 + 49297) % 233280) / 233280) - .5;
       const segs = 14, x0 = p.sx !== undefined && p.sx !== null ? p.sx : p.row ? p.x + rr() * L.bs * .25 : p.x, y0 = p.sy !== undefined && p.sy !== null ? p.sy : -L.cell, pts = [];
       for (let q = 0; q <= segs; q++) { const f = q / segs, amp = Math.sin(f * Math.PI) * L.cell * 1.1; pts.push([x0 + (p.x - x0) * f + (q && q < segs ? rr() * amp : 0), y0 + (p.y - y0) * f]); }
       const upto = Math.max(1, Math.round(segs * reach)), paths = [pts.slice(0, upto + 1)];
-      for (let b = 0; b < 4; b++) { const at = 2 + Math.floor((rr() + .5) * (upto - 3)); if (at < 1 || at >= upto) continue; // dallar
+      for (let b = 0; b < 6; b++) { const at = 2 + Math.floor((rr() + .5) * (upto - 3)); if (at < 1 || at >= upto) continue; // dallar
         let [bx2, by2] = pts[at]; const dir = rr() < 0 ? -1 : 1, br = [[bx2, by2]];
         for (let q = 0; q < 4; q++) { bx2 += dir * L.cell * (.35 + (rr() + .5) * .5); by2 += L.cell * (.4 + (rr() + .5) * .4); br.push([bx2, by2]); } paths.push(br); }
       ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       const stroke = (pp, w2, col, a2) => { ctx.globalAlpha = a2 * fl; ctx.beginPath(); ctx.moveTo(pp[0][0], pp[0][1]); for (let q = 1; q < pp.length; q++) ctx.lineTo(pp[q][0], pp[q][1]); ctx.lineWidth = w2; ctx.strokeStyle = col; ctx.stroke(); };
       paths.forEach((pp, n) => { const m = n ? .45 : 1;
-        stroke(pp, L.cell * .95 * m, 'rgba(70,150,255,.22)', 1); stroke(pp, L.cell * .42 * m, '#5FC8FF', .75); stroke(pp, L.cell * .17 * m, '#CFF4FF', 1); stroke(pp, L.cell * .065 * m, '#FFFFFF', 1); });
+        stroke(pp, L.cell * 1.3 * m, 'rgba(70,150,255,.25)', 1); stroke(pp, L.cell * .6 * m, '#4FB8FF', .8); stroke(pp, L.cell * .26 * m, '#D8F6FF', 1); stroke(pp, L.cell * .1 * m, '#FFFFFF', 1); });
       if (reach >= 1) { // çarpma noktası: beyaz çekirdekli patlama ve kıvılcımlar
         const ik = Math.min(1, (k - .22) / .35), R2 = L.cell * (.6 + 1.6 * ease(ik)); ctx.globalAlpha = (1 - ik) * fl;
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, R2); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.3, 'rgba(160,225,255,.9)'); g.addColorStop(1, 'rgba(60,150,255,0)');
@@ -1096,8 +1105,15 @@ function draw(now) {
         spark4(p.x + Math.cos(an) * s2 * .62, y2 + Math.sin(an) * s2 * .55, L.cell * .16 * tw + 2, '#FFF6CF'); }
       // kupa sağa sola hafifçe sallanır; üzerinden parlak ışık geçer
       if (TROPHY.complete && TROPHY.naturalWidth) {
-        ctx.save(); ctx.translate(p.x, y2 + s2 * .4); ctx.rotate(Math.sin(el / 260) * .08 * (el < 1600 ? 1 : .5)); ctx.translate(-p.x, -(y2 + s2 * .4));
+        const dropY = -(1 - back(Math.min(1, el / 520))) * L.cell * 3.2, spin = el < 1000 ? Math.cos(el / 1000 * Math.PI * 4) : 1, sx2 = Math.max(.06, Math.abs(spin));
+        if (el >= 520 && !p.landed) { p.landed = true; parts.push({ kind: 'ring', x: p.x, y: y2 + s2 * .3, r: s2 * .2, R: s2 * 1.1, col: '#FFE27A', t0: now, life: 500 }); glow(p.x, y2, s2 * 1.2, '#FFF3C4', 420, now);
+          for (let q = 0; q < 10; q++) { const an = q / 10 * 6.283; parts.push({ kind: 'spark', s4: true, x: p.x + Math.cos(an) * s2 * .55, y: y2 + Math.sin(an) * s2 * .45, r: L.cell * .2, col: q % 2 ? '#FFFFFF' : '#FFE27A', t0: now + q * 20, life: 480 }); } shakeEnd = now + 220; shakeAmp = 4; }
+        const hg = ctx.createRadialGradient(p.x, y2 + dropY, 0, p.x, y2 + dropY, s2 * .85); hg.addColorStop(0, `rgba(255,220,110,${.55 + .2 * Math.sin(el / 180)})`); hg.addColorStop(1, 'rgba(255,220,110,0)');
+        ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(p.x, y2 + dropY, s2 * .85, 0, 6.283); ctx.fill(); ctx.restore(); // altın hale
+        ctx.save(); ctx.globalAlpha = a * .16; ctx.translate(p.x, y2 + s2 * .98 + dropY); ctx.scale(sx2, -.45); ctx.drawImage(TROPHY, -s2 / 2, -s2 / 2, s2, s2); ctx.restore(); ctx.globalAlpha = a; // yansıma
+        ctx.save(); ctx.translate(p.x, y2 + s2 * .4 + dropY); ctx.rotate(el >= 1000 ? Math.sin(el / 260) * .06 : 0); ctx.scale(sx2, 1); ctx.translate(-p.x, -(y2 + s2 * .4));
         ctx.drawImage(TROPHY, p.x - s2 / 2, y2 - s2 / 2, s2, s2);
+        if (spin < 0) { ctx.globalCompositeOperation = 'source-atop'; ctx.fillStyle = 'rgba(80,40,0,.35)'; ctx.fillRect(p.x - s2 / 2, y2 - s2 / 2, s2, s2); ctx.globalCompositeOperation = 'source-over'; } // dönerken arka yüz koyu
         const sw = ((el % 1300) / 1300) * s2 * 1.6 - s2 * .8;
         ctx.globalCompositeOperation = 'source-atop'; ctx.beginPath(); ctx.rect(p.x - s2 / 2, y2 - s2 / 2, s2, s2); ctx.clip();
         const lg = ctx.createLinearGradient(p.x + sw - s2 * .15, 0, p.x + sw + s2 * .15, 0); lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.5, 'rgba(255,255,255,.55)'); lg.addColorStop(1, 'rgba(255,255,255,0)');
@@ -1209,6 +1225,7 @@ function heatTick(now) {
   if (left <= 0) { S.streak = 0; heat.end = 0; const st = $('streak'); st.textContent = ''; st.classList.remove('on'); el.classList.remove('on'); save(); } // süre doldu: seri biter
 }
 setInterval(() => { if (heatOn()) bump(300); }, 250);
+setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && S.grid.some(Boolean)) { sweepT = performance.now(); const f = S.grid.map((v, i) => v ? i : -1).filter(i => i >= 0); twinkles = [0, 1, 2].map(() => f[Math.random() * f.length | 0]); bump(950); } }, 3800); // bloklar ışıldar
 let hitStopUntil = 0;
 const hitStop = ms => { hitStopUntil = Math.max(hitStopUntil, performance.now() + ms); };
 function frame(now) {
@@ -1572,7 +1589,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   // hedef hücreler vuruştan önce güç renginde parlayarak işaretlenir (ne olacağı net görünür)
   const mark = (cells, mc, hit) => { if (cells.length) parts.push({ kind: 'mark', cells: cells.slice(), col: mc, t0: now - D, life: D + hit }); };
   { const tg = k === 'z' ? [...new Set([...Array(N).keys()].flatMap(q => [r0 * N + q, q * N + c0]))].filter(i => S.grid[i] || i === r0 * N + c0)
-      : k === 'b' ? [-1, 0, 1].flatMap(dy => [-1, 0, 1].map(dx => [r0 + dy, c0 + dx])).filter(([y, x]) => y >= 0 && x >= 0 && y < N && x < N).map(([y, x]) => y * N + x)
+      : k === 'b' ? [-2, -1, 0, 1, 2].flatMap(dy => [-2, -1, 0, 1, 2].map(dx => [r0 + dy, c0 + dx])).filter(([y, x]) => y >= 0 && x >= 0 && y < N && x < N).map(([y, x]) => y * N + x)
       : k === 'd' ? S.grid.map((v, i) => v === col ? i : -1).filter(i => i >= 0) : [];
     if (tg.length) mark(tg, { z: '#5FC8FF', b: '#FF6B3D', d: PALETTE[col - 1][1] }[k], { z: 260, b: 700, d: 520 }[k]); }
   if (!stats.pwSeen) stats.pwSeen = {}; const seenN = stats.pwSeen[k] = (stats.pwSeen[k] || 0) + 1; // ilk 3 kullanımda kısa açıklama
@@ -1580,6 +1597,8 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   if (seenN <= 3) float(t('pwd')[k], L.bx + L.bs / 2, L.by + cell * 1.6, cell * .38, '#FFFFFF', 120, true); floatNow = false;
   if (k === 'z') { // şimşek: elden çıkar, çarpar; satır ve sütun boyunca elektrik dört bir yana yayılır, bloklar beyaz parlayıp dağılır
     parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
+    for (const dt2 of [190, 380]) parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now + dt2, life: 380, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y }); // tekrar çakar
+    later(() => samp('nova', .45, 1.2), 190); later(() => samp('nova', .35, 1.35), 380);
     parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 }); parts.push({ kind: 'zap', x: cx, t0: now + 160, life: 650 });
     glow(cx, cy, L.bs * .55, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 }); beams.push({ row: false, i: c0, t0: now + 170 });
     const hit = new Set();
@@ -1589,14 +1608,14 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   } else if (k === 'b') { // bomba: düşer, fitili yanar, kızarır ve patlar: alev topu, şok dalgası, duman, enkaz
     parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720, sx: hand && hand.x, sy: hand && hand.y });
     const T = now + 700;
-    parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 3.4, t0: T, life: 650 }); glow(cx, cy, cell * 4.2, '#FFE2B0', 320, T); parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 1.8, t0: T + 90, life: 450 }); parts.push({ kind: 'crack', x: cx, y: cy, t0: T, life: 380 });
+    parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 4.4, t0: T, life: 720 }); glow(cx, cy, cell * 5.5, '#FFE2B0', 360, T); parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .5, R: cell * 5, col: '#FFD08A', t0: T + 40, life: 600 }); parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 1.8, t0: T + 90, life: 450 }); parts.push({ kind: 'crack', x: cx, y: cy, t0: T, life: 380 });
     parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .4, R: cell * 3.4, col: '#FFB347', t0: T, life: 520 });
     parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .2, R: cell * 2.4, col: '#FFFFFF', t0: T + 60, life: 420 });
     for (let q = 0; q < 15; q++) { const a = q / 15 * 6.283 + Math.random() * .5, v = cell * (1.1 + Math.random() * 1.1);
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
-    for (let y = r0 - 1; y <= r0 + 1; y++) for (let x = c0 - 1; x <= c0 + 1; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x;
-      if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 10 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
-    later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 450; shakeAmp = 10; buzz(70); bump(900); punch(.06); hitStop(90); }, 700); // bomba patlama sesi
+    for (let y = r0 - 2; y <= r0 + 2; y++) for (let x = c0 - 2; x <= c0 + 2; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x; // 5x5 alan
+      if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 15 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
+    later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 520; shakeAmp = 13; buzz(80); bump(1000); punch(.075); hitStop(100); }, 700); // bomba patlama sesi
     later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
     parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2.6, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
