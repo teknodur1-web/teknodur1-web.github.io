@@ -49,6 +49,10 @@
   <div id="toast"></div>
   <div id="zia" aria-hidden="true"><div class="zb"></div><img alt="" src="zia/point.webp"></div>
 </div>
+<script>
+  // ?yeni=1 ile açılırsa oyun sıfırdan başlar (Seviye 1); adres temizlenir, yenileyince tekrar silmez
+  try { if (/[?&]yeni=1/.test(location.search)) { Object.keys(localStorage).filter(function (k) { return k.indexOf('blokzia.') === 0; }).forEach(function (k) { localStorage.removeItem(k); }); history.replaceState(null, '', location.pathname); } } catch (e) {}
+</script>
 <script src="release.js?v=23112026-1511"></script>
 <script src="build.js?v=23112026-1511"></script>
 <script src="game.js?v=23112026-1511"></script>
