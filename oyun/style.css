@@ -68,10 +68,10 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #zia.show.p-r,#zia.show.p-br{transform:translateX(6%)}
 #zia.out{opacity:0;transform:translateX(-80%);transition:opacity .3s ease-in,transform .35s cubic-bezier(.5,0,.75,0)}
 #zia.out.p-r,#zia.out.p-br{transform:translateX(80%)}
-#zia img{position:relative;z-index:1;height:min(175px,22vh);width:auto;transform-origin:50% 92%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));
+#zia img{position:relative;z-index:1;height:min(118px,14.5vh);width:auto;transform-origin:50% 92%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));
   will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 #zia:is(.p-r,.p-br) img{scale:-1 1}
-#zia .zb{position:relative;z-index:2;order:-1;margin:0 0 6px 18px;max-width:min(220px,60vw);width:max-content;
+#zia .zb{position:relative;z-index:2;order:-1;margin:0 0 4px 10px;max-width:min(170px,46vw);width:max-content;font-size:13px!important;padding:6px 10px!important;
   background:#fff;color:#2A1840;font:900 15px/1.25 var(--ff);padding:8px 13px;border-radius:16px 16px 16px 4px;box-shadow:0 6px 16px rgba(0,0,0,.32);
   transform:scale(0);transform-origin:0 100%;transition:transform .32s cubic-bezier(.2,1.5,.4,1) .2s}
 #zia:is(.p-r,.p-br) .zb{margin:0 18px 6px 0;border-radius:16px 16px 4px 16px;transform-origin:100% 100%}

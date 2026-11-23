@@ -137,8 +137,9 @@ const PKT = {"tr": "Parlayan güç kutusunun üstüne blok koy: güç patlar!", 
 const PBT = {"tr": "Bomba", "en": "Bomb", "es": "Bomba", "pt": "Bomba", "fr": "Bombe", "de": "Bombe", "it": "Bomba", "ru": "Бомба", "ar": "قنبلة", "hi": "बम", "id": "Bom", "ja": "ボム", "zh": "炸弹", "ko": "폭탄"};
 const CHT = {"tr": "Zincir", "en": "Chain", "es": "Cadena", "pt": "Corrente", "fr": "Chaîne", "de": "Kette", "it": "Catena", "ru": "Цепь", "ar": "سلسلة", "hi": "चेन", "id": "Rantai", "ja": "チェーン", "zh": "连锁", "ko": "체인"};
 const CLT = {"tr": "Kıl Payı!", "en": "Close Call!", "es": "¡Por los pelos!", "pt": "Por um triz!", "fr": "De justesse !", "de": "Knapp!", "it": "Per un pelo!", "ru": "На волоске!", "ar": "بأعجوبة!", "hi": "बाल-बाल बचे!", "id": "Nyaris!", "ja": "ギリギリ！", "zh": "惊险！", "ko": "아슬아슬!"}, MGT = {"tr": "MEGA ZİNCİR!", "en": "MEGA CHAIN!", "es": "¡MEGA CADENA!", "pt": "MEGA CORRENTE!", "fr": "MÉGA CHAÎNE !", "de": "MEGA-KETTE!", "it": "MEGA CATENA!", "ru": "МЕГА ЦЕПЬ!", "ar": "سلسلة ضخمة!", "hi": "मेगा चेन!", "id": "MEGA RANTAI!", "ja": "メガチェーン！", "zh": "超级连锁！", "ko": "메가 체인!"};
+const PWD = {"tr": {"z": "⚡ Satırı patlatır", "b": "💣 3×3 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 Tek bloğu vurur"}, "en": {"z": "⚡ Clears the row", "b": "💣 Clears a 3×3 area", "d": "🪩 Clears one color", "t": "🎯 Hits a single block"}, "es": {"z": "⚡ Limpia la fila", "b": "💣 Limpia un área 3×3", "d": "🪩 Limpia un color", "t": "🎯 Golpea un bloque"}, "pt": {"z": "⚡ Limpa a linha", "b": "💣 Limpa uma área 3×3", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta um bloco"}, "fr": {"z": "⚡ Efface la ligne", "b": "💣 Efface une zone 3×3", "d": "🪩 Efface une couleur", "t": "🎯 Touche un bloc"}, "de": {"z": "⚡ Räumt die Reihe", "b": "💣 Räumt 3×3 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft einen Block"}, "it": {"z": "⚡ Elimina la riga", "b": "💣 Elimina un’area 3×3", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce un blocco"}, "ru": {"z": "⚡ Убирает ряд", "b": "💣 Убирает зону 3×3", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт один блок"}, "ar": {"z": "⚡ يمسح الصف", "b": "💣 يمسح منطقة 3×3", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب كتلة واحدة"}, "hi": {"z": "⚡ पंक्ति साफ़", "b": "💣 3×3 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 एक ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris", "b": "💣 Hapus area 3×3", "d": "🪩 Hapus satu warna", "t": "🎯 Kena satu blok"}, "ja": {"z": "⚡ 横一列を消す", "b": "💣 3×3を消す", "d": "🪩 同じ色を消す", "t": "🎯 1ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行", "b": "💣 消除3×3区域", "d": "🪩 消除同色方块", "t": "🎯 击中一个方块"}, "ko": {"z": "⚡ 한 줄 제거", "b": "💣 3×3 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 하나 명중"}};
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
-for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; }
+for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
 // sesli övgü: telefonun kendi seslendirme motoru, seçili dilde (internet gerekmez)
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
@@ -886,6 +887,15 @@ function draw(now) {
   for (const p of parts) {
     if (now < p.t0) continue;
     const k = (now - p.t0) / p.life;
+    if (p.kind === 'mark') { // gücün vuracağı hücreler: nabız gibi atan renkli dolgu, parlak kenar, köşe parantezleri
+      const pz = .55 + .45 * Math.sin((now - p.t0) / 70), cell = L.cell, a = k > .9 ? (1 - k) / .1 : Math.min(1, k * 6);
+      ctx.save(); ctx.globalAlpha = a; ctx.lineJoin = 'round';
+      for (const i of p.cells) { const x = L.bx + (i % N) * cell, y = L.by + (i / N | 0) * cell, m = cell * .06;
+        ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = p.col; ctx.globalAlpha = a * .32 * pz; path(ctx, x + m, y + m, cell - 2 * m, cell - 2 * m, cell * .22); ctx.fill();
+        ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a; ctx.lineWidth = cell * .07; ctx.strokeStyle = p.col; ctx.shadowColor = p.col; ctx.shadowBlur = cell * .35 * pz; ctx.stroke();
+        ctx.shadowBlur = 0; ctx.lineWidth = Math.max(1, cell * .025); ctx.strokeStyle = 'rgba(255,255,255,.85)'; path(ctx, x + m * 2.2, y + m * 2.2, cell - 4.4 * m, cell - 4.4 * m, cell * .18); ctx.stroke(); }
+      ctx.restore(); continue;
+    }
     if (p.kind === 'diamond') { // Joker elması: yükselir, döner gibi parlar, ışınlar ve ışıltılar saçar
       const im = iconImg(3), e = back(Math.min(1, k / .25)), z = L.cell * 1.9 * e, y = p.y - ease(Math.min(1, k / .5)) * L.cell * 1.2, a = k > .8 ? (1 - k) / .2 : 1;
       ctx.save(); ctx.globalAlpha = a; ctx.translate(p.x, y);
@@ -1218,8 +1228,9 @@ function kill(i, t0) {
   for (let k = 0; k < 5; k++) { const a = Math.random() * 6.28, v = 80 + Math.random() * 220; parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 160, r: L.cell * (.06 + Math.random() * .08), col: PALETTE[c - 1][k % 2], t0, life: 500 + Math.random() * 300 }); }
 }
 // ekranda kalma süresi: puanlar kısa, yazılar okunacak kadar uzun, kupa en uzun
+let floatNow = false; // güç başlığı/açıklaması ertelenmez, efektle birlikte görünür
 function float(txt, x, y, size, col, delay = 0, pill = false) {
-  if (!/^\+\d+$/.test(txt)) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
+  if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
   floats.push({ txt, x, y, size, col, pill, life, t0: performance.now() + delay }); bump(delay + life + 100);
 }
@@ -1525,7 +1536,7 @@ function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
 // Zia'nın uzattığı elin tuval üzerindeki konumu (güçler buradan çıkar)
 function ziaHand() {
   const el = $('zia'), app = $('app').getBoundingClientRect(), cvr = cv.getBoundingClientRect();
-  const ih = Math.min(175, innerHeight * .22), iw = ih * .9, top = app.height * .34 + 44;
+  const ih = Math.min(118, innerHeight * .145), iw = ih * .9, top = app.height * .34 + 34;
   const x = ziaLastSide === 'p-r' ? app.width - iw * .62 : iw * .62, y = top + ih * .42;
   return { x: x - (cvr.left - app.left), y: y - (cvr.top - app.top) };
 }
@@ -1556,6 +1567,15 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
   if (hand) { glow(hand.x, hand.y, cell * 1.1, { z: '#BDEBFF', b: '#FFB347', d: '#FF8BF0', t: '#FF6B6B' }[k], 380, now - 120); for (let q = 0; q < 6; q++) parts.push({ kind: 'spark', s4: true, x: hand.x + (Math.random() - .5) * cell, y: hand.y + (Math.random() - .5) * cell, r: cell * .14, col: '#FFFFFF', t0: now - 140 + q * 25, life: 380 }); }
   const pop = (i, t1, n = 4) => { if (!S.grid[i]) return 0; shards(i, S.grid[i], t1, n, true); kill(i, t1); return 1; };
+  // hedef hücreler vuruştan önce güç renginde parlayarak işaretlenir (ne olacağı net görünür)
+  const mark = (cells, mc, hit) => { if (cells.length) parts.push({ kind: 'mark', cells: cells.slice(), col: mc, t0: now - D, life: D + hit }); };
+  { const tg = k === 'z' ? [...Array(N).keys()].map(q => r0 * N + q).filter(i => S.grid[i] || i === r0 * N + c0)
+      : k === 'b' ? [-1, 0, 1].flatMap(dy => [-1, 0, 1].map(dx => [r0 + dy, c0 + dx])).filter(([y, x]) => y >= 0 && x >= 0 && y < N && x < N).map(([y, x]) => y * N + x)
+      : k === 'd' ? S.grid.map((v, i) => v === col ? i : -1).filter(i => i >= 0) : [];
+    if (tg.length) mark(tg, { z: '#5FC8FF', b: '#FF6B3D', d: PALETTE[col - 1][1] }[k], { z: 260, b: 700, d: 520 }[k]); }
+  if (!stats.pwSeen) stats.pwSeen = {}; const seenN = stats.pwSeen[k] = (stats.pwSeen[k] || 0) + 1; // ilk 3 kullanımda kısa açıklama
+  floatNow = true; float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
+  if (seenN <= 3) float(t('pwd')[k], L.bx + L.bs / 2, L.by + cell * 1.6, cell * .38, '#FFFFFF', 120, true); floatNow = false;
   if (k === 'z') { // şimşek: gökten satıra iner, satır boyunca elektrik çatırdar, bloklar beyaz parlayıp dağılır
     parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
     parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 });
@@ -1585,6 +1605,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
       const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => S.grid[(y + dy) * N + x + dx] && x + dx >= 0 && x + dx < N && y + dy >= 0 && y + dy < N).length;
       const sc = nb * 10 - Math.hypot(x - c0, y - r0); if (sc < bs) { bs = sc; best = i; } });
     if (best < 0) best = r0 * N + c0;
+    mark([best], '#FF3B3B', 630);
     const tx = L.bx + (best % N + .5) * cell, ty = L.by + ((best / N | 0) + .5) * cell, fromL = tx > L.W / 2;
     parts.push({ kind: 'aim', x: tx, y: ty, s: cell * 2.6, t0: now, life: 520 });
     parts.push({ kind: 'arrow', x0: hand ? hand.x : fromL ? -cell : L.W + cell, y0: hand ? hand.y : ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300, life: 330 });
@@ -1596,7 +1617,6 @@ function powerFx(k, r0, c0, col, nLines = 0) {
     later(() => samp('whoosh', .8), 300); later(() => { samp('nova', .55) || sfx.nova(); shakeEnd = performance.now() + 220; shakeAmp = 4; buzz(40); }, 630);
   }
   if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .4, cell * .62, '#FFD24A', 750 + D, 'gold3d'); }
-  float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
   const megaNow = performance.now(), mega = nLines >= 2 || megaNow - lastPowerAt < 6000; lastPowerAt = megaNow;
   if (mega) { // nadir büyük an: konfeti yağmuru, altın bonus, metal başlık
     later(() => { S.score += 250; shower(70); float(t('mega'), L.bx + L.bs / 2, L.by + L.bs * .45, cell * .62, C.accent, 0, 'metal'); float('+250', L.bx + L.bs / 2, L.by + L.bs * .62, cell * .78, '#FFD24A', 150, 'gold3d');
