@@ -142,3 +142,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #heat.hot i{background:linear-gradient(90deg,#7A5CFF,#3FB6FF,#BDF2FF);box-shadow:0 0 10px rgba(80,180,255,.95)}
 #heat.low i{animation:heatLow .35s steps(2) infinite}
 @keyframes heatLow{50%{opacity:.35}}
+
+/* duraklat düğmesi: parlak turuncu yuvarlak düğme */
+#hud .ic[data-act=pause]{border-radius:50%;background:linear-gradient(#FFC46B,#FF8A1E);color:#4A1A00;box-shadow:0 4px 0 #C25F00,0 8px 14px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.55)}
+#hud .ic[data-act=pause]:active{transform:translateY(3px);box-shadow:0 1px 0 #C25F00,0 4px 8px rgba(0,0,0,.3)}
