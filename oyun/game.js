@@ -137,7 +137,7 @@ const PKT = {"tr": "Parlayan güç kutusunun üstüne blok koy: güç patlar!", 
 const PBT = {"tr": "Bomba", "en": "Bomb", "es": "Bomba", "pt": "Bomba", "fr": "Bombe", "de": "Bombe", "it": "Bomba", "ru": "Бомба", "ar": "قنبلة", "hi": "बम", "id": "Bom", "ja": "ボム", "zh": "炸弹", "ko": "폭탄"};
 const CHT = {"tr": "Zincir", "en": "Chain", "es": "Cadena", "pt": "Corrente", "fr": "Chaîne", "de": "Kette", "it": "Catena", "ru": "Цепь", "ar": "سلسلة", "hi": "चेन", "id": "Rantai", "ja": "チェーン", "zh": "连锁", "ko": "체인"};
 const CLT = {"tr": "Kıl Payı!", "en": "Close Call!", "es": "¡Por los pelos!", "pt": "Por um triz!", "fr": "De justesse !", "de": "Knapp!", "it": "Per un pelo!", "ru": "На волоске!", "ar": "بأعجوبة!", "hi": "बाल-बाल बचे!", "id": "Nyaris!", "ja": "ギリギリ！", "zh": "惊险！", "ko": "아슬아슬!"}, MGT = {"tr": "MEGA ZİNCİR!", "en": "MEGA CHAIN!", "es": "¡MEGA CADENA!", "pt": "MEGA CORRENTE!", "fr": "MÉGA CHAÎNE !", "de": "MEGA-KETTE!", "it": "MEGA CATENA!", "ru": "МЕГА ЦЕПЬ!", "ar": "سلسلة ضخمة!", "hi": "मेगा चेन!", "id": "MEGA RANTAI!", "ja": "メガチェーン！", "zh": "超级连锁！", "ko": "메가 체인!"};
-const PWD = {"tr": {"z": "⚡ Satırı patlatır", "b": "💣 3×3 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 Tek bloğu vurur"}, "en": {"z": "⚡ Clears the row", "b": "💣 Clears a 3×3 area", "d": "🪩 Clears one color", "t": "🎯 Hits a single block"}, "es": {"z": "⚡ Limpia la fila", "b": "💣 Limpia un área 3×3", "d": "🪩 Limpia un color", "t": "🎯 Golpea un bloque"}, "pt": {"z": "⚡ Limpa a linha", "b": "💣 Limpa uma área 3×3", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta um bloco"}, "fr": {"z": "⚡ Efface la ligne", "b": "💣 Efface une zone 3×3", "d": "🪩 Efface une couleur", "t": "🎯 Touche un bloc"}, "de": {"z": "⚡ Räumt die Reihe", "b": "💣 Räumt 3×3 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft einen Block"}, "it": {"z": "⚡ Elimina la riga", "b": "💣 Elimina un’area 3×3", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce un blocco"}, "ru": {"z": "⚡ Убирает ряд", "b": "💣 Убирает зону 3×3", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт один блок"}, "ar": {"z": "⚡ يمسح الصف", "b": "💣 يمسح منطقة 3×3", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب كتلة واحدة"}, "hi": {"z": "⚡ पंक्ति साफ़", "b": "💣 3×3 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 एक ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris", "b": "💣 Hapus area 3×3", "d": "🪩 Hapus satu warna", "t": "🎯 Kena satu blok"}, "ja": {"z": "⚡ 横一列を消す", "b": "💣 3×3を消す", "d": "🪩 同じ色を消す", "t": "🎯 1ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行", "b": "💣 消除3×3区域", "d": "🪩 消除同色方块", "t": "🎯 击中一个方块"}, "ko": {"z": "⚡ 한 줄 제거", "b": "💣 3×3 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 하나 명중"}};
+const PWD = {"tr": {"z": "⚡ Satır ve sütunu patlatır", "b": "💣 3×3 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 4 bloğu vurur"}, "en": {"z": "⚡ Clears row and column", "b": "💣 Clears a 3×3 area", "d": "🪩 Clears one color", "t": "🎯 Hits 4 blocks"}, "es": {"z": "⚡ Limpia fila y columna", "b": "💣 Limpia un área 3×3", "d": "🪩 Limpia un color", "t": "🎯 Golpea 4 bloques"}, "pt": {"z": "⚡ Limpa linha e coluna", "b": "💣 Limpa uma área 3×3", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta 4 blocos"}, "fr": {"z": "⚡ Efface ligne et colonne", "b": "💣 Efface une zone 3×3", "d": "🪩 Efface une couleur", "t": "🎯 Touche 4 blocs"}, "de": {"z": "⚡ Räumt Reihe und Spalte", "b": "💣 Räumt 3×3 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft 4 Blöcke"}, "it": {"z": "⚡ Elimina riga e colonna", "b": "💣 Elimina un’area 3×3", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce 4 blocchi"}, "ru": {"z": "⚡ Убирает ряд и столбец", "b": "💣 Убирает зону 3×3", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт 4 блока"}, "ar": {"z": "⚡ يمسح الصف والعمود", "b": "💣 يمسح منطقة 3×3", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب 4 كتل"}, "hi": {"z": "⚡ पंक्ति और कॉलम साफ़", "b": "💣 3×3 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 4 ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris dan kolom", "b": "💣 Hapus area 3×3", "d": "🪩 Hapus satu warna", "t": "🎯 Kena 4 blok"}, "ja": {"z": "⚡ 縦横一列を消す", "b": "💣 3×3を消す", "d": "🪩 同じ色を消す", "t": "🎯 4ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行和整列", "b": "💣 消除3×3区域", "d": "🪩 消除同色方块", "t": "🎯 击中4个方块"}, "ko": {"z": "⚡ 가로세로 줄 제거", "b": "💣 3×3 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 4개 명중"}};
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
 for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
@@ -924,14 +924,15 @@ function draw(now) {
     if (p.kind === 'zap') { // satır boyunca çatırdayan elektrik arkları
       const a = k < .75 ? 1 : (1 - k) / .25; ctx.save(); ctx.globalAlpha = a; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       let sd = Math.floor(now / 45) * 977 + 13; const rr = () => ((sd = (sd * 9301 + 49297) % 233280) / 233280) - .5;
-      for (let arc = 0; arc < 3; arc++) { ctx.beginPath(); ctx.moveTo(L.bx, p.y + rr() * L.cell * .3);
-        for (let q = 1; q <= 16; q++) ctx.lineTo(L.bx + L.bs * q / 16, p.y + rr() * L.cell * .7);
+      const vert = p.x != null;
+      for (let arc = 0; arc < 3; arc++) { ctx.beginPath(); if (vert) ctx.moveTo(p.x + rr() * L.cell * .3, L.by); else ctx.moveTo(L.bx, p.y + rr() * L.cell * .3);
+        for (let q = 1; q <= 16; q++) vert ? ctx.lineTo(p.x + rr() * L.cell * .7, L.by + L.bs * q / 16) : ctx.lineTo(L.bx + L.bs * q / 16, p.y + rr() * L.cell * .7);
         ctx.lineWidth = arc ? L.cell * .05 : L.cell * .1; ctx.strokeStyle = arc ? '#BDEBFF' : '#FFFFFF'; ctx.shadowColor = '#3FB6FF'; ctx.shadowBlur = L.cell * .4; ctx.stroke(); }
-      for (let q = 0; q < 3; q++) spark4(L.bx + (rr() + .5) * L.bs, p.y + rr() * L.cell * .6, L.cell * (.12 + .1 * (rr() + .5)), '#FFFFFF');
+      for (let q = 0; q < 3; q++) vert ? spark4(p.x + rr() * L.cell * .6, L.by + (rr() + .5) * L.bs, L.cell * (.12 + .1 * (rr() + .5)), '#FFFFFF') : spark4(L.bx + (rr() + .5) * L.bs, p.y + rr() * L.cell * .6, L.cell * (.12 + .1 * (rr() + .5)), '#FFFFFF');
       ctx.restore(); continue;
     }
     if (p.kind === 'bomb') { // bomba: düşer, zıplar, fitili kıvılcım saçar, kırmızı yanıp söner, şişer
-      const el = now - p.t0, im = iconImg(19), s0 = L.cell * 1.25, drop = el < 260 ? back(el / 260) : 1, pulse = el > 260 ? Math.sin((el - 260) / 1000 * Math.PI * 2 * (3 + (el - 260) / 90)) : 0;
+      const el = now - p.t0, im = iconImg(19), s0 = L.cell * 1.7, drop = el < 260 ? back(el / 260) : 1, pulse = el > 260 ? Math.sin((el - 260) / 1000 * Math.PI * 2 * (3 + (el - 260) / 90)) : 0;
       const sw = 1 + (el > 520 ? (el - 520) / 200 * .35 : 0) + pulse * .05, thr = p.sx != null && el < 260, tk = Math.min(1, el / 260);
       const bxp = thr ? p.sx + (p.x - p.sx) * tk : p.x, y = thr ? p.sy + (p.y - p.sy) * tk - Math.sin(tk * Math.PI) * L.cell * 2.6 : p.sx != null ? p.y - Math.abs(Math.sin((el - 260) / 90)) * L.cell * .25 * Math.max(0, 1 - (el - 260) / 260) : p.y - (1 - drop) * L.cell * 4;
       ctx.save(); ctx.translate(bxp, y); ctx.rotate(thr ? tk * 9 : Math.sin(el / 60) * .08); ctx.scale(sw, sw);
@@ -949,7 +950,7 @@ function draw(now) {
     }
     if (p.kind === 'smoke') { // duman: dışa ve yukarı süzülür, büyür, solar
       p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .96; p.vy *= .96; const r2 = p.r * (1 + k * 1.4);
-      ctx.save(); ctx.globalAlpha = (1 - k) * .45; const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r2); g.addColorStop(0, 'rgba(120,110,140,1)'); g.addColorStop(1, 'rgba(120,110,140,0)');
+      ctx.save(); ctx.globalAlpha = (1 - k) * .6; const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r2); g.addColorStop(0, 'rgba(70,60,80,1)'); g.addColorStop(.5, 'rgba(110,100,120,.7)'); g.addColorStop(1, 'rgba(120,110,140,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r2, 0, 6.283); ctx.fill(); ctx.restore(); continue;
     }
     if (p.kind === 'arrow') { // ok: kenardan yay çizerek hedefe uçar, arkasında ışık izi bırakır
@@ -1039,8 +1040,8 @@ function draw(now) {
     }
     p.x += p.vx * dt; p.y += p.vy * dt;
     if (p.kind === 'conf') { // oyuncu konfeti: şerit, yıldız, kare, yuvarlak; salınarak süzülür
-      p.vy += 520 * dt; p.vx *= 1 - 1.6 * dt; p.vy *= 1 - 1.1 * dt; if (p.vy > 190) p.vy = 190; p.rot += p.vr * dt;
-      const el2 = (now - p.t0) / 1000, sway = Math.sin(el2 * 4 + (p.ph || 0)) * L.cell * .18, z = p.w || L.cell * .16;
+      p.vy += 430 * dt; p.vx *= 1 - 1.4 * dt; p.vy *= 1 - (p.vy > 0 ? 2.2 : .9) * dt; if (p.vy > 115) p.vy = 115; p.rot += p.vr * dt; p.vr *= 1 - .4 * dt;
+      const el2 = (now - p.t0) / 1000, fq = p.fq || (p.fq = 2.5 + Math.random() * 2.5), sway = Math.sin(el2 * fq + (p.ph || 0)) * L.cell * (.12 + .3 * Math.min(1, el2 * 1.5)), z = p.w || L.cell * .16; p.x += Math.cos(el2 * fq + (p.ph || 0)) * L.cell * .6 * dt; // yaprak gibi salınım
       ctx.globalAlpha = k > .8 ? (1 - k) / .2 : 1; ctx.save(); ctx.translate(p.x + sway, p.y); ctx.rotate(p.rot);
       const flip = Math.cos(el2 * 6 + (p.ph || 0)), back2 = CONF_BACK[p.col] || (CONF_BACK[p.col] = shade(p.col, .68)), fc = flip > 0 ? p.col : back2;
       ctx.fillStyle = fc; ctx.strokeStyle = fc; ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1.5;
@@ -1304,7 +1305,8 @@ function place(kind, idx, piece, r, c) {
     let emoPts = 0; const emoCells = [];
     for (const i of set) if (S.gem[i]) { const v = emoVal(); emoPts += v; emoCells.push([i, v, S.grid[i]]); }
     const icn = iconNo(); if (icn) emoCells.slice(0, 6).forEach(([i, , cc], q) => parts.push({ kind: 'iconfly', vx: 0, vy: 0, x0: L.bx + (i % N + .5) * cell, y0: L.by + ((i / N | 0) + .5) * cell, x1: L.bx + L.bs / 2, y1: L.by - cell * .9, n: icn, c: cc, t0: now + 80 + q * 70, life: 750 }));
-    for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { shards(i, S.grid[i], t1, n >= 2 ? 7 : 5, true); glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 320, t1); } kill(i, t1); }
+    for (const i of set) { gems += S.gem[i]; const t1 = now + 60 + Math.hypot((i % N) - (c + sh.w / 2 - .5), (i / N | 0) - (r + sh.h / 2 - .5)) * 28; if (S.grid[i]) { const gx = L.bx + (i % N + .5) * cell, gy = L.by + ((i / N | 0) + .5) * cell; shards(i, S.grid[i], t1, n >= 2 ? 8 : 6, true); glow(gx, gy, cell * .95, '#FFFFFF', 340, t1); glow(gx, gy, cell * .7, PALETTE[S.grid[i] - 1][1], 420, t1 + 40);
+      parts.push({ kind: 'ring', x: gx, y: gy, r: cell * .15, R: cell * .75, col: '#FFFFFF', t0: t1, life: 300 }); parts.push({ kind: 'spark', s4: true, x: gx, y: gy, r: cell * .34, col: '#FFFFFF', t0: t1 + 30, life: 280 }); } kill(i, t1); }
     // patlayan çizgi boyunca sırayla yanan ışıltılar
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
@@ -1450,8 +1452,8 @@ function confetti(x, y, n, v0 = 240) {
   const R = Math.random, now = performance.now();
   for (let k = 0; k < n / 3; k++) parts.push({ kind: 'spark', s4: true, x: x + (R() - .5) * L.cell * 4, y: y - R() * L.cell * 3, r: L.cell * (.07 + R() * .08), col: '#FFFFFF', t0: now + 120 + R() * 800, life: 420 }); // simler
   for (let k = 0; k < n; k++) { const a = -Math.PI / 2 + (R() - .5) * 2.6, v = v0 + R() * v0;
-    parts.push({ kind: 'conf', x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, w: L.cell * (.16 + R() * .1), h: L.cell * (.08 + R() * .05), rot: R() * 6.28, vr: (R() - .5) * 12, col: CONF_COLS[k % CONF_COLS.length], shape: CONF_SHAPES[k % CONF_SHAPES.length], ph: R() * 6.28, t0: now + R() * 80, life: 1000 + R() * 500 }); }
-  bump(1700);
+    parts.push({ kind: 'conf', x, y, vx: Math.cos(a) * v * 1.25, vy: Math.sin(a) * v * 1.3, w: L.cell * (.16 + R() * .1), h: L.cell * (.08 + R() * .05), rot: R() * 6.28, vr: (R() - .5) * 14, col: CONF_COLS[k % CONF_COLS.length], shape: CONF_SHAPES[k % CONF_SHAPES.length], ph: R() * 6.28, t0: now + R() * 80, life: 1500 + R() * 800 }); }
+  bump(2400);
 }
 function shower(n) {
   const R = Math.random, now = performance.now();
@@ -1569,26 +1571,28 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   const pop = (i, t1, n = 4) => { if (!S.grid[i]) return 0; shards(i, S.grid[i], t1, n, true); kill(i, t1); return 1; };
   // hedef hücreler vuruştan önce güç renginde parlayarak işaretlenir (ne olacağı net görünür)
   const mark = (cells, mc, hit) => { if (cells.length) parts.push({ kind: 'mark', cells: cells.slice(), col: mc, t0: now - D, life: D + hit }); };
-  { const tg = k === 'z' ? [...Array(N).keys()].map(q => r0 * N + q).filter(i => S.grid[i] || i === r0 * N + c0)
+  { const tg = k === 'z' ? [...new Set([...Array(N).keys()].flatMap(q => [r0 * N + q, q * N + c0]))].filter(i => S.grid[i] || i === r0 * N + c0)
       : k === 'b' ? [-1, 0, 1].flatMap(dy => [-1, 0, 1].map(dx => [r0 + dy, c0 + dx])).filter(([y, x]) => y >= 0 && x >= 0 && y < N && x < N).map(([y, x]) => y * N + x)
       : k === 'd' ? S.grid.map((v, i) => v === col ? i : -1).filter(i => i >= 0) : [];
     if (tg.length) mark(tg, { z: '#5FC8FF', b: '#FF6B3D', d: PALETTE[col - 1][1] }[k], { z: 260, b: 700, d: 520 }[k]); }
   if (!stats.pwSeen) stats.pwSeen = {}; const seenN = stats.pwSeen[k] = (stats.pwSeen[k] || 0) + 1; // ilk 3 kullanımda kısa açıklama
   floatNow = true; float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
   if (seenN <= 3) float(t('pwd')[k], L.bx + L.bs / 2, L.by + cell * 1.6, cell * .38, '#FFFFFF', 120, true); floatNow = false;
-  if (k === 'z') { // şimşek: gökten satıra iner, satır boyunca elektrik çatırdar, bloklar beyaz parlayıp dağılır
+  if (k === 'z') { // şimşek: elden çıkar, çarpar; satır ve sütun boyunca elektrik dört bir yana yayılır, bloklar beyaz parlayıp dağılır
     parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
-    parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 });
-    glow(L.bx + L.bs / 2, cy, L.bs * .7, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 });
-    for (let q = 0; q < N; q++) { const i = r0 * N + q, t1 = now + 260 + Math.abs(q - c0) * 45; if (S.grid[i]) glow(L.bx + (q + .5) * cell, cy, cell * .7, '#FFFFFF', 300, t1 - 120); pts += 8 * pop(i, t1); }
-    shakeEnd = now + 420; shakeAmp = 6; later(() => { samp('nova', .7) || sfx.nova(); buzz(45); }, 0); later(() => hitStop(60), 160);
+    parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 }); parts.push({ kind: 'zap', x: cx, t0: now + 160, life: 650 });
+    glow(cx, cy, L.bs * .55, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 }); beams.push({ row: false, i: c0, t0: now + 170 });
+    const hit = new Set();
+    for (let q = 0; q < N; q++) for (const [i, d] of [[r0 * N + q, Math.abs(q - c0)], [q * N + c0, Math.abs(q - r0)]]) { if (hit.has(i)) continue; hit.add(i);
+      const t1 = now + 260 + d * 45; if (S.grid[i]) glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 300, t1 - 120); pts += 8 * pop(i, t1, 6); }
+    shakeEnd = now + 420; shakeAmp = 7; later(() => { samp('nova', .7) || sfx.nova(); buzz(50); }, 0); later(() => hitStop(70), 160);
   } else if (k === 'b') { // bomba: düşer, fitili yanar, kızarır ve patlar: alev topu, şok dalgası, duman, enkaz
     parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720, sx: hand && hand.x, sy: hand && hand.y });
     const T = now + 700;
-    parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 2.3, t0: T, life: 560 }); parts.push({ kind: 'crack', x: cx, y: cy, t0: T, life: 380 });
+    parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 3.4, t0: T, life: 650 }); glow(cx, cy, cell * 4.2, '#FFE2B0', 320, T); parts.push({ kind: 'fire', x: cx, y: cy, R: cell * 1.8, t0: T + 90, life: 450 }); parts.push({ kind: 'crack', x: cx, y: cy, t0: T, life: 380 });
     parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .4, R: cell * 3.4, col: '#FFB347', t0: T, life: 520 });
     parts.push({ kind: 'ring', x: cx, y: cy, r: cell * .2, R: cell * 2.4, col: '#FFFFFF', t0: T + 60, life: 420 });
-    for (let q = 0; q < 9; q++) { const a = q / 9 * 6.283 + Math.random() * .5, v = cell * (.9 + Math.random() * .8);
+    for (let q = 0; q < 15; q++) { const a = q / 15 * 6.283 + Math.random() * .5, v = cell * (1.1 + Math.random() * 1.1);
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
     for (let y = r0 - 1; y <= r0 + 1; y++) for (let x = c0 - 1; x <= c0 + 1; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x;
       if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 10 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
@@ -1599,28 +1603,25 @@ function powerFx(k, r0, c0, col, nLines = 0) {
     S.grid.forEach((v, i) => { if (v !== col) return; const x = L.bx + (i % N + .5) * cell, y = L.by + ((i / N | 0) + .5) * cell, t1 = now + 500 + Math.hypot(x - cx, y - cy) / cell * 55;
       glow(x, y, cell * .9, PALETTE[col - 1][1], 380, t1 - 160); glow(x, y, cell * .7, '#FFFFFF', 260, t1); pts += 6 * pop(i, t1); });
     later(() => samp('combo', .8) || sfx.clean(), 480); later(() => { buzz(40); confetti(cx, cy, 26, 260); }, 520);
-  } else if (k === 't') { // hedef: en yalnız blok kilitlenir, kenardan ok uçar ve tam ortadan vurur
-    let best = -1, bs = 1e9;
-    S.grid.forEach((v, i) => { if (!v || i === r0 * N + c0) return; const x = i % N, y = i / N | 0;
-      const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => S.grid[(y + dy) * N + x + dx] && x + dx >= 0 && x + dx < N && y + dy >= 0 && y + dy < N).length;
-      const sc = nb * 10 - Math.hypot(x - c0, y - r0); if (sc < bs) { bs = sc; best = i; } });
-    if (best < 0) best = r0 * N + c0;
-    mark([best], '#FF3B3B', 630);
-    const tx = L.bx + (best % N + .5) * cell, ty = L.by + ((best / N | 0) + .5) * cell, fromL = tx > L.W / 2;
-    parts.push({ kind: 'aim', x: tx, y: ty, s: cell * 2.6, t0: now, life: 520 });
-    parts.push({ kind: 'arrow', x0: hand ? hand.x : fromL ? -cell : L.W + cell, y0: hand ? hand.y : ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300, life: 330 });
-    const T = now + 630;
-    parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .2, R: cell * 1.8, col: '#FF4D4D', t0: T, life: 450 }); parts.push({ kind: 'crack', x: tx, y: ty, t0: T, life: 420 });
-    parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .1, R: cell * 1.1, col: '#FFFFFF', t0: T + 70, life: 360 });
-    glow(tx, ty, cell * 1.3, '#FFD0D0', 380, T);
-    if (S.grid[best]) { shards(best, S.grid[best], T, 6); pts += 25 * pop(best, T, 6); }
-    later(() => samp('whoosh', .8), 300); later(() => { samp('nova', .55) || sfx.nova(); shakeEnd = performance.now() + 220; shakeAmp = 4; buzz(40); }, 630);
+  } else if (k === 't') { // hedef: en yalnız 4 blok kilitlenir; Zia'nın elinden 4 ok sırayla uçar, her biri tam ortadan vurur
+    const sc = []; S.grid.forEach((v, i) => { if (!v || i === r0 * N + c0) return; const x = i % N, y = i / N | 0;
+      const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => x + dx >= 0 && x + dx < N && y + dy >= 0 && y + dy < N && S.grid[(y + dy) * N + x + dx]).length;
+      sc.push([nb * 10 - Math.hypot(x - c0, y - r0) * .5 + Math.random(), i]); });
+    sc.sort((a2, b2) => a2[0] - b2[0]); const tgs = sc.slice(0, 4).map(e => e[1]); if (!tgs.length) tgs.push(r0 * N + c0);
+    mark(tgs, '#FF3B3B', 630 + (tgs.length - 1) * 170);
+    tgs.forEach((best, q) => { const tx = L.bx + (best % N + .5) * cell, ty = L.by + ((best / N | 0) + .5) * cell, fromL = tx > L.W / 2, o = q * 170, T = now + 630 + o;
+      parts.push({ kind: 'aim', x: tx, y: ty, s: cell * 2.4, t0: now + o, life: 520 });
+      parts.push({ kind: 'arrow', x0: hand ? hand.x : fromL ? -cell : L.W + cell, y0: hand ? hand.y : ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300 + o, life: 330 });
+      parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .2, R: cell * 1.8, col: '#FF4D4D', t0: T, life: 450 }); parts.push({ kind: 'crack', x: tx, y: ty, t0: T, life: 420 });
+      parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .1, R: cell * 1.1, col: '#FFFFFF', t0: T + 70, life: 360 }); glow(tx, ty, cell * 1.3, '#FFD0D0', 380, T);
+      if (S.grid[best]) { shards(best, S.grid[best], T, 6); pts += 25 * pop(best, T, 7); }
+      later(() => samp('whoosh', .7, 1 + q * .08), 300 + o); later(() => { samp('nova', .5, 1 + q * .05) || sfx.nova(); shakeEnd = performance.now() + 200; shakeAmp = 4; buzz(35); }, 630 + o); });
   }
   if (pts) { S.score += pts; float('+' + pts, cx, cy + cell * .4, cell * .62, '#FFD24A', 750 + D, 'gold3d'); }
   const megaNow = performance.now(), mega = nLines >= 2 || megaNow - lastPowerAt < 6000; lastPowerAt = megaNow;
   if (mega) { // nadir büyük an: konfeti yağmuru, altın bonus, metal başlık
     later(() => { S.score += 250; shower(70); float(t('mega'), L.bx + L.bs / 2, L.by + L.bs * .45, cell * .62, C.accent, 0, 'metal'); float('+250', L.bx + L.bs / 2, L.by + L.bs * .62, cell * .78, '#FFD24A', 150, 'gold3d');
-      punch(.06); hitStop(90); samp('levelwin', .8) || sfx.clean(); buzz(60); stats.mega = (stats.mega || 0) + 1; LS.set('stats', stats); hud(); }, 1100); }
+      punch(.06); hitStop(90); samp('levelwin', .8) || sfx.clean(); buzz(60); stats.mega = (stats.mega || 0) + 1; LS.set('stats', stats); hud(); }, 1900); } // güç puanı söndükten sonra gelir, üst üste binmez
   stats.powers = (stats.powers || 0) + 1; LS.set('stats', stats); bump(1800); return pts;
 }
 
