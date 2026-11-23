@@ -198,3 +198,23 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes curPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,228,92,.55),0 6px 12px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 10px rgba(255,228,92,0),0 6px 12px rgba(0,0,0,.35)}}
 @keyframes ziaHopMap{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-6px)}}
 @media (prefers-reduced-motion: reduce){.node,.node img,.qc img,.rp.gold,.nzia{animation:none!important}}
+
+/* ana ekran: büyük, yazılı, dokunması kolay iki düğme */
+.hbtns{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin-top:8px}
+.hb{position:relative;display:flex;align-items:center;gap:10px;padding:7px 12px;width:100%;box-sizing:border-box;border-radius:14px;text-align:left;color:var(--text);
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.14);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.hb:active{transform:translateY(2px);box-shadow:none}
+.hb .hi{font-size:22px;line-height:1}.hb::after{content:'›';margin-left:auto;font-size:22px;font-weight:900;opacity:.6}.hb .ht{display:flex;flex-direction:column;min-width:0}.hb b{font-size:13.5px;font-weight:900}.hb small{font-size:11px;font-weight:700;opacity:.75;white-space:nowrap}
+.hb .dot{position:absolute;top:8px;right:26px;width:9px;height:9px;border-radius:50%;background:#FF4D6D;box-shadow:0 0 0 3px rgba(255,77,109,.25);animation:dotP 1.4s ease-in-out infinite}
+@keyframes dotP{50%{box-shadow:0 0 0 6px rgba(255,77,109,0)}}
+[data-theme=light] .hb{background:rgba(255,255,255,.75);border-color:rgba(0,0,0,.08)}
+/* yol haritası: kaydırma yok */
+.mapw{justify-content:flex-start}
+.maph .bk{padding:8px 12px;border-radius:12px;background:var(--cell);color:var(--text);font:900 14px var(--ff)}
+.road{flex:none!important;min-height:0!important;overflow:visible!important;padding:6px 0 4px}
+.roadin{position:relative;margin:0 auto}
+.node{width:48px!important;height:48px!important}.node img{width:30px!important;height:30px!important}.node.ms img{width:34px!important;height:34px!important}
+.node .np{top:56px!important;width:58px!important;left:-5px}
+.nzia{width:40px!important;bottom:44px!important}
+.rnext{text-align:center;font-size:12.5px;font-weight:800;color:#FFD27A;margin-top:2px}
+@media (max-height:700px){.hzia{height:19vh!important}.hero .hlogo{width:min(32vw,14vh)}}
