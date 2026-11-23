@@ -290,3 +290,11 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @media (max-height:700px){.hzia{height:26vh!important}.hero .hlogo{width:min(30vw,13vh)!important}.screen .btn{padding:9px 14px}.homebest{font-size:16px}}
 @media (max-height:600px){.hzia{height:24vh!important}.mcard .mhead{display:none}}
 @media (max-height:660px){.hzia{height:22vh!important}.screen{gap:6px}}
+/* Macera Yolu arka planı: yumuşak bulutlar, yüzen adalar, temiz ikonlar (kesik görsel yok) */
+.aroad .deco{opacity:.85;filter:drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+.aroad .cloud{position:absolute;height:22px;border-radius:20px;background:rgba(255,255,255,.14);filter:blur(1px);animation:cloudM 14s ease-in-out infinite alternate}
+.aroad .cloud::before{content:'';position:absolute;left:22%;top:-12px;width:46%;height:26px;border-radius:50%;background:inherit}
+.aroad .c1{left:-6%;top:22%;width:34%}.aroad .c2{right:-8%;top:52%;width:30%;animation-delay:-5s}.aroad .c3{left:20%;top:88%;width:38%;animation-delay:-9s}
+.aroad .isl{position:absolute;width:30%;height:9%;border-radius:50% 50% 45% 45%/40% 40% 60% 60%;background:linear-gradient(#5EDB6B 0 30%,#7A5A3A 30%,#4A3322);opacity:.55;box-shadow:0 10px 14px rgba(0,0,0,.35);animation:decoF 6s ease-in-out infinite}
+.aroad .i1{left:-8%;top:60%}.aroad .i2{right:-10%;top:16%;animation-delay:-3s}
+@keyframes cloudM{to{transform:translateX(18px)}}
