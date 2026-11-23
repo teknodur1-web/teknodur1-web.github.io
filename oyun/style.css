@@ -96,11 +96,11 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes ziaBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 /* ana ekran: logo ve yanında Zia */
 .hero{position:relative;display:flex;align-items:flex-end;justify-content:center;padding-top:min(22px,3vh);flex:none}
-.hero .hlogo{width:min(46vw,200px,24vh);position:relative;z-index:1}
+.hero .hlogo{width:min(42vw,190px,19vh);position:relative;z-index:1}
 .hero::before{content:'';position:absolute;right:-6%;bottom:-4%;width:62%;height:70%;border-radius:50%;background:radial-gradient(closest-side,rgba(168,108,255,.55),rgba(168,108,255,0));pointer-events:none}
 .hero::after{content:'';position:absolute;right:4%;bottom:-6px;width:38%;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));pointer-events:none;animation:ziaShadow 2.2s ease-in-out 1.2s infinite}
 @keyframes ziaShadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.82);opacity:.6}}
-.hzia{position:relative;z-index:1;height:min(36vh,300px);width:auto;margin-left:-34px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));transform-origin:50% 100%;
+.hzia{position:relative;z-index:1;height:min(29vh,280px);width:auto;margin-left:-30px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));transform-origin:50% 100%;
   animation:riseUp .9s cubic-bezier(.2,.9,.3,1.1) .25s both,ziaBob 2.2s ease-in-out 1.2s infinite;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hzia.bust{height:min(21vh,165px)}
 .hzia.hop{animation:ziaHop .6s cubic-bezier(.3,.7,.4,1)}
@@ -142,3 +142,21 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #heat.hot i{background:linear-gradient(90deg,#7A5CFF,#3FB6FF,#BDF2FF);box-shadow:0 0 10px rgba(80,180,255,.95)}
 #heat.low i{animation:heatLow .35s steps(2) infinite}
 @keyframes heatLow{50%{opacity:.35}}
+
+/* ana ekran: seviye, gün serisi ve günlük görevler kartı (sade, okunaklı) */
+.mcard{width:min(300px,100%);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:10px 12px;font-size:12.5px;line-height:1.25;flex:none}
+[data-theme=light] .mcard{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.06)}
+.mhead{display:flex;align-items:center;gap:8px;font-weight:900;color:var(--accent)}
+.mlv{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden}
+.mlv i{display:block;height:100%;background:linear-gradient(90deg,#FFB23E,#FFE45C)}
+.mtitle{margin:6px 0 2px;font-weight:900;opacity:.85}
+.mrow{position:relative;display:flex;justify-content:space-between;gap:8px;padding:4px 8px;margin-top:3px;border-radius:9px;background:rgba(0,0,0,.18);overflow:hidden;font-weight:700}
+[data-theme=light] .mrow{background:rgba(0,0,0,.05)}
+.mrow span,.mrow b{position:relative;z-index:1}
+.mrow i{position:absolute;left:0;top:0;bottom:0;background:rgba(124,240,160,.18)}
+.mrow.ok{color:#7CF0A0}
+.mrow.ok i{background:rgba(124,240,160,.25)}
+.mrew{margin-top:6px;font-weight:800;color:#FFD27A}
+/* kısa ekranlarda ana ekran sıkışır: tüm düğmeler kaydırmadan görünsün */
+@media (max-height:900px){.screen .btn{padding:11px 16px;font-size:17px}.homebest{margin-bottom:0}.screen{gap:min(10px,1.3vh)}}
+@media (max-height:780px){.hzia{height:24vh!important}.hero .hlogo{width:min(36vw,16vh)}.screen .tag{display:none}.mcard{padding:7px 10px;font-size:12px}}
