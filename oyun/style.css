@@ -166,3 +166,35 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .ach{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(0,0,0,.18);opacity:.55;font-size:13px}
 .ach span{font-size:20px}.ach b{flex:1;font-weight:800}.ach i{font-style:normal;font-weight:800;opacity:.8}
 .ach.on{opacity:1;background:rgba(255,178,62,.14);color:var(--accent)}
+
+/* ---------- yol haritası ---------- */
+.mapw{width:min(340px,100%);height:100%;display:flex;flex-direction:column;gap:8px}
+.maph{display:flex;align-items:center;gap:10px}.maph h2{flex:1;margin:0;font-size:20px;font-weight:900}.maph span{font-weight:900;color:var(--accent)}
+.qsec{display:flex;flex-direction:column;gap:5px;flex:none}
+.qt{font-size:12px;font-weight:900;opacity:.75;margin-top:2px}
+.qc{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:13px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}
+.qc img{width:30px;height:30px;animation:qFloat 2.4s ease-in-out infinite}.qc:nth-child(3) img{animation-delay:.4s}.qc:nth-child(4) img{animation-delay:.8s}
+.qc div{flex:1;min-width:0}.qc b{display:block;font-size:12.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qb{display:block;height:5px;margin-top:4px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}.qb i{display:block;height:100%;background:linear-gradient(90deg,#FFB23E,#FFE45C)}
+.qc em{font-style:normal;font-weight:900;font-size:12px;color:var(--accent)}
+.qc.ok{border-color:rgba(124,240,160,.35)}.qc.ok em{color:#7CF0A0}.qc.ok .qb i{background:#7CF0A0}
+.road{flex:1;min-height:180px;overflow-y:auto;border-radius:18px;background:radial-gradient(circle at 50% 30%,rgba(140,90,255,.18),transparent 70%)}
+.roadin{position:relative;width:300px;margin:0 auto}.roadin svg{position:absolute;left:0;top:0}
+.rp{fill:none;stroke:rgba(255,255,255,.18);stroke-width:10;stroke-linecap:round;stroke-dasharray:2 16}
+.rp.gold{stroke:#FFC23C;stroke-dasharray:14 10;animation:roadFlow 1.6s linear infinite;filter:drop-shadow(0 0 4px rgba(255,190,60,.7))}
+.node{position:absolute;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:#2A2449;border:3px solid rgba(255,255,255,.2);box-shadow:0 6px 12px rgba(0,0,0,.35)}
+.node img{width:36px;height:36px;animation:qFloat 2.6s ease-in-out infinite;animation-delay:inherit}
+.node b{position:absolute;bottom:-9px;min-width:22px;padding:0 5px;border-radius:9px;background:#3B2D66;font-size:11px;font-weight:900;text-align:center;color:#fff}
+.node .ok{position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;background:#2FB67C;color:#fff;font:900 12px/20px var(--ff);text-align:center;font-style:normal}
+.node em{position:absolute;left:66px;white-space:nowrap;font-style:normal;font-size:11px;font-weight:900;color:#FFD27A}
+.node.done{border-color:#FFC23C;background:linear-gradient(#4A3A80,#2E2458)}
+.node.lock{filter:grayscale(.85);opacity:.5}.node.lock img{animation:none}
+.node.ms{width:66px;height:66px}.node.ms img{width:42px;height:42px}
+.node.cur{border-color:#FFE45C;background:linear-gradient(#7A5CFF,#4A2FB0);animation:curPulse 1.4s ease-in-out infinite}
+.nzia{position:absolute;bottom:52px;left:50%;width:46px!important;height:auto!important;transform:translateX(-50%);animation:ziaHopMap .8s ease-in-out infinite alternate!important;filter:drop-shadow(0 4px 5px rgba(0,0,0,.5))}
+.np{position:absolute;top:66px;width:70px;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}.np i{display:block;height:100%;background:#FFE45C}
+@keyframes qFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes roadFlow{to{stroke-dashoffset:-48}}
+@keyframes curPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,228,92,.55),0 6px 12px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 10px rgba(255,228,92,0),0 6px 12px rgba(0,0,0,.35)}}
+@keyframes ziaHopMap{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-6px)}}
+@media (prefers-reduced-motion: reduce){.node,.node img,.qc img,.rp.gold,.nzia{animation:none!important}}

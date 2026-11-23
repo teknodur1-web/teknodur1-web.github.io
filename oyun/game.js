@@ -140,8 +140,9 @@ const CLT = {"tr": "Kıl Payı!", "en": "Close Call!", "es": "¡Por los pelos!",
 const PWD = {"tr": {"z": "⚡ Satır ve sütunu patlatır", "b": "💣 5×5 alanı patlatır", "d": "🪩 Aynı renkleri patlatır", "t": "🎯 4 bloğu vurur"}, "en": {"z": "⚡ Clears row and column", "b": "💣 Clears a 5×5 area", "d": "🪩 Clears one color", "t": "🎯 Hits 4 blocks"}, "es": {"z": "⚡ Limpia fila y columna", "b": "💣 Limpia un área 5×5", "d": "🪩 Limpia un color", "t": "🎯 Golpea 4 bloques"}, "pt": {"z": "⚡ Limpa linha e coluna", "b": "💣 Limpa uma área 5×5", "d": "🪩 Limpa uma cor", "t": "🎯 Acerta 4 blocos"}, "fr": {"z": "⚡ Efface ligne et colonne", "b": "💣 Efface une zone 5×5", "d": "🪩 Efface une couleur", "t": "🎯 Touche 4 blocs"}, "de": {"z": "⚡ Räumt Reihe und Spalte", "b": "💣 Räumt 5×5 Felder", "d": "🪩 Räumt eine Farbe", "t": "🎯 Trifft 4 Blöcke"}, "it": {"z": "⚡ Elimina riga e colonna", "b": "💣 Elimina un’area 5×5", "d": "🪩 Elimina un colore", "t": "🎯 Colpisce 4 blocchi"}, "ru": {"z": "⚡ Убирает ряд и столбец", "b": "💣 Убирает зону 5×5", "d": "🪩 Убирает один цвет", "t": "🎯 Бьёт 4 блока"}, "ar": {"z": "⚡ يمسح الصف والعمود", "b": "💣 يمسح منطقة 5×5", "d": "🪩 يمسح لونًا واحدًا", "t": "🎯 يصيب 4 كتل"}, "hi": {"z": "⚡ पंक्ति और कॉलम साफ़", "b": "💣 5×5 क्षेत्र साफ़", "d": "🪩 एक रंग साफ़", "t": "🎯 4 ब्लॉक पर वार"}, "id": {"z": "⚡ Hapus baris dan kolom", "b": "💣 Hapus area 5×5", "d": "🪩 Hapus satu warna", "t": "🎯 Kena 4 blok"}, "ja": {"z": "⚡ 縦横一列を消す", "b": "💣 5×5を消す", "d": "🪩 同じ色を消す", "t": "🎯 4ブロックを撃つ"}, "zh": {"z": "⚡ 消除整行和整列", "b": "💣 消除5×5区域", "d": "🪩 消除同色方块", "t": "🎯 击中4个方块"}, "ko": {"z": "⚡ 가로세로 줄 제거", "b": "💣 5×5 영역 제거", "d": "🪩 같은 색 제거", "t": "🎯 블록 4개 명중"}};
 const MIST = {"tr": ["Günlük Görevler", "Görev tamam!", "Tüm görevler tamam!", "Ödül: sonraki oyunda dolu Nova + güç kutusu", "Seviye", "gün", "{n} satır patlat", "{n} güç kutusu patlat", "Seri x{n} yap", "Tek oyunda {n} puan yap", "{n} renk kombosu yap", "{n} kez Kıl Payı yap", "{n} oyun oyna", "🎁 Görev ödülü: Nova dolu!"], "en": ["Daily Missions", "Mission complete!", "All missions complete!", "Reward: full Nova + power box next game", "Level", "days", "Clear {n} lines", "Pop {n} power boxes", "Reach a x{n} streak", "Score {n} in one game", "Make {n} color combos", "Pull off {n} close calls", "Play {n} games", "🎁 Mission reward: Nova full!"], "es": ["Misiones diarias", "¡Misión completa!", "¡Todas las misiones completas!", "Premio: Nova llena + caja de poder", "Nivel", "días", "Limpia {n} líneas", "Activa {n} cajas de poder", "Logra racha x{n}", "Haz {n} puntos en una partida", "Haz {n} combos de color", "Logra {n} veces Por los pelos", "Juega {n} partidas", "🎁 Premio: ¡Nova llena!"], "pt": ["Missões diárias", "Missão completa!", "Todas as missões completas!", "Prêmio: Nova cheia + caixa de poder", "Nível", "dias", "Limpe {n} linhas", "Ative {n} caixas de poder", "Faça sequência x{n}", "Faça {n} pontos em um jogo", "Faça {n} combos de cor", "Consiga {n} vezes Por um triz", "Jogue {n} partidas", "🎁 Prêmio: Nova cheia!"], "fr": ["Missions du jour", "Mission accomplie !", "Toutes les missions accomplies !", "Récompense : Nova pleine + boîte de pouvoir", "Niveau", "jours", "Efface {n} lignes", "Active {n} boîtes de pouvoir", "Fais une série x{n}", "Marque {n} points en une partie", "Fais {n} combos couleur", "Réussis {n} fois De justesse", "Joue {n} parties", "🎁 Récompense : Nova pleine !"], "de": ["Tagesmissionen", "Mission erfüllt!", "Alle Missionen erfüllt!", "Belohnung: volle Nova + Kraftbox", "Level", "Tage", "Räume {n} Reihen", "Löse {n} Kraftboxen aus", "Schaffe Serie x{n}", "Erziele {n} Punkte in einem Spiel", "Schaffe {n} Farbkombos", "Schaffe {n}× Knapp", "Spiele {n} Spiele", "🎁 Belohnung: Nova voll!"], "it": ["Missioni del giorno", "Missione completata!", "Tutte le missioni completate!", "Premio: Nova piena + scatola potere", "Livello", "giorni", "Elimina {n} linee", "Attiva {n} scatole potere", "Fai una serie x{n}", "Fai {n} punti in una partita", "Fai {n} combo colore", "Riesci {n} volte Per un pelo", "Gioca {n} partite", "🎁 Premio: Nova piena!"], "ru": ["Задания дня", "Задание выполнено!", "Все задания выполнены!", "Награда: полная Нова + коробка силы", "Уровень", "дн.", "Убери {n} линий", "Открой {n} коробок силы", "Сделай серию x{n}", "Набери {n} очков за игру", "Сделай {n} цветовых комбо", "Спасись {n} раз на волоске", "Сыграй {n} игр", "🎁 Награда: Нова полна!"], "ar": ["مهام اليوم", "اكتملت المهمة!", "اكتملت كل المهام!", "الجائزة: نوفا ممتلئة + صندوق قوة", "المستوى", "أيام", "امسح {n} أسطر", "فجّر {n} صناديق قوة", "حقق سلسلة x{n}", "اجمع {n} نقطة في لعبة", "حقق {n} كومبو ألوان", "انجُ {n} مرات بأعجوبة", "العب {n} ألعاب", "🎁 الجائزة: نوفا ممتلئة!"], "hi": ["आज के मिशन", "मिशन पूरा!", "सभी मिशन पूरे!", "इनाम: अगले गेम में पूरी नोवा + पावर बॉक्स", "स्तर", "दिन", "{n} लाइनें साफ़ करें", "{n} पावर बॉक्स फोड़ें", "x{n} स्ट्रीक बनाएँ", "एक गेम में {n} अंक", "{n} रंग कॉम्बो बनाएँ", "{n} बार बाल-बाल बचें", "{n} गेम खेलें", "🎁 इनाम: नोवा पूरी!"], "id": ["Misi Harian", "Misi selesai!", "Semua misi selesai!", "Hadiah: Nova penuh + kotak kekuatan", "Level", "hari", "Hapus {n} baris", "Pecahkan {n} kotak kekuatan", "Capai rentetan x{n}", "Raih {n} poin dalam satu game", "Buat {n} kombo warna", "Lakukan {n} kali Nyaris", "Main {n} game", "🎁 Hadiah: Nova penuh!"], "ja": ["デイリーミッション", "ミッション達成！", "全ミッション達成！", "報酬：次のゲームでノヴァ満タン＋パワーボックス", "レベル", "日", "{n}ライン消す", "パワーボックスを{n}個使う", "{n}連続を達成", "1ゲームで{n}点", "カラーコンボを{n}回", "ギリギリを{n}回", "{n}ゲーム遊ぶ", "🎁 報酬：ノヴァ満タン！"], "zh": ["每日任务", "任务完成！", "全部任务完成！", "奖励：下局 Nova 充满 + 能量盒", "等级", "天", "消除{n}行", "触发{n}个能量盒", "达成{n}连击", "单局得到{n}分", "完成{n}次同色连消", "完成{n}次惊险救场", "玩{n}局", "🎁 奖励：Nova 已充满！"], "ko": ["일일 미션", "미션 완료!", "모든 미션 완료!", "보상: 다음 게임 노바 가득 + 파워 상자", "레벨", "일", "{n}줄 지우기", "파워 상자 {n}개 터뜨리기", "{n}연속 달성", "한 판에 {n}점", "컬러 콤보 {n}회", "아슬아슬 {n}회", "{n}판 플레이", "🎁 보상: 노바 가득!"]}, MISK = ["misTitle", "misDone", "misAll", "misReward", "lvl", "days", "m_lines", "m_powers", "m_streak", "m_score", "m_combo", "m_close", "m_games", "misGot"];
 const MET = {"tr": ["Başarımlar", "Başarım!", "{n} gün üst üste oyna", "{n} kez tüm günlük görevleri bitir", "Haftalık Görev", "Ödül: 3 oyun boyunca dolu Nova", "🎁 Haftalık ödül: Nova dolu!", "Haftalık görev tamam!", "İlk Mega Zincir", "İlk Sembol Zinciri", "Kapat"], "en": ["Achievements", "Achievement!", "Play {n} days in a row", "Finish all daily missions {n} times", "Weekly Mission", "Reward: full Nova for 3 games", "🎁 Weekly reward: Nova full!", "Weekly mission complete!", "First Mega Chain", "First Symbol Chain", "Close"], "es": ["Logros", "¡Logro!", "Juega {n} días seguidos", "Completa todas las misiones diarias {n} veces", "Misión semanal", "Premio: Nova llena durante 3 partidas", "🎁 Premio semanal: ¡Nova llena!", "¡Misión semanal completa!", "Primera Mega Cadena", "Primera Cadena de símbolos", "Cerrar"], "pt": ["Conquistas", "Conquista!", "Jogue {n} dias seguidos", "Conclua todas as missões diárias {n} vezes", "Missão semanal", "Prêmio: Nova cheia por 3 jogos", "🎁 Prêmio semanal: Nova cheia!", "Missão semanal completa!", "Primeira Mega Corrente", "Primeira Corrente de símbolos", "Fechar"], "fr": ["Succès", "Succès !", "Joue {n} jours d’affilée", "Termine toutes les missions du jour {n} fois", "Mission de la semaine", "Récompense : Nova pleine pendant 3 parties", "🎁 Récompense hebdo : Nova pleine !", "Mission de la semaine accomplie !", "Première Méga Chaîne", "Première Chaîne de symboles", "Fermer"], "de": ["Erfolge", "Erfolg!", "Spiele {n} Tage am Stück", "Schaffe alle Tagesmissionen {n}×", "Wochenmission", "Belohnung: 3 Spiele volle Nova", "🎁 Wochenbelohnung: Nova voll!", "Wochenmission erfüllt!", "Erste Mega-Kette", "Erste Symbolkette", "Schließen"], "it": ["Obiettivi", "Obiettivo!", "Gioca {n} giorni di fila", "Completa tutte le missioni del giorno {n} volte", "Missione settimanale", "Premio: Nova piena per 3 partite", "🎁 Premio settimanale: Nova piena!", "Missione settimanale completata!", "Prima Mega Catena", "Prima Catena di simboli", "Chiudi"], "ru": ["Достижения", "Достижение!", "Играй {n} дней подряд", "Выполни все задания дня {n} раз", "Задание недели", "Награда: полная Нова на 3 игры", "🎁 Недельная награда: Нова полна!", "Задание недели выполнено!", "Первая мега-цепь", "Первая цепь символов", "Закрыть"], "ar": ["الإنجازات", "إنجاز!", "العب {n} أيام متتالية", "أكمل كل مهام اليوم {n} مرات", "مهمة الأسبوع", "الجائزة: نوفا ممتلئة لـ3 ألعاب", "🎁 جائزة الأسبوع: نوفا ممتلئة!", "اكتملت مهمة الأسبوع!", "أول سلسلة ضخمة", "أول سلسلة رموز", "إغلاق"], "hi": ["उपलब्धियाँ", "उपलब्धि!", "लगातार {n} दिन खेलें", "सभी दैनिक मिशन {n} बार पूरे करें", "साप्ताहिक मिशन", "इनाम: 3 गेम तक पूरी नोवा", "🎁 साप्ताहिक इनाम: नोवा पूरी!", "साप्ताहिक मिशन पूरा!", "पहली मेगा चेन", "पहली सिंबल चेन", "बंद करें"], "id": ["Pencapaian", "Pencapaian!", "Main {n} hari berturut-turut", "Selesaikan semua misi harian {n} kali", "Misi Mingguan", "Hadiah: Nova penuh selama 3 game", "🎁 Hadiah mingguan: Nova penuh!", "Misi mingguan selesai!", "Mega Rantai pertama", "Rantai simbol pertama", "Tutup"], "ja": ["実績", "実績解除！", "{n}日連続で遊ぶ", "デイリーミッションを{n}回全達成", "週間ミッション", "報酬：3ゲーム ノヴァ満タン", "🎁 週間報酬：ノヴァ満タン！", "週間ミッション達成！", "初メガチェーン", "初シンボルチェーン", "閉じる"], "zh": ["成就", "成就达成！", "连续{n}天游戏", "完成全部每日任务{n}次", "每周任务", "奖励：3局 Nova 充满", "🎁 每周奖励：Nova 已充满！", "每周任务完成！", "首次超级连锁", "首次符号连锁", "关闭"], "ko": ["업적", "업적 달성!", "{n}일 연속 플레이", "일일 미션 전부 {n}회 완료", "주간 미션", "보상: 3판 동안 노바 가득", "🎁 주간 보상: 노바 가득!", "주간 미션 완료!", "첫 메가 체인", "첫 심볼 체인", "닫기"]}, METK = ["achTitle", "achGot", "a_days", "a_mis", "weekTitle", "weekReward", "weekGot", "weekDone", "a_mega", "a_chain", "close2"];
+const RMT = {"tr": ["Yol Haritası", "İpucu: Büyük blokları kenara koy, ortayı açık tut.", "İpucu: Isı çubuğu bitmeden yine patlat, seri büyüsün!", "İpucu: Parlayan yer şu an en iyi hamle.", "🎁 Seviye ödülü: Nova dolu!", "Ödül"], "en": ["Roadmap", "Tip: Put big blocks at the edges, keep the middle open.", "Tip: Clear again before the heat bar runs out to grow your streak!", "Tip: The glowing spot is the best move right now.", "🎁 Level reward: Nova full!", "Reward"], "es": ["Mapa de ruta", "Consejo: pon los bloques grandes en los bordes y deja libre el centro.", "Consejo: ¡vuelve a limpiar antes de que se acabe la barra para seguir la racha!", "Consejo: el lugar brillante es la mejor jugada ahora.", "🎁 Premio de nivel: ¡Nova llena!", "Premio"], "pt": ["Mapa", "Dica: coloque blocos grandes nas bordas e deixe o meio livre.", "Dica: limpe de novo antes da barra acabar para aumentar a sequência!", "Dica: o lugar brilhante é a melhor jogada agora.", "🎁 Prêmio de nível: Nova cheia!", "Prêmio"], "fr": ["Feuille de route", "Astuce : place les gros blocs sur les bords, garde le centre libre.", "Astuce : efface encore avant la fin de la barre pour prolonger la série !", "Astuce : la case brillante est le meilleur coup.", "🎁 Récompense de niveau : Nova pleine !", "Récompense"], "de": ["Wegkarte", "Tipp: Große Blöcke an den Rand, die Mitte frei halten.", "Tipp: Räume erneut, bevor die Leiste leer ist, damit die Serie wächst!", "Tipp: Die leuchtende Stelle ist gerade der beste Zug.", "🎁 Level-Belohnung: Nova voll!", "Belohnung"], "it": ["Mappa", "Consiglio: metti i blocchi grandi ai bordi e lascia libero il centro.", "Consiglio: elimina di nuovo prima che la barra finisca per allungare la serie!", "Consiglio: il punto luminoso è la mossa migliore ora.", "🎁 Premio livello: Nova piena!", "Premio"], "ru": ["Карта пути", "Совет: большие блоки ставь к краям, центр держи свободным.", "Совет: убирай снова, пока шкала не кончилась, — серия растёт!", "Совет: светящееся место — лучший ход сейчас.", "🎁 Награда уровня: Нова полна!", "Награда"], "ar": ["خريطة الطريق", "نصيحة: ضع الكتل الكبيرة على الحواف واترك الوسط فارغًا.", "نصيحة: امسح مجددًا قبل نفاد الشريط لتكبر السلسلة!", "نصيحة: المكان المتوهج هو أفضل حركة الآن.", "🎁 جائزة المستوى: نوفا ممتلئة!", "جائزة"], "hi": ["रोडमैप", "टिप: बड़े ब्लॉक किनारों पर रखें, बीच खाली रखें।", "टिप: बार खत्म होने से पहले फिर साफ़ करें, स्ट्रीक बढ़ेगी!", "टिप: चमकती जगह अभी सबसे अच्छी चाल है।", "🎁 स्तर इनाम: नोवा पूरी!", "इनाम"], "id": ["Peta Jalan", "Tips: taruh blok besar di tepi, biarkan tengah kosong.", "Tips: hapus lagi sebelum bar habis agar rentetan bertambah!", "Tips: tempat yang bersinar adalah langkah terbaik.", "🎁 Hadiah level: Nova penuh!", "Hadiah"], "ja": ["ロードマップ", "ヒント：大きいブロックは端へ、真ん中は空けておこう。", "ヒント：ゲージが切れる前にまた消すと連続が伸びる！", "ヒント：光っている場所が今いちばんの一手。", "🎁 レベル報酬：ノヴァ満タン！", "報酬"], "zh": ["路线图", "提示：大方块放边上，中间留空。", "提示：能量条用完前再次消除，连击会增长！", "提示：发光的位置是现在最好的一步。", "🎁 等级奖励：Nova 已充满！", "奖励"], "ko": ["로드맵", "팁: 큰 블록은 가장자리에, 가운데는 비워 두세요.", "팁: 게이지가 끝나기 전에 또 지우면 연속이 늘어요!", "팁: 빛나는 곳이 지금 최고의 한 수예요.", "🎁 레벨 보상: 노바 가득!", "보상"]}, RMK = ["map", "tipFill", "tipHeat", "tipIdle", "lvlGift", "reward"];
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
-for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); }
+for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); RMK.forEach((k2, i2) => { T[lg][k2] = RMT[lg][i2]; }); }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
 // sesli övgü: telefonun kendi seslendirme motoru, seçili dilde (internet gerekmez)
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
@@ -626,9 +627,30 @@ const lvlOf = lines => Math.floor(Math.sqrt(lines / 6)) + 1, lvlNeed = lv => (lv
 function misCard() {
   achCheck(false); const m = missions(), lv = lvlOf(stats.lines), a2 = lvlNeed(lv), b2 = lvlNeed(lv + 1), lk = Math.min(1, (stats.lines - a2) / Math.max(1, b2 - a2)), ds = dayStreak();
   const row = q => { const k2 = Math.min(1, q.have / q.n); return `<div class="mrow${q.done ? ' ok' : ''}"><span>${q.done ? '✔' : '•'} ${t('m_' + q.t).replace('{n}', fmt(q.n))}</span><b>${q.done ? '' : fmt(q.have) + '/' + fmt(q.n)}</b><i style="width:${(k2 * 100).toFixed(0)}%"></i></div>`; };
-  return `<div class="mcard"><div class="mhead"><span>⭐ ${t('lvl')} ${lv}</span><span class="mlv"><i style="width:${(lk * 100).toFixed(0)}%"></i></span><span>🔥 ${ds}</span><button class="mach" data-act="achv">🏅 ${LS.get('ach', []).length}/${ACH.length}</button></div>
+  return `<div class="mcard"><div class="mhead"><span>⭐ ${t('lvl')} ${lv}</span><span class="mlv"><i style="width:${(lk * 100).toFixed(0)}%"></i></span><span>🔥 ${ds}</span><button class="mach" data-act="map">🗺️</button><button class="mach" data-act="achv">🏅 ${LS.get('ach', []).length}/${ACH.length}</button></div>
     <div class="mtitle">${t('misTitle')}</div>${m.list.map(row).join('')}${m.reward && !m.used ? `<div class="mrew">🎁 ${t('misReward')}</div>` : ''}
     ${row(weekly()).replace(/<span>(✔|•) /, (m0, ch) => `<span>${ch === '✔' ? '✔ ' : '🏆 '}${t('weekTitle')}: `)}${weekly().left > 0 ? `<div class="mrew">🎁 ${t('weekReward')} (${weekly().left})</div>` : ''}</div>`;
+}
+/* ---------- yol haritası: seviyeler kıvrımlı bir yolda, günlük + haftalık görevler ikonlu kartlarda ---------- */
+const MIS_ICON = { lines: 26, powers: 10, streak: 9, score: 12, combo: 7, close: 32, games: 22 };
+const NODE_ICON = [2, 3, 4, 5, 14, 1, 8, 11, 20, 21];
+function mapHTML() {
+  const lv = lvlOf(stats.lines), m = missions(), w = weekly(), top = lv + 7, bot = Math.max(1, lv - 3), rows = [], H = 86, Wd = 300;
+  for (let l = top; l >= bot; l--) rows.push(l);
+  const X = l => Wd / 2 + Math.sin(l * 1.25) * 88, Y = i => 46 + i * H;
+  let d = ''; rows.forEach((l, i) => { const x = X(l), y = Y(i); if (!i) d = `M${x} ${y}`; else { const px = X(rows[i - 1]), py = Y(i - 1); d += ` C${px} ${py + H / 2} ${x} ${y - H / 2} ${x} ${y}`; } });
+  const ci = rows.indexOf(lv), cut = Y(ci); // geçilen yol altın, gelecek yol gri
+  const nodes = rows.map((l, i) => { const st = l < lv ? 'done' : l === lv ? 'cur' : 'lock', ms = l % 5 === 0, ic = ms ? (l < lv ? 16 : 15) : NODE_ICON[l % NODE_ICON.length];
+    const need = lvlNeed(l + 1), have = stats.lines, k2 = st === 'cur' ? Math.min(1, (have - lvlNeed(l)) / Math.max(1, need - lvlNeed(l))) : 0;
+    return `<div class="node ${st}${ms ? ' ms' : ''}" style="left:${X(l) - 30}px;top:${Y(i) - 30}px;animation-delay:${(i % 4) * .35}s">
+      ${st === 'cur' ? `<img class="nzia" src="zia/joy.webp" alt="">` : ''}<img src="icons/${ic}.png" alt=""><b>${l}</b>
+      ${st === 'done' ? '<i class="ok">✔</i>' : ''}${ms ? `<em>🎁 ${t('reward')}</em>` : ''}${st === 'cur' ? `<span class="np"><i style="width:${(k2 * 100).toFixed(0)}%"></i></span>` : ''}</div>`; }).join('');
+  const card = (ic, txt, have, n, done) => `<div class="qc${done ? ' ok' : ''}"><img src="icons/${ic}.png" alt=""><div><b>${txt}</b><span class="qb"><i style="width:${(Math.min(1, have / n) * 100).toFixed(0)}%"></i></span></div><em>${done ? '✔' : fmt(have) + '/' + fmt(n)}</em></div>`;
+  return `<div class="mapw"><div class="maph"><button class="ic on" data-act="home" aria-label="back">←</button><h2>🗺️ ${t('map')}</h2><span>⭐ ${lv}</span></div>
+    <div class="qsec"><div class="qt">${t('misTitle')}</div>${m.list.map(q => card(MIS_ICON[q.t], t('m_' + q.t).replace('{n}', fmt(q.n)), q.have, q.n, q.done)).join('')}
+    <div class="qt">${t('weekTitle')}</div>${card(w.done ? 16 : 15, t('m_' + w.t).replace('{n}', fmt(w.n)), w.have, w.n, w.done)}</div>
+    <div class="road" id="road"><div class="roadin" style="height:${Y(rows.length - 1) + 60}px">
+      <svg width="${Wd}" height="${Y(rows.length - 1) + 60}"><path d="${d}" class="rp"/><clipPath id="cp"><rect x="0" y="${cut}" width="${Wd}" height="9999"/></clipPath><path d="${d}" class="rp gold" clip-path="url(#cp)"/></svg>${nodes}</div></div></div>`;
 }
 const bestFor = mode => mode === 'adv' ? 0 : mode === 'daily' ? (stats.daily.date === dateKey() ? stats.daily.best : 0) : stats.best;
 function newGame(mode) {
@@ -887,7 +909,7 @@ function draw(now) {
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, cell * .62, 0, 7); ctx.fill();
     star(x, y + cell * .02, cell * .36 * pz, '#E89A00'); star(x, y, cell * .34 * pz, '#FFC93C'); star(x - cell * .04, y - cell * .05, cell * .16 * pz, '#FFF3B0');
   }
-  drawPK(now); drawLinks(now);
+  drawPK(now); drawLinks(now); drawHint(now);
   // yerleştirme önizlemesi
   if (drag && drag.valid) {
     const d = drag;
@@ -1303,7 +1325,7 @@ function draw(now) {
 const HEAT_MS = st => Math.max(4500, 9000 - st * 350);
 let heat = { end: 0, total: 1, last: 0 };
 const heatOn = () => S && !S.over && S.streak >= 2 && heat.end > 0;
-function heatStart() { const ms = HEAT_MS(S.streak); heat = { end: performance.now() + ms, total: ms, last: performance.now() }; }
+function heatStart() { if (S.streak === 2) setTimeout(() => tipOnce('heat', t('tipHeat')), 1500); const ms = HEAT_MS(S.streak); heat = { end: performance.now() + ms, total: ms, last: performance.now() }; }
 function heatTick(now) {
   const el = $('heat'); if (!el) return;
   if (!heatOn()) { if (el.classList.contains('on')) el.classList.remove('on'); return; }
@@ -1322,7 +1344,7 @@ function frame(now) {
   heatTick(now);
   if (shown !== S.score) { shown += (S.score - shown) * .22; if (Math.abs(S.score - shown) < 1) shown = S.score; $('score').textContent = fmt(Math.round(shown)); }
   draw(now);
-  if (now < animUntil || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
+  if (now < animUntil || hint || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
 }
 function bump(ms = 700) { animUntil = Math.max(animUntil, performance.now() + ms); if (!raf) raf = requestAnimationFrame(frame); }
 
@@ -1338,7 +1360,12 @@ let floatNow = false; // güç başlığı/açıklaması ertelenmez, efektle bir
 function float(txt, x, y, size, col, delay = 0, pill = false) {
   if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
-  floats.push({ txt, x, y, size, col, pill, life, t0: performance.now() + delay }); bump(delay + life + 100);
+  const t0 = performance.now() + delay, isNum = /^\+\d+$/.test(txt);
+  if (L) { const clash = yy => floats.some(f => f.t0 < t0 + life && f.t0 + f.life > t0 + 80 && Math.abs(f.y - yy) < (size + f.size) * .85
+      && Math.abs(f.x - x) < (isNum && /^\+\d+$/.test(f.txt) ? size * 2.4 : L.bs * .7));
+    for (let q = 1, y0 = y; q < 7 && clash(y); q++) y = y0 + (q % 2 ? 1 : -1) * Math.ceil(q / 2) * size * 1.75; // aşağı/yukarı boş yer ara
+    y = Math.max(L.by - size, Math.min(L.by + L.bs - size * .5, y)); }
+  floats.push({ txt, x, y, size, col, pill, life, t0 }); bump(delay + life + 100);
 }
 function hud() {
   document.querySelector('.best span').innerHTML = S.mode === 'adv' ? '' : CROWN(26);
@@ -1358,7 +1385,7 @@ function afterMove() {
     const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
     if (e.length > 8) { S.pu = e[Math.random() * e.length | 0]; S.puLeft = 8; bump(400); if (!stats.seenPU) { stats.seenPU = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('puTip'), 5000)), 600); } }
   }
-  spawnPower(); achCheck(true);
+  spawnPower(); achCheck(true); if (!S.over && S.grid.filter(Boolean).length / 64 >= .6) tipOnce('fill', t('tipFill'));
   hud();
   { const fill = S.grid.filter(Boolean).length / 64, dg = $('danger'); if (dg) dg.classList.toggle('on', !S.over && fill >= .75); // tahta dolunca kenarlarda kırmızı kalp atışı
     const bb = document.querySelector('.best'); if (bb) bb.classList.toggle('near', S.mode !== 'adv' && S.prev > 0 && S.score >= S.prev * .9 && S.score <= S.prev); }
@@ -1389,7 +1416,7 @@ function place(kind, idx, piece, r, c) {
     for (let q = 0; q < 2; q++) parts.push({ kind: 'spark', s4: true, x: L.bx + (c + x + .2 + q * .6) * L.cell, y: L.by + (r + y + 1) * L.cell - 3, r: L.cell * .07, col: 'rgba(255,255,255,.9)', t0: now + 80, life: 260 }); });
   if (kind === 'tray') S.tray[idx] = null; else S.hold = null;
   const pkHit = S.pk && sh.cells.some(([y, x]) => (r + y) * N + c + x === S.pk.i) ? S.pk : null; if (pkHit) { S.pk = null; S.pkCd = 4; }
-  let gain = sh.n; S.lastC = piece.c; const fill0 = (S.grid.filter(Boolean).length - sh.n) / 64; // hamleden önceki doluluk
+  hint = null; lastAct = performance.now(); let gain = sh.n; S.lastC = piece.c; const fill0 = (S.grid.filter(Boolean).length - sh.n) / 64; // hamleden önceki doluluk
   // güç-up yıldızı: üstüne blok konunca toplanır → Nova +2, +50 puan
   if (S.pu >= 0 && sh.cells.some(([y, x]) => (r + y) * N + c + x === S.pu)) {
     const sx = L.bx + (S.pu % N + .5) * cell, sy = L.by + ((S.pu / N | 0) + .5) * cell;
@@ -1417,6 +1444,7 @@ function place(kind, idx, piece, r, c) {
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     rows.forEach(i => beams.push({ row: true, i, t0: now + 40 })); cols.forEach(i => beams.push({ row: false, i, t0: now + 40 }));
     const lvBefore = lvlOf(stats.lines); S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak; S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
+    if (lvlOf(stats.lines) > lvBefore && lvlOf(stats.lines) % 5 === 0) LS.set('lvlGift', true);
     if (lvlOf(stats.lines) > lvBefore) setTimeout(() => { if (view !== 'game') return; floatNow = true; float('⭐ ' + t('lvl') + ' ' + lvlOf(stats.lines) + '!', L.bx + L.bs / 2, L.by + L.bs * .12, cell * .52, C.accent, 0, 'badge'); floatNow = false; confetti(L.bx + L.bs / 2, L.by + L.bs * .15, 22, 240); samp('levelnext', .7); }, 1200); // seviye atlama
     if (S.goal && S.goal.type === 'star') S.goal.have += gems;
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
@@ -1484,6 +1512,28 @@ function place(kind, idx, piece, r, c) {
     }
   }
   afterMove();
+}
+// ipuçları: her biri bir kez, ekranda başka ipucu yokken
+function tipOnce(key, text) { stats.tips = stats.tips || {}; if (stats.tips[key] || $('toast').classList.contains('show')) return; stats.tips[key] = 1; LS.set('stats', stats); toast(text, 5500); }
+// oyuncu 8 sn düşünürse en mantıklı hamle hafifçe parlar (çizgi tamamlayan, boşluk bırakmayan yer)
+let hint = null, lastAct = performance.now();
+function bestMove() {
+  let best = null; const holes = o => { let h = 0; for (let q = 0; q < 64; q++) if (!o[q]) { const x = q % N, y = q / N | 0; if ((x === 0 || o[q - 1]) && (x === N - 1 || o[q + 1]) && (y === 0 || o[q - N]) && (y === N - 1 || o[q + N])) h++; } return h; };
+  S.tray.forEach((pc, i) => { if (!pc) return; const sh = SHAPES[pc.s];
+    for (let r = 0; r <= N - sh.h; r++) for (let c = 0; c <= N - sh.w; c++) { if (!fits(S.grid, sh, r, c)) continue;
+      const o = S.grid.slice(); for (const [y, x] of sh.cells) o[(r + y) * N + c + x] = 1; const f = fullLines(o);
+      const sc = (f.rows.length + f.cols.length) * 120 + sh.n * 2 - holes(o) * 25 + (S.pk && sh.cells.some(([y, x]) => (r + y) * N + c + x === S.pk.i) ? 60 : 0);
+      if (!best || sc > best.sc) best = { sc, i, r, c, p: pc }; } });
+  return best;
+}
+setInterval(() => { if (!S || view !== 'game' || S.over || drag || fly || hint || document.hidden) return;
+  if (performance.now() - lastAct > 8000) { hint = bestMove(); if (hint) { hint.t0 = performance.now(); bump(400); tipOnce('idle', t('tipIdle')); } } }, 1000);
+function drawHint(now) {
+  if (!hint || S.over) return; const sh = SHAPES[hint.p.s], pz = .45 + .35 * Math.sin((now - hint.t0) / 260), cell = L.cell;
+  ctx.save(); ctx.globalAlpha = pz * .55; sh.cells.forEach(([y, x]) => tile(hint.p.c, L.bx + (hint.c + x) * cell, L.by + (hint.r + y) * cell, cell, false));
+  ctx.globalAlpha = pz; ctx.lineWidth = 2.5; ctx.strokeStyle = '#FFFFFF'; ctx.setLineDash([6, 5]); ctx.lineDashOffset = -now / 40;
+  sh.cells.forEach(([y, x]) => { path(ctx, L.bx + (hint.c + x) * cell + 3, L.by + (hint.r + y) * cell + 3, cell - 6, cell - 6, cell * .2); ctx.stroke(); });
+  const sc = slotC(hint.i); ctx.setLineDash([]); ctx.globalAlpha = pz * .8; ctx.beginPath(); ctx.arc(sc.x, sc.y, L.cell * 1.2, 0, 6.283); ctx.stroke(); ctx.restore();
 }
 // sembollü blokların bağlı grupları (aynı renk, yan yana / alt alta)
 function symGroups() {
@@ -1786,6 +1836,7 @@ function drawPK(now) {
 /* ---------- girdi ---------- */
 const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
 cv.addEventListener('pointerdown', e => {
+  lastAct = performance.now(); hint = null;
   if (!S || S.over || view !== 'game') return;
   drag = null; // yarım kalmış bir sürükleme varsa bırak
   const [x, y] = pos(e); let kind = null, idx = 0, piece = null, s0 = L.mini;
@@ -1858,13 +1909,15 @@ const togs = () => `<div class="togs">
 function render() {
   document.documentElement.dataset.theme = cfg.theme; document.documentElement.lang = cfg.lang; document.documentElement.dir = cfg.lang === 'ar' ? 'rtl' : 'ltr'; readTheme();
   const home = $('home'), modal = $('modal'), sheet = $('sheet');
-  home.hidden = view !== 'home'; modal.hidden = view !== 'pause' && view !== 'over' && view !== 'win' && view !== 'lang' && view !== 'ach';
-  if (view === 'home') {
+  home.hidden = view !== 'home' && view !== 'map'; modal.hidden = view !== 'pause' && view !== 'over' && view !== 'win' && view !== 'lang' && view !== 'ach';
+  if (view === 'map') { home.innerHTML = mapHTML(); requestAnimationFrame(() => { const c = document.querySelector('.node.cur'), r = $('road'); if (c && r) r.scrollTop = c.offsetTop - r.clientHeight / 2 + 30; }); }
+  else if (view === 'home') {
     const sv = loadGame('classic'), dv = loadGame('daily'), db = bestFor('daily');
     home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
       <div class="tag">${t('tag')}</div>${stats.best ? `<div class="homebest">${CROWN(26)} ${fmt(stats.best)}</div><div style="margin-top:-6px;text-align:center;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--accent);opacity:.8">${t('record')}</div>` : `<div class="homebest">${CROWN(26)} <span style="font-size:.8em">${t('firstRec')}</span></div>`}
       <button class="btn" data-act="classic">${sv ? t('cont') : t('play')}<small>${t('classic')}${sv ? ' · ' + fmt(sv.score) : ''}</small></button>      <button class="btn alt" data-act="daily">${t('daily')}<small>${t('today')}${dv ? ' · ' + fmt(dv.score) : db ? ' · ' + CROWN(13) + ' ' + fmt(db) : ''}</small></button>${misCard()}${togs()}
       ${window.BLOKZIA_BUILD ? `<div style="margin-top:10px;font-size:11px;opacity:.45">sürüm ${window.BLOKZIA_BUILD}</div>` : ''}`;
+  } else if (view === 'map') {
   } else if (view === 'ach') { const got = LS.get('ach', []);
     sheet.innerHTML = `<h2>🏅 ${t('achTitle')}</h2><div class="achl">${ACH.map((a, i) => `<div class="ach${got.includes(i) ? ' on' : ''}"><span>${a[0]}</span><b>${achText(a)}</b><i>${got.includes(i) ? '✔' : fmt(Math.min(a[3](), a[2])) + '/' + fmt(a[2])}</i></div>`).join('')}</div>
       <button class="btn ghost" data-act="home">${t('close2')}</button>`;
@@ -1918,6 +1971,7 @@ function start(mode, fresh) {
   const sv = fresh ? null : loadGame(mode);
   if (sv) S = sv; else { newGame(mode); misProgress('games', 1);
     const m = missions(); if (m.reward && !m.used) { m.used = true; LS.set('mis', m); S.nova = NOVA_MAX; S.pk = null; S.pkCd = 0; S.giftStart = true; }
+    if (LS.get('lvlGift', false)) { LS.del('lvlGift'); S.nova = NOVA_MAX; S.lvlStart = true; }
     const w = weekly(); if (w.left > 0) { w.left--; LS.set('week', w); S.nova = NOVA_MAX; if (!S.giftStart) S.weekStart = true; } }
   if (S.joker === undefined) S.joker = 1; // eski kayıtlar
   dying = []; parts = []; floats = []; beams = []; drag = fly = null; placeT.fill(-1e9); trayT = performance.now(); shown = S.score;
@@ -1927,7 +1981,8 @@ function start(mode, fresh) {
   if (stuck()) toast(t('stuck'), 8000);
   else if (S.goal && !sv) toast(S.goal.type === 'star' ? t('goalStar')(S.goal.need) : t('goalScore')(S.goal.need), 4000);
   try { history.pushState({ g: 1 }, ''); } catch {}
-  ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
+  hint = null; lastAct = performance.now(); ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
+  if (S.lvlStart) { S.lvlStart = false; setTimeout(() => { if (view === 'game') { toast(t('lvlGift'), 3500); shower(30); } }, 600); }
   if (S.weekStart) { S.weekStart = false; setTimeout(() => { if (view === 'game') { toast(t('weekGot'), 3500); bump(500); } }, 500); }
   if (S.giftStart) { S.giftStart = false; setTimeout(() => { if (view !== 'game') return; toast(t('misGot'), 4000); const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
     if (e.length) { S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; } shower(30); bump(800); }, 500); }
@@ -1957,6 +2012,7 @@ const acts = {
     samp('pick', .8); buzz(15);
   },
   achv: () => { view = 'ach'; render(); },
+  map: () => { view = 'map'; render(); try { history.pushState({ g: 1 }, ''); } catch {} },
   privacy: () => Ads.privacyOptions(),
   tNotif: () => { cfg.notif = !cfg.notif; if (cfg.notif) { cfg.notifAsked = false; LS.set('cfg', cfg); Notif.ask(); } else { LS.set('cfg', cfg); Notif.cancel(); } render(); },
   tSound: flip('sound'), tMusic: flip('music'), tHaptic: flip('haptic'),
@@ -1975,6 +2031,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, chainCheck, symGroups, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 })();
