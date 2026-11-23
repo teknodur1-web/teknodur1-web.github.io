@@ -321,3 +321,5 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes unlSpin{from{transform:scale(.2) rotate(-200deg)}to{transform:none}}
 @keyframes fadeIn{from{opacity:0}}
 .anode .unb{position:absolute;left:-14px;top:-10px;width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));animation:emB 1.4s ease-in-out infinite}
+
+#heat.ice i{background:linear-gradient(90deg,#BDF2FF,#FFFFFF);box-shadow:0 0 10px rgba(180,235,255,.95);animation:none}
