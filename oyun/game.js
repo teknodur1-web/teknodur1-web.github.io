@@ -1067,11 +1067,9 @@ function draw(now) {
         ctx.lineWidth = Math.max(1, cell * .025); ctx.strokeStyle = 'rgba(255,255,255,.85)'; path(ctx, x + m * 2.2, y + m * 2.2, cell - 4.4 * m, cell - 4.4 * m, cell * .18); ctx.stroke(); }
       ctx.restore(); continue;
     }
-    if (p.kind === 'stuck') { // hedefe saplanan ok: yay gibi titrer, sonra solar
-      const wob = Math.sin(k * Math.PI * 9) * .22 * (1 - k); ctx.save(); ctx.globalAlpha = k > .7 ? (1 - k) / .3 : 1; ctx.translate(p.x, p.y); ctx.rotate(p.an + wob); ctx.scale(1.4, 1.4);
-      const Lr = L.cell * 1.1; ctx.fillStyle = '#7A4A1E'; ctx.fillRect(-Lr, -L.cell * .05, Lr * .85, L.cell * .1);
-      ctx.fillStyle = '#FF4D4D'; for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(-Lr, 0); ctx.lineTo(-Lr - L.cell * .2, sg * L.cell * .2); ctx.lineTo(-Lr + L.cell * .25, sg * L.cell * .02); ctx.closePath(); ctx.fill(); }
-      ctx.restore(); continue;
+    if (p.kind === 'stuck') { // hedefe saplanan ok: ucu bloğa gömülür, yay gibi titrer, sonra solar
+      const wob = Math.sin(k * Math.PI * 10) * .2 * (1 - k) ** 1.5; ctx.save(); ctx.globalAlpha = k > .7 ? (1 - k) / .3 : 1; ctx.translate(p.x, p.y); ctx.rotate(p.an + wob);
+      drawArrow(L.cell * 1.5, 1.35); ctx.restore(); continue;
     }
     if (p.kind === 'diamond') { // Joker elması: yükselir, döner gibi parlar, ışınlar ve ışıltılar saçar
       const im = iconImg(3), e = back(Math.min(1, k / .25)), z = L.cell * 1.9 * e, y = p.y - ease(Math.min(1, k / .5)) * L.cell * 1.2, a = k > .8 ? (1 - k) / .2 : 1;
@@ -1134,23 +1132,21 @@ function draw(now) {
       ctx.save(); ctx.globalAlpha = (1 - k) * .6; const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r2); g.addColorStop(0, 'rgba(70,60,80,1)'); g.addColorStop(.5, 'rgba(110,100,120,.7)'); g.addColorStop(1, 'rgba(120,110,140,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r2, 0, 6.283); ctx.fill(); ctx.restore(); continue;
     }
-    if (p.kind === 'arrow') { // ok: kenardan yay çizerek hedefe uçar, arkasında ışık izi bırakır
-      const e = k * k, x = p.x0 + (p.x1 - p.x0) * e, y = p.y0 + (p.y1 - p.y0) * e - Math.sin(k * Math.PI) * L.cell * .8;
-      const e2 = Math.max(0, k - .08) ** 2, px2 = p.x0 + (p.x1 - p.x0) * e2, py2 = p.y0 + (p.y1 - p.y0) * e2 - Math.sin(Math.max(0, k - .08) * Math.PI) * L.cell * .8, an = Math.atan2(y - py2, x - px2);
-      ctx.save(); const tg = ctx.createLinearGradient(px2, py2, x, y); tg.addColorStop(0, 'rgba(255,255,255,0)'); tg.addColorStop(1, 'rgba(255,230,160,.9)');
-      ctx.strokeStyle = tg; ctx.lineWidth = L.cell * .16; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(p.x0 + (p.x1 - p.x0) * Math.max(0, k - .35) ** 2, p.y0 + (p.y1 - p.y0) * Math.max(0, k - .35) ** 2); ctx.lineTo(x, y); ctx.stroke();
-      ctx.translate(x, y); ctx.rotate(an); ctx.scale(1.5, 1.5); const Lr = L.cell * 1.1;
-      ctx.fillStyle = '#7A4A1E'; ctx.fillRect(-Lr, -L.cell * .05, Lr * .9, L.cell * .1);
-      ctx.fillStyle = '#E8E8F0'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-L.cell * .3, -L.cell * .16); ctx.lineTo(-L.cell * .3, L.cell * .16); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = '#FF4D4D'; for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(-Lr, 0); ctx.lineTo(-Lr - L.cell * .2, sg * L.cell * .2); ctx.lineTo(-Lr + L.cell * .25, sg * L.cell * .02); ctx.closePath(); ctx.fill(); }
-      ctx.restore(); continue;
+    if (p.kind === 'arrow') { // ok: elden fırlar, hafif yay çizer, uçarken dönerek titrer, arkasında hız izi bırakır
+      const pos2 = kk => { const e = 1 - (1 - kk) * (1 - kk); return [p.x0 + (p.x1 - p.x0) * e, p.y0 + (p.y1 - p.y0) * e - Math.sin(kk * Math.PI) * L.cell * .9]; };
+      const [x, y] = pos2(k), [px2, py2] = pos2(Math.max(0, k - .06)), an = Math.atan2(y - py2, x - px2);
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      for (let q = 1; q <= 5; q++) { const [tx2, ty2] = pos2(Math.max(0, k - q * .05)); ctx.globalAlpha = (1 - q / 6) * .35; ctx.strokeStyle = '#FFE7B0'; ctx.lineWidth = L.cell * (.16 - q * .02); ctx.lineCap = 'round';
+        const [ux, uy] = pos2(Math.max(0, k - (q - 1) * .05)); ctx.beginPath(); ctx.moveTo(tx2, ty2); ctx.lineTo(ux, uy); ctx.stroke(); }
+      ctx.restore(); ctx.save(); ctx.translate(x, y); ctx.rotate(an + Math.sin(k * 40) * .03);
+      ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowOffsetY = L.cell * .08; drawArrow(L.cell * 1.5, 1.35); ctx.restore(); continue;
     }
     if (p.kind === 'bolt') { // HD şimşek: gökten iner, dallanır, 55 ms'de bir titreşir; mavi hale + camgöbeği gövde + beyaz çekirdek
       const reach = Math.min(1, k / .22), fl = k < .72 ? .78 + .22 * Math.sin(now / 23 + p.seed) : (1 - k) / .28;
       if (k < .16) { ctx.save(); ctx.globalAlpha = (.16 - k) / .16 * .5; ctx.fillStyle = '#E4F3FF'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); } // gökyüzü çakması (güçlü)
       let sd = (p.seed + Math.floor(now / 55) * 131) % 233280; const rr = () => ((sd = (sd * 9301 + 49297) % 233280) / 233280) - .5;
-      const segs = 14, x0 = p.sx !== undefined && p.sx !== null ? p.sx : p.row ? p.x + rr() * L.bs * .25 : p.x, y0 = p.sy !== undefined && p.sy !== null ? p.sy : -L.cell, pts = [];
-      for (let q = 0; q <= segs; q++) { const f = q / segs, amp = Math.sin(f * Math.PI) * L.cell * 1.1; pts.push([x0 + (p.x - x0) * f + (q && q < segs ? rr() * amp : 0), y0 + (p.y - y0) * f]); }
+      const segs = 24, x0 = p.sx !== undefined && p.sx !== null ? p.sx : p.row ? p.x + rr() * L.bs * .25 : p.x, y0 = p.sy !== undefined && p.sy !== null ? p.sy : -L.cell, pts = [];
+      for (let q = 0; q <= segs; q++) { const f = q / segs, amp = Math.sin(f * Math.PI) * L.cell * (q % 3 ? .45 : 1.1); pts.push([x0 + (p.x - x0) * f + (q && q < segs ? rr() * amp : 0), y0 + (p.y - y0) * f + (q && q < segs ? rr() * L.cell * .25 : 0)]); } // büyük kırılmalar + ince titreşim
       const upto = Math.max(1, Math.round(segs * reach)), paths = [pts.slice(0, upto + 1)];
       for (let b = 0; b < 6; b++) { const at = 2 + Math.floor((rr() + .5) * (upto - 3)); if (at < 1 || at >= upto) continue; // dallar
         let [bx2, by2] = pts[at]; const dir = rr() < 0 ? -1 : 1, br = [[bx2, by2]];
@@ -1408,6 +1404,21 @@ setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && M
 // (birleşik süs zamanlayıcısına taşındı)
 let hitStopUntil = 0;
 const hitStop = ms => {}; // kaldırıldı: görüntü hiç donmaz
+function drawArrow(Lr, sc) { // ok, ucu (0,0)'da, sola doğru uzanır
+  const c = L.cell * sc, th = c * .075;
+  const wg = ctx.createLinearGradient(0, -th, 0, th); wg.addColorStop(0, '#E2B27A'); wg.addColorStop(.5, '#A8703A'); wg.addColorStop(1, '#6E4520');
+  ctx.fillStyle = wg; ctx.fillRect(-Lr, -th, Lr - c * .28, th * 2); // ahşap gövde
+  ctx.fillStyle = 'rgba(70,40,15,.45)'; for (let q = 1; q < 4; q++) ctx.fillRect(-Lr + Lr * q / 4, -th * .3, Lr * .12, th * .25); // damar
+  ctx.beginPath(); ctx.moveTo(c * .06, 0); ctx.lineTo(-c * .34, -c * .17); ctx.lineTo(-c * .27, 0); ctx.lineTo(-c * .34, c * .17); ctx.closePath(); // metal uç
+  const mg = ctx.createLinearGradient(0, -c * .17, 0, c * .17); mg.addColorStop(0, '#FFFFFF'); mg.addColorStop(.45, '#C9D1E0'); mg.addColorStop(1, '#5D6680'); ctx.fillStyle = mg; ctx.fill();
+  ctx.strokeStyle = 'rgba(30,35,55,.7)'; ctx.lineWidth = Math.max(1, c * .02); ctx.stroke();
+  ctx.fillStyle = '#5A3A1C'; ctx.fillRect(-c * .3, -th * 1.4, c * .05, th * 2.8); // bağlama
+  for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(-Lr + c * .05, 0); ctx.quadraticCurveTo(-Lr - c * .05, sg * c * .26, -Lr - c * .22, sg * c * .24); // tüy kanatlar
+    ctx.lineTo(-Lr + c * .02, sg * th); ctx.lineTo(-Lr + c * .36, sg * th); ctx.quadraticCurveTo(-Lr + c * .2, sg * c * .18, -Lr + c * .05, 0); ctx.closePath();
+    const fg = ctx.createLinearGradient(-Lr, 0, -Lr + c * .36, 0); fg.addColorStop(0, '#FF3B4E'); fg.addColorStop(1, '#FF9AA6'); ctx.fillStyle = fg; ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = Math.max(1, c * .012); for (let q = 1; q < 4; q++) { ctx.beginPath(); ctx.moveTo(-Lr + c * .09 * q, sg * th); ctx.lineTo(-Lr + c * .09 * q - c * .08, sg * c * .19); ctx.stroke(); } }
+  ctx.fillStyle = '#F4F4F8'; ctx.fillRect(-Lr - c * .05, -th * .8, c * .08, th * 1.6); // çentik
+}
 const GLOW_DOT = {};
 const GLOW_SOFT = {};
 function glowSoft(col) { if (GLOW_SOFT[col]) return GLOW_SOFT[col]; const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
