@@ -13,7 +13,7 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="apple-mobile-web-app-title" content="Block Zia">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="style.css?v=23112026-1941">
+<link rel="stylesheet" href="style.css?v=23112026-1956">
 <style>
   /* açılış ekranı: logo yumuşakça belirir, kısa süre sonra kaybolur; dokunma engellemez */
   #splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -40,7 +40,7 @@
   <header id="hud">
     <button class="ic" data-act="pause" aria-label="Pause">❚❚</button>
     <div class="score"><div id="mode" class="lbl"></div><div id="score">0</div><div id="streak"></div><div id="heat"><i></i></div></div>
-    <div class="best"><span></span><span id="best">0</span></div>
+    <div class="hr"><div class="best"><span></span><span id="best">0</span></div><div id="lvp"></div></div>
   </header>
   <div id="stage"><canvas id="cv"></canvas><div id="bglow" aria-hidden="true"><i class="ring"></i><i class="run"></i></div></div>
   <section id="home" class="screen"></section>
@@ -53,8 +53,8 @@
   // ?yeni=1 ile açılırsa oyun sıfırdan başlar (Seviye 1); adres temizlenir, yenileyince tekrar silmez
   try { if (/[?&]yeni=1/.test(location.search)) { Object.keys(localStorage).filter(function (k) { return k.indexOf('blokzia.') === 0; }).forEach(function (k) { localStorage.removeItem(k); }); history.replaceState(null, '', location.pathname); } } catch (e) {}
 </script>
-<script src="release.js?v=23112026-1941"></script>
-<script src="build.js?v=23112026-1941"></script>
-<script src="game.js?v=23112026-1941"></script>
+<script src="release.js?v=23112026-1956"></script>
+<script src="build.js?v=23112026-1956"></script>
+<script src="game.js?v=23112026-1956"></script>
 </body>
 </html>

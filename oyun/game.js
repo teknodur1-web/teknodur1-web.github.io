@@ -143,8 +143,9 @@ const MET = {"tr": ["Rozetler", "Yeni Rozet!", "{n} gün üst üste oyna", "{n} 
 const RMT = {"tr": ["Yol Haritası", "İpucu: Büyük blokları kenara koy, ortayı açık tut.", "İpucu: Isı çubuğu bitmeden yine patlat, seri büyüsün!", "İpucu: Parlayan yer şu an en iyi hamle.", "🎁 Seviye ödülü: Nova dolu!", "Ödül"], "en": ["Roadmap", "Tip: Put big blocks at the edges, keep the middle open.", "Tip: Clear again before the heat bar runs out to grow your streak!", "Tip: The glowing spot is the best move right now.", "🎁 Level reward: Nova full!", "Reward"], "es": ["Mapa de ruta", "Consejo: pon los bloques grandes en los bordes y deja libre el centro.", "Consejo: ¡vuelve a limpiar antes de que se acabe la barra para seguir la racha!", "Consejo: el lugar brillante es la mejor jugada ahora.", "🎁 Premio de nivel: ¡Nova llena!", "Premio"], "pt": ["Mapa", "Dica: coloque blocos grandes nas bordas e deixe o meio livre.", "Dica: limpe de novo antes da barra acabar para aumentar a sequência!", "Dica: o lugar brilhante é a melhor jogada agora.", "🎁 Prêmio de nível: Nova cheia!", "Prêmio"], "fr": ["Feuille de route", "Astuce : place les gros blocs sur les bords, garde le centre libre.", "Astuce : efface encore avant la fin de la barre pour prolonger la série !", "Astuce : la case brillante est le meilleur coup.", "🎁 Récompense de niveau : Nova pleine !", "Récompense"], "de": ["Wegkarte", "Tipp: Große Blöcke an den Rand, die Mitte frei halten.", "Tipp: Räume erneut, bevor die Leiste leer ist, damit die Serie wächst!", "Tipp: Die leuchtende Stelle ist gerade der beste Zug.", "🎁 Level-Belohnung: Nova voll!", "Belohnung"], "it": ["Mappa", "Consiglio: metti i blocchi grandi ai bordi e lascia libero il centro.", "Consiglio: elimina di nuovo prima che la barra finisca per allungare la serie!", "Consiglio: il punto luminoso è la mossa migliore ora.", "🎁 Premio livello: Nova piena!", "Premio"], "ru": ["Карта пути", "Совет: большие блоки ставь к краям, центр держи свободным.", "Совет: убирай снова, пока шкала не кончилась, — серия растёт!", "Совет: светящееся место — лучший ход сейчас.", "🎁 Награда уровня: Нова полна!", "Награда"], "ar": ["خريطة الطريق", "نصيحة: ضع الكتل الكبيرة على الحواف واترك الوسط فارغًا.", "نصيحة: امسح مجددًا قبل نفاد الشريط لتكبر السلسلة!", "نصيحة: المكان المتوهج هو أفضل حركة الآن.", "🎁 جائزة المستوى: نوفا ممتلئة!", "جائزة"], "hi": ["रोडमैप", "टिप: बड़े ब्लॉक किनारों पर रखें, बीच खाली रखें।", "टिप: बार खत्म होने से पहले फिर साफ़ करें, स्ट्रीक बढ़ेगी!", "टिप: चमकती जगह अभी सबसे अच्छी चाल है।", "🎁 स्तर इनाम: नोवा पूरी!", "इनाम"], "id": ["Peta Jalan", "Tips: taruh blok besar di tepi, biarkan tengah kosong.", "Tips: hapus lagi sebelum bar habis agar rentetan bertambah!", "Tips: tempat yang bersinar adalah langkah terbaik.", "🎁 Hadiah level: Nova penuh!", "Hadiah"], "ja": ["ロードマップ", "ヒント：大きいブロックは端へ、真ん中は空けておこう。", "ヒント：ゲージが切れる前にまた消すと連続が伸びる！", "ヒント：光っている場所が今いちばんの一手。", "🎁 レベル報酬：ノヴァ満タン！", "報酬"], "zh": ["路线图", "提示：大方块放边上，中间留空。", "提示：能量条用完前再次消除，连击会增长！", "提示：发光的位置是现在最好的一步。", "🎁 等级奖励：Nova 已充满！", "奖励"], "ko": ["로드맵", "팁: 큰 블록은 가장자리에, 가운데는 비워 두세요.", "팁: 게이지가 끝나기 전에 또 지우면 연속이 늘어요!", "팁: 빛나는 곳이 지금 최고의 한 수예요.", "🎁 레벨 보상: 노바 가득!", "보상"]}, RMK = ["map", "tipFill", "tipHeat", "tipIdle", "lvlGift", "reward"];
 const UXT = {"tr": ["Görevler", "Haftalık", "Sonraki ödül", "Geri"], "en": ["Missions", "Weekly", "Next reward", "Back"], "es": ["Misiones", "Semanal", "Próximo premio", "Atrás"], "pt": ["Missões", "Semanal", "Próximo prêmio", "Voltar"], "fr": ["Missions", "Hebdo", "Prochaine récompense", "Retour"], "de": ["Missionen", "Woche", "Nächste Belohnung", "Zurück"], "it": ["Missioni", "Settimana", "Prossimo premio", "Indietro"], "ru": ["Задания", "Неделя", "Следующая награда", "Назад"], "ar": ["المهام", "أسبوعي", "الجائزة التالية", "رجوع"], "hi": ["मिशन", "साप्ताहिक", "अगला इनाम", "वापस"], "id": ["Misi", "Mingguan", "Hadiah berikutnya", "Kembali"], "ja": ["ミッション", "週間", "次の報酬", "戻る"], "zh": ["任务", "每周", "下一个奖励", "返回"], "ko": ["미션", "주간", "다음 보상", "뒤로"]};
 const MAPN = {"tr": "Macera Yolu", "en": "Adventure Road", "es": "Camino de Aventura", "pt": "Caminho da Aventura", "fr": "Route de l'aventure", "de": "Abenteuerweg", "it": "Via dell'avventura", "ru": "Путь приключений", "ar": "طريق المغامرة", "hi": "साहसिक राह", "id": "Jalan Petualangan", "ja": "冒険の道", "zh": "冒险之路", "ko": "모험의 길"}, ADVU = {"tr": ["Yol", "Görevler", "Şu an buradasın", "Kilitli", "Tamamlandı", "{n} satır kaldı", "Bölge", "🎁 Macera ödülü alındı!", "Nova Yükü", "Güç Sandığı", "Büyük Hazine", "Bölge Hazinesi", "Sonraki oyun +2 Nova", "Sonraki oyun dolu Nova + bomba kutusu", "2 oyun dolu Nova + bomba kutusu", "Yeni bölge + 3 oyun dolu Nova"], "en": ["Road", "Missions", "You are here", "Locked", "Completed", "{n} lines to go", "Zone", "🎁 Adventure reward claimed!", "Nova Charge", "Power Chest", "Big Treasure", "Zone Treasure", "Next game +2 Nova", "Next game full Nova + bomb box", "2 games full Nova + bomb box", "New zone + 3 games full Nova"], "es": ["Camino", "Misiones", "Estás aquí", "Bloqueado", "Completado", "Faltan {n} líneas", "Zona", "🎁 ¡Premio de aventura!", "Carga Nova", "Cofre de poder", "Gran tesoro", "Tesoro de zona", "Próxima partida +2 Nova", "Próxima partida Nova llena + bomba", "2 partidas Nova llena + bomba", "Nueva zona + 3 partidas Nova llena"], "pt": ["Caminho", "Missões", "Você está aqui", "Bloqueado", "Concluído", "Faltam {n} linhas", "Zona", "🎁 Prêmio de aventura!", "Carga Nova", "Baú de poder", "Grande tesouro", "Tesouro da zona", "Próximo jogo +2 Nova", "Próximo jogo Nova cheia + bomba", "2 jogos Nova cheia + bomba", "Nova zona + 3 jogos Nova cheia"], "fr": ["Route", "Missions", "Tu es ici", "Verrouillé", "Terminé", "Encore {n} lignes", "Zone", "🎁 Récompense d’aventure !", "Charge Nova", "Coffre de pouvoir", "Grand trésor", "Trésor de zone", "Partie suivante +2 Nova", "Partie suivante Nova pleine + bombe", "2 parties Nova pleine + bombe", "Nouvelle zone + 3 parties Nova pleine"], "de": ["Weg", "Missionen", "Du bist hier", "Gesperrt", "Geschafft", "Noch {n} Reihen", "Zone", "🎁 Abenteuer-Belohnung!", "Nova-Ladung", "Kraft-Truhe", "Großer Schatz", "Zonen-Schatz", "Nächstes Spiel +2 Nova", "Nächstes Spiel volle Nova + Bombe", "2 Spiele volle Nova + Bombe", "Neue Zone + 3 Spiele volle Nova"], "it": ["Strada", "Missioni", "Sei qui", "Bloccato", "Completato", "Mancano {n} linee", "Zona", "🎁 Premio avventura!", "Carica Nova", "Forziere potere", "Grande tesoro", "Tesoro di zona", "Prossima partita +2 Nova", "Prossima partita Nova piena + bomba", "2 partite Nova piena + bomba", "Nuova zona + 3 partite Nova piena"], "ru": ["Путь", "Задания", "Ты здесь", "Закрыто", "Пройдено", "Осталось {n} линий", "Зона", "🎁 Награда приключения!", "Заряд Новы", "Сундук силы", "Большой клад", "Клад зоны", "След. игра +2 Новы", "След. игра полная Нова + бомба", "2 игры полная Нова + бомба", "Новая зона + 3 игры полная Нова"], "ar": ["الطريق", "المهام", "أنت هنا", "مقفل", "مكتمل", "متبقٍ {n} سطر", "منطقة", "🎁 جائزة المغامرة!", "شحنة نوفا", "صندوق القوة", "كنز كبير", "كنز المنطقة", "اللعبة التالية +2 نوفا", "اللعبة التالية نوفا ممتلئة + قنبلة", "لعبتان نوفا ممتلئة + قنبلة", "منطقة جديدة + 3 ألعاب نوفا ممتلئة"], "hi": ["राह", "मिशन", "आप यहाँ हैं", "बंद", "पूरा", "{n} लाइनें बाकी", "क्षेत्र", "🎁 साहसिक इनाम!", "नोवा चार्ज", "पावर संदूक", "बड़ा खज़ाना", "क्षेत्र खज़ाना", "अगले गेम +2 नोवा", "अगले गेम पूरी नोवा + बम", "2 गेम पूरी नोवा + बम", "नया क्षेत्र + 3 गेम पूरी नोवा"], "id": ["Jalan", "Misi", "Kamu di sini", "Terkunci", "Selesai", "{n} baris lagi", "Zona", "🎁 Hadiah petualangan!", "Muatan Nova", "Peti kekuatan", "Harta besar", "Harta zona", "Game berikut +2 Nova", "Game berikut Nova penuh + bom", "2 game Nova penuh + bom", "Zona baru + 3 game Nova penuh"], "ja": ["道", "ミッション", "いまここ", "ロック中", "クリア", "あと{n}ライン", "ゾーン", "🎁 冒険の報酬！", "ノヴァチャージ", "パワー宝箱", "大きな宝", "ゾーンの宝", "次のゲーム ノヴァ+2", "次のゲーム ノヴァ満タン＋ボム", "2ゲーム ノヴァ満タン＋ボム", "新ゾーン＋3ゲーム ノヴァ満タン"], "zh": ["道路", "任务", "你在这里", "未解锁", "已完成", "还差{n}行", "区域", "🎁 冒险奖励已领取！", "Nova 充能", "能量宝箱", "大宝藏", "区域宝藏", "下局 Nova +2", "下局 Nova 充满 + 炸弹", "2局 Nova 充满 + 炸弹", "新区域 + 3局 Nova 充满"], "ko": ["길", "미션", "현재 위치", "잠김", "완료", "{n}줄 남음", "구역", "🎁 모험 보상 획득!", "노바 충전", "파워 상자", "큰 보물", "구역 보물", "다음 판 노바 +2", "다음 판 노바 가득 + 폭탄", "2판 노바 가득 + 폭탄", "새 구역 + 3판 노바 가득"]}, ADVK = ["tabRoad", "tabTasks", "here", "locked", "done2", "left", "zone", "rwGot", "rw_plus", "rw_box", "rw_big", "rw_zone", "rwd_plus", "rwd_box", "rwd_big", "rwd_zone"];
+const LVT = {"tr": ["{n} sembollü blok topla", "Seviye görevi", "Her seviyenin küçük bir görevi var. Görevi yap, seviye atla!", "Her seviyede ödül kazanırsın; 5, 10 ve 25. seviyelerde büyük hazineler var.", "Görevin ilerlemesini oyun sırasında sağ üstte görebilirsin. Hadi başlayalım!", "İleri", "Başla", "Seviye atladın!"], "en": ["Collect {n} symbol blocks", "Level task", "Every level has a small task. Do it to level up!", "You earn a reward each level; big treasures at levels 5, 10 and 25.", "Watch your task progress at the top right while playing. Let’s go!", "Next", "Start", "Level up!"], "es": ["Recoge {n} bloques con símbolo", "Tarea del nivel", "Cada nivel tiene una pequeña tarea. ¡Cúmplela para subir!", "Ganas premio en cada nivel; grandes tesoros en los niveles 5, 10 y 25.", "Mira el progreso arriba a la derecha mientras juegas. ¡Vamos!", "Siguiente", "Empezar", "¡Subiste de nivel!"], "pt": ["Colete {n} blocos com símbolo", "Tarefa do nível", "Cada nível tem uma pequena tarefa. Cumpra para subir!", "Você ganha prêmio a cada nível; grandes tesouros nos níveis 5, 10 e 25.", "Veja o progresso no canto superior direito. Vamos!", "Próximo", "Começar", "Subiu de nível!"], "fr": ["Récupère {n} blocs à symbole", "Tâche du niveau", "Chaque niveau a une petite tâche. Réussis-la pour monter !", "Une récompense à chaque niveau ; gros trésors aux niveaux 5, 10 et 25.", "Suis ta progression en haut à droite en jouant. C’est parti !", "Suivant", "Commencer", "Niveau supérieur !"], "de": ["Sammle {n} Symbolblöcke", "Level-Aufgabe", "Jedes Level hat eine kleine Aufgabe. Schaff sie und steig auf!", "Jedes Level gibt eine Belohnung; große Schätze bei Level 5, 10 und 25.", "Den Fortschritt siehst du oben rechts. Los geht’s!", "Weiter", "Start", "Level aufgestiegen!"], "it": ["Raccogli {n} blocchi simbolo", "Compito del livello", "Ogni livello ha un piccolo compito. Completalo per salire!", "Premio a ogni livello; grandi tesori ai livelli 5, 10 e 25.", "Vedi il progresso in alto a destra mentre giochi. Via!", "Avanti", "Inizia", "Livello superato!"], "ru": ["Собери {n} блоков с символом", "Задача уровня", "У каждого уровня есть задача. Выполни её — и вверх!", "Награда за каждый уровень; большие клады на 5, 10 и 25 уровнях.", "Прогресс виден справа вверху во время игры. Вперёд!", "Далее", "Начать", "Новый уровень!"], "ar": ["اجمع {n} كتل برموز", "مهمة المستوى", "لكل مستوى مهمة صغيرة. أنجزها لترتقي!", "جائزة في كل مستوى؛ كنوز كبيرة في المستويات 5 و10 و25.", "تابع تقدمك أعلى اليمين أثناء اللعب. هيا!", "التالي", "ابدأ", "ارتقيت مستوى!"], "hi": ["{n} सिंबल ब्लॉक इकट्ठा करें", "स्तर का काम", "हर स्तर का एक छोटा काम है। पूरा करो और आगे बढ़ो!", "हर स्तर पर इनाम; 5, 10 और 25 पर बड़े खज़ाने।", "खेलते समय ऊपर दाईं ओर प्रगति देखें। चलो!", "आगे", "शुरू", "स्तर बढ़ा!"], "id": ["Kumpulkan {n} blok simbol", "Tugas level", "Setiap level punya tugas kecil. Selesaikan untuk naik!", "Hadiah tiap level; harta besar di level 5, 10, dan 25.", "Lihat progres di kanan atas saat bermain. Ayo!", "Lanjut", "Mulai", "Naik level!"], "ja": ["シンボルブロックを{n}個集める", "レベル課題", "レベルごとに小さな課題があるよ。クリアしてレベルアップ！", "毎レベル報酬あり。5・10・25レベルで大きな宝！", "進み具合はプレイ中に右上で見られるよ。さあ始めよう！", "次へ", "スタート", "レベルアップ！"], "zh": ["收集{n}个符号方块", "等级任务", "每个等级都有一个小任务，完成就能升级！", "每级都有奖励；5、10、25级有大宝藏。", "游戏时右上角可看到任务进度。开始吧！", "下一步", "开始", "升级了！"], "ko": ["심볼 블록 {n}개 모으기", "레벨 과제", "레벨마다 작은 과제가 있어요. 해내면 레벨 업!", "레벨마다 보상; 5·10·25레벨엔 큰 보물!", "진행 상황은 플레이 중 오른쪽 위에서 볼 수 있어요. 시작!", "다음", "시작", "레벨 업!"]}, LVK = ["m_gems", "lvTask", "tut1", "tut2", "tut3", "tutNext", "tutGo", "lvUp"];
 const ZK = ['zHi', 'zGo', 'zRec', 'zThink', 'zHold', 'zOver', 'pZap', 'pDisco', 'pShuf', 'pAim', 'pAimTip', 'pNone', 'pGot', 'pEmpty', 'zPlay'];
-for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); RMK.forEach((k2, i2) => { T[lg][k2] = RMT[lg][i2]; }); ['uMis', 'uWeek', 'uNext', 'uBack'].forEach((k2, i2) => { T[lg][k2] = UXT[lg][i2]; }); T[lg].map = MAPN[lg]; ADVK.forEach((k2, i2) => { T[lg][k2] = ADVU[lg][i2]; }); }
+for (const [lg, arr] of Object.entries(ZT)) { T[lg] = T[lg] || {}; ZK.forEach((k, i) => { T[lg][k] = arr[i]; }); T[lg].pkTip = PKT[lg]; T[lg].pBomb = PBT[lg]; T[lg].chain = CHT[lg]; T[lg].close = CLT[lg]; T[lg].mega = MGT[lg]; T[lg].pwd = PWD[lg]; MISK.forEach((k2, i2) => { T[lg][k2] = MIST[lg][i2]; }); METK.forEach((k2, i2) => { T[lg][k2] = MET[lg][i2]; }); RMK.forEach((k2, i2) => { T[lg][k2] = RMT[lg][i2]; }); ['uMis', 'uWeek', 'uNext', 'uBack'].forEach((k2, i2) => { T[lg][k2] = UXT[lg][i2]; }); T[lg].map = MAPN[lg]; LVK.forEach((k2, i2) => { T[lg][k2] = LVT[lg][i2]; }); ADVK.forEach((k2, i2) => { T[lg][k2] = ADVU[lg][i2]; }); }
 const t = k => (T[cfg.lang] && T[cfg.lang][k] !== undefined ? T[cfg.lang][k] : T.en[k]);
 // sesli övgü: telefonun kendi seslendirme motoru, seçili dilde (internet gerekmez)
 const VOICE = { tr: 'tr-TR', en: 'en-US', es: 'es-ES', pt: 'pt-BR', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', ru: 'ru-RU', ar: 'ar-SA', hi: 'hi-IN', id: 'id-ID', ja: 'ja-JP', zh: 'zh-CN', ko: 'ko-KR' };
@@ -572,7 +573,7 @@ function missions() {
   const today = dateKey(); let m = LS.get('mis', null);
   if (!m || m.date !== today) {
     let a = seedOf('mis-' + today); const r = () => { a = (a * 1103515245 + 12345) & 0x7fffffff; return a / 0x7fffffff; };
-    const types = Object.keys(MIS_POOL).sort(() => r() - .5).slice(0, 3), tier = Math.min(3, Math.floor((lvlOf(stats.lines) - 1) / 5)); // seviye arttıkça hedefler büyür
+    const types = Object.keys(MIS_POOL).sort(() => r() - .5).slice(0, 3), tier = Math.min(3, Math.floor((curLv() - 1) / 5)); // seviye arttıkça hedefler büyür
     const scale = (t2, v) => t2 === 'streak' ? Math.min(12, v + tier) : t2 === 'close' ? v + (tier >= 2 ? 1 : 0) : t2 === 'combo' || t2 === 'powers' ? v + Math.floor(tier / 2) : Math.round(v * [1, 1.4, 1.8, 2.3][tier] / (t2 === 'score' ? 100 : 1)) * (t2 === 'score' ? 100 : 1);
     m = { date: today, tier, list: types.map(t2 => { const opts = MIS_POOL[t2]; return { t: t2, n: scale(t2, opts[r() * opts.length | 0]), have: 0, done: false }; }), all: false, reward: m && m.reward && !m.used ? m.reward : false };
     LS.set('mis', m);
@@ -580,6 +581,7 @@ function missions() {
   return m;
 }
 function misProgress(type, val, setMax) {
+  advProgress(type, val, setMax);
   if (!setMax) weekProgress(type, val);
   const m = missions(); let changed = false;
   for (const q of m.list) { if (q.t !== type || q.done) continue; q.have = setMax ? Math.max(q.have, val) : q.have + val; changed = true;
@@ -594,7 +596,7 @@ const weekKey = () => { const d = new Date(), j = new Date(d.getFullYear(), 0, 1
 const WEEK_POOL = { lines: 250, powers: 12, combo: 6, close: 4, games: 15 };
 function weekly() {
   const wk = weekKey(); let w = LS.get('week', null);
-  if (!w || w.key !== wk) { let a = seedOf('wk-' + wk); const types = Object.keys(WEEK_POOL), tt = types[Math.abs(a) % types.length], tier = Math.min(3, Math.floor((lvlOf(stats.lines) - 1) / 5));
+  if (!w || w.key !== wk) { let a = seedOf('wk-' + wk); const types = Object.keys(WEEK_POOL), tt = types[Math.abs(a) % types.length], tier = Math.min(3, Math.floor((curLv() - 1) / 5));
     w = { key: wk, t: tt, n: Math.round(WEEK_POOL[tt] * [1, 1.3, 1.6, 2][tier]), have: 0, done: false, left: w && w.left ? w.left : 0 }; LS.set('week', w); }
   return w;
 }
@@ -608,7 +610,7 @@ function weekProgress(type, val) {
 const ACH = [
   ['🧱', 'm_lines', 100, () => stats.lines], ['🏗️', 'm_lines', 1000, () => stats.lines], ['⚡', 'm_powers', 10, () => stats.powers || 0], ['🌩️', 'm_powers', 100, () => stats.powers || 0],
   ['🔗', 'a_chain', 1, () => stats.chains || 0], ['💥', 'a_mega', 1, () => stats.mega || 0], ['😅', 'm_close', 5, () => stats.close || 0], ['🔥', 'm_streak', 10, () => stats.maxStreak || 0],
-  ['💰', 'm_score', 5000, () => stats.best], ['👑', 'm_score', 20000, () => stats.best], ['⭐', 'lvl', 10, () => lvlOf(stats.lines)], ['🌟', 'lvl', 20, () => lvlOf(stats.lines)],
+  ['💰', 'm_score', 5000, () => stats.best], ['👑', 'm_score', 20000, () => stats.best], ['⭐', 'lvl', 10, () => curLv()], ['🌟', 'lvl', 20, () => curLv()],
   ['📅', 'a_days', 7, () => (LS.get('days', { n: 0 }).n)], ['✅', 'a_mis', 10, () => stats.misSets || 0]];
 const achText = a => a[1] === 'lvl' ? t('lvl') + ' ' + a[2] : t(a[1]).replace('{n}', fmt(a[2]));
 function achCheck(celebrate2) {
@@ -627,7 +629,7 @@ function dayStreak() {
 // oyuncu seviyesi: toplam patlatılan satıra göre (her seviye biraz daha uzun)
 const lvlOf = lines => Math.floor(Math.sqrt(lines / 6)) + 1, lvlNeed = lv => (lv - 1) * (lv - 1) * 6;
 function misCard() {
-  achCheck(false); const m = missions(), w = weekly(), lv = lvlOf(stats.lines), a2 = lvlNeed(lv), b2 = lvlNeed(lv + 1), lk = Math.min(1, (stats.lines - a2) / Math.max(1, b2 - a2)), ds = dayStreak();
+  achCheck(false); const m = missions(), w = weekly(), lv = curLv(), lk = Math.min(1, advLv().have / lvTask(lv).n), ds = dayStreak();
   const md = m.list.filter(q => q.done).length, ag = LS.get('ach', []).length;
   return `<div class="mcard"><div class="mhead"><span>⭐ ${t('lvl')} ${lv}</span><span class="mlv"><i style="width:${(lk * 100).toFixed(0)}%"></i></span><span>🔥 ${ds} ${t('days')}</span></div>
     <div class="hbtns"><button class="hb" data-act="map"><span class="hi">🗺️</span><span class="ht"><b>${t('map')}</b><small>${t('uMis')} ${md}/3 · ${t('uWeek')} ${fmt(w.have)}/${fmt(w.n)}</small></span>${md < 3 ? `<i class="dot"></i>` : ''}</button>
@@ -635,11 +637,11 @@ function misCard() {
     ${m.reward && !m.used ? `<div class="mrew">🎁 ${t('misReward')}</div>` : ''}${w.left > 0 ? `<div class="mrew">🎁 ${t('weekReward')} (${w.left})</div>` : ''}</div>`;
 }
 /* ---------- yol haritası: seviyeler kıvrımlı bir yolda, günlük + haftalık görevler ikonlu kartlarda ---------- */
-const MIS_ICON = { lines: 26, powers: 10, streak: 9, score: 12, combo: 7, close: 32, games: 22 };
+const MIS_ICON = { lines: 26, powers: 10, streak: 9, score: 12, combo: 7, close: 32, games: 22, gems: 3 };
 const NODE_ICON = [2, 3, 4, 5, 14, 1, 8, 11, 20, 21];
 let mapPage = null, mapTab = 'road', mapSel = 0;
 function mapHTML() {
-  const lv = lvlOf(stats.lines), m = missions(), w = weekly(), PER = 6, cur = Math.floor((lv - 1) / PER); if (mapPage === null) mapPage = cur;
+  const lv = curLv(), m = missions(), w = weekly(), PER = 6, cur = Math.floor((lv - 1) / PER); if (mapPage === null) mapPage = cur;
   const first = mapPage * PER + 1, lvls = [0, 1, 2, 3, 4, 5].map(q => first + q), zi = lvlInfo(first), seen = LS.get('mapSeen', 0), isNew = lv > seen && seen > 0;
   const PX = [34, 64, 38, 66, 40, 62].map((x, q) => mapPage % 2 ? 100 - x : x), PY = [90, 74, 58, 42, 26, 11]; // alttan yukarı
   const seg = (from, to) => { let dd = `M${PX[from]} ${PY[from]}`; for (let q = from + 1; q <= to; q++) { const my = (PY[q - 1] + PY[q]) / 2; dd += ` C${PX[q - 1]} ${my} ${PX[q]} ${my} ${PX[q]} ${PY[q]}`; } return dd; };
@@ -651,14 +653,16 @@ function mapHTML() {
   const zx = lvls.indexOf(lv), zFrom = isNew ? Math.max(0, zx - 1) : zx, ziaPos = zx >= 0 ? `left:${PX[zFrom]}%;top:${PY[zFrom]}%` : '';
   const sel = mapSel ? lvlInfo(mapSel) : lvlInfo(lv), sst = sel.n < lv ? 'done' : sel.n === lv ? 'cur' : 'lock';
   const info = `<div class="ainfo" style="--c:${sel.col}"><img src="${sel.src}" alt=""><div><b>${t('lvl')} ${sel.n} – ${sel.name}</b><small>🎁 ${sel.rwName}: ${sel.rwDesc}</small>
-    <small class="st ${sst}">${sst === 'done' ? '✔ ' + t('done2') : sst === 'cur' ? '⭐ ' + t('here') + ' · ' + t('left').replace('{n}', fmt(Math.max(0, lvlNeed(lv + 1) - stats.lines))) : '🔒 ' + t('locked') + ' · ' + t('left').replace('{n}', fmt(Math.max(0, lvlNeed(sel.n) - stats.lines)))}</small></div></div>`;
+    <small>🎯 ${t('lvTask')}: ${taskText(lvTask(sel.n))}</small>
+    <small class="st ${sst}">${sst === 'done' ? '✔ ' + t('done2') : sst === 'cur' ? '⭐ ' + t('here') + ' · ' + fmt(advLv().have) + '/' + fmt(lvTask(lv).n) : '🔒 ' + t('locked')}</small></div></div>`;
   const DI = [[14, 'left:4%;top:8%;width:15%'], [16, 'right:5%;top:30%;width:17%'], [3, 'left:6%;top:44%;width:12%'], [17, 'right:8%;top:70%;width:14%'], [2, 'left:8%;top:76%;width:11%'], [12, 'right:6%;top:6%;width:13%']];
   const dz = `<i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="isl i1"></i><i class="isl i2"></i>` + DI.map(([ic, st], i2) => `<img class="deco" src="icons/${(ic + mapPage * 7) % 100 || 2}.png" style="${st};animation-delay:${i2 * .6}s" alt="">`).join('');
   const card = (ic, txt, have, n, done) => `<div class="qc${done ? ' ok' : ''}"><img src="icons/${ic}.png" alt=""><div><b>${txt}</b><span class="qb"><i style="width:${(Math.min(1, have / n) * 100).toFixed(0)}%"></i></span></div><em>${done ? '✔' : fmt(have) + '/' + fmt(n)}</em></div>`;
   const md = m.list.filter(q => q.done).length;
   const tasks = `<div class="qsec"><div class="qt">${t('misTitle')}</div>${m.list.map(q => card(MIS_ICON[q.t], t('m_' + q.t).replace('{n}', fmt(q.n)), q.have, q.n, q.done)).join('')}
     <div class="qt">${t('weekTitle')}</div>${card(w.done ? 16 : 15, t('m_' + w.t).replace('{n}', fmt(w.n)), w.have, w.n, w.done)}</div>`;
-  return `<div class="mapw adv" style="--zc:${zi.col}"><div class="maph"><button class="bk" data-act="home">← ${t('uBack')}</button><h2>${t('map')}</h2><span>⭐ ${lv}</span></div>
+  const tut = LS.get('mapTut', 0) < 3 ? `<div class="atut"><div class="atb"><img src="zia/point.webp" alt=""><p>${t('tut' + (LS.get('mapTut', 0) + 1))}</p><button class="btn" data-act="tutNext">${LS.get('mapTut', 0) < 2 ? t('tutNext') + ' →' : t('tutGo')}</button><i>${LS.get('mapTut', 0) + 1}/3</i></div></div>` : '';
+  return `${tut}<div class="mapw adv" style="--zc:${zi.col}"><div class="maph"><button class="bk" data-act="home">← ${t('uBack')}</button><h2>${t('map')}</h2><span>⭐ ${lv}</span></div>
     <div class="atabs"><button class="${mapTab === 'road' ? 'on' : ''}" data-act="mapTab" data-tab="road">🗺️ ${t('tabRoad')}</button><button class="${mapTab === 'tasks' ? 'on' : ''}" data-act="mapTab" data-tab="tasks">📋 ${t('tabTasks')} ${md}/3${md < 3 ? '<i class="dot"></i>' : ''}</button></div>
     ${mapTab === 'tasks' ? tasks : `<div class="azone">${t('zone')} ${zi.zone} · ${zi.zoneName}</div>
     <div class="aroad"><div class="askyfx"></div>${dz}<button class="anav up" data-act="mapUp" aria-label="up">▲</button>
@@ -680,7 +684,7 @@ function lvlInfo(n) {
 }
 // ödüller: her seviye bir kez; mevcut oyuncunun geçmiş seviyeleri ödülsüz sayılır (taban)
 function advRewards(celeb) {
-  const lv = lvlOf(stats.lines); let base = LS.get('rwBase', null); if (base === null) { LS.set('rwBase', lv); return; }
+  const lv = curLv(); let base = LS.get('rwBase', null); if (base === null) { LS.set('rwBase', lv); return; }
   const got = LS.get('rwc', []), q = LS.get('rwq', { plus: 0, full: 0, box: 0 }), fresh = [];
   for (let n = base + 1; n <= lv; n++) { if (got.includes(n)) continue; got.push(n); fresh.push(n); const kd = lvlInfo(n).kind;
     if (kd === 'plus') q.plus++; else if (kd === 'box') { q.full = Math.max(q.full, 1); q.box++; } else if (kd === 'big') { q.full += 2; q.box++; } else { q.full += 3; q.box++; } }
@@ -695,6 +699,34 @@ function advConsume() { // yeni oyunda bekleyen ödüller verilir
   const q = LS.get('rwq', null); if (!q || !(q.plus || q.full || q.box)) return false;
   if (q.full > 0) { S.nova = NOVA_MAX; q.full--; } else if (q.plus > 0) { S.nova = Math.min(NOVA_MAX, S.nova + q.plus * 2); q.plus = 0; }
   if (q.box > 0) { q.box--; S.advBox = true; } LS.set('rwq', q); return true;
+}
+/* ---------- seviye görevleri ---------- */
+const LV25 = [["lines", 3], ["lines", 5], ["lines", 8], ["streak", 3], ["powers", 1], ["lines", 10], ["score", 1000], ["powers", 1], ["powers", 1], ["score", 1500], ["lines", 14], ["streak", 5], ["powers", 2], ["combo", 1], ["gems", 6], ["lines", 18], ["gems", 8], ["streak", 6], ["score", 2500], ["powers", 3], ["combo", 1], ["streak", 7], ["close", 1], ["score", 3500], ["lines", 30]], LVCYC = ['lines', 'powers', 'streak', 'score', 'gems', 'lines', 'combo', 'streak', 'score', 'powers'];
+function lvTask(n) {
+  if (n <= 25) { const [t2, v] = LV25[n - 1]; return { t: t2, n: v }; }
+  const t2 = LVCYC[n % LVCYC.length], v = { lines: Math.min(40, 12 + Math.round(n * .2)), powers: Math.min(3, 1 + Math.floor(n / 50)), streak: Math.min(9, 4 + Math.floor(n / 35)),
+    score: Math.min(9000, Math.round((1500 + n * 35) / 100) * 100), gems: Math.min(20, 6 + Math.floor(n / 15)), combo: Math.min(2, 1 + Math.floor(n / 90)) }[t2];
+  return { t: t2, n: v };
+}
+const advLv = () => { let a = LS.get('lvl2', null); if (!a) { a = { lv: lvlOf(stats.lines), have: 0 }; LS.set('lvl2', a); } return a; }; // eski oyuncular kaldıkları seviyeden devam eder
+const curLv = () => advLv().lv;
+const taskText = tk => t('m_' + tk.t).replace('{n}', fmt(tk.n));
+function advProgress(type, val, setMax) {
+  const a = advLv(), tk = lvTask(a.lv); if (tk.t !== type) return;
+  a.have = setMax ? Math.max(a.have, val) : a.have + val;
+  if (a.have >= tk.n) { a.lv++; a.have = 0; LS.set('lvl2', a); lvUpFx(); } else LS.set('lvl2', a);
+  hudLv();
+}
+function lvUpFx() {
+  if (view !== 'game' || !L) { advRewards(false); return; }
+  setTimeout(() => { if (view !== 'game') return; floatNow = true; float('⭐ ' + t('lvUp') + ' ' + curLv(), L.bx + L.bs / 2, L.by + L.bs * .12, L.cell * .52, C.accent, 0, 'badge'); floatNow = false;
+    confetti(L.bx + L.bs / 2, L.by + L.bs * .15, 26, 250); samp('levelnext', .7); buzz(30); }, 700);
+  setTimeout(() => advRewards(true), 1500);
+}
+function hudLv() { // oyun ekranında sağ üstte: seviye, görev simgesi, ilerleme
+  const el = $('lvp'); if (!el) return; const a = advLv(), tk = lvTask(a.lv), k2 = Math.min(1, a.have / tk.n);
+  el.innerHTML = `<span>⭐${a.lv}</span><img src="icons/${MIS_ICON[tk.t] || 2}.png" alt=""><span class="lb"><i style="width:${(k2 * 100).toFixed(0)}%"></i></span><span>${fmt(a.have)}/${fmt(tk.n)}</span>`;
+  el.title = taskText(tk);
 }
 const bestFor = mode => mode === 'adv' ? 0 : mode === 'daily' ? (stats.daily.date === dateKey() ? stats.daily.best : 0) : stats.best;
 function newGame(mode) {
@@ -1538,10 +1570,8 @@ function place(kind, idx, piece, r, c) {
     rows.forEach(rw => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (j + .5) * cell, y: L.by + (rw + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     rows.forEach(i => beams.push({ row: true, i, t0: now + 40 })); cols.forEach(i => beams.push({ row: false, i, t0: now + 40 }));
-    const lvBefore = lvlOf(stats.lines); S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak; S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
-    if (lvlOf(stats.lines) > lvBefore) setTimeout(() => advRewards(true), 1900);
-    if (lvlOf(stats.lines) > lvBefore) setTimeout(() => { if (view !== 'game') return; floatNow = true; float('⭐ ' + t('lvl') + ' ' + lvlOf(stats.lines) + '!', L.bx + L.bs / 2, L.by + L.bs * .12, cell * .52, C.accent, 0, 'badge'); floatNow = false; confetti(L.bx + L.bs / 2, L.by + L.bs * .15, 22, 240); samp('levelnext', .7); }, 1200); // seviye atlama
-    if (S.goal && S.goal.type === 'star') S.goal.have += gems;
+    S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak; S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
+    if (S.goal && S.goal.type === 'star') S.goal.have += gems; if (gems) misProgress('gems', gems);
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
     let pts = Math.round(10 * n * (n + 1) / 2 * S.streak * (B === 'combo' && S.streak >= 2 ? 1.5 : 1) + gems * (B === 'gem' ? 40 : 20) + (B === 'line' ? n * 15 : 0));
     const clean = S.grid.every(v => !v); if (clean) pts += B === 'clean' ? 500 : 200;
@@ -1654,7 +1684,7 @@ function chainCheck() {
   }
   if (!cnt) return 0;
   const cx = L.bx + L.bs / 2;
-  S.score += total; S.nova = Math.min(NOVA_MAX, S.nova + cnt); if (S.goal && S.goal.type === 'star') S.goal.have += cnt;
+  S.score += total; S.nova = Math.min(NOVA_MAX, S.nova + cnt); misProgress('gems', cnt); if (S.goal && S.goal.type === 'star') S.goal.have += cnt;
   if (S.hidden && !S.hidden.done) { S.hidden.have += cnt; if (S.hidden.have >= S.hidden.need) { S.hidden.done = true; S.score += 300 + levelDone(); S.joker = 1; hiddenGift(); } }
   float('🔗 ' + t('chain') + ' x2!', cx, L.by + L.bs * .22, cell * .56, C.accent, 120, 'badge');
   zia('joy', '🔗 ' + t('chain') + ' x2!', 1800, true, ['zwow', .9], true);
@@ -2016,7 +2046,7 @@ function render() {
   if (view === 'map') { home.innerHTML = mapHTML(); const zz = document.querySelector('.azia.walk');
     if (zz) { setTimeout(() => { const [x2, y2] = zz.dataset.to.split(','); zz.style.left = x2 + '%'; zz.style.top = y2 + '%'; }, 450); // karakter yeni seviyeye yürür
       setTimeout(() => { const nn = document.querySelector('.anode.new'); if (nn) nn.classList.add('boom'); samp('levelnext', .7); }, 1300); }
-    LS.set('mapSeen', lvlOf(stats.lines)); }
+    LS.set('mapSeen', curLv()); }
   else if (view === 'home') {
     const sv = loadGame('classic'), dv = loadGame('daily'), db = bestFor('daily');
     home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
@@ -2088,7 +2118,7 @@ function start(mode, fresh) {
   if (stuck()) toast(t('stuck'), 8000);
   else if (S.goal && !sv) toast(S.goal.type === 'star' ? t('goalStar')(S.goal.need) : t('goalScore')(S.goal.need), 4000);
   try { history.pushState({ g: 1 }, ''); } catch {}
-  hint = null; lastAct = performance.now(); ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
+  hint = null; lastAct = performance.now(); hudLv(); ziaHide(); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
   if (S.lvlStart) { S.lvlStart = false; setTimeout(() => { if (view !== 'game') return; toast(t('rwGot'), 3500); shower(30);
     if (S.advBox) { S.advBox = false; const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i); if (e.length) S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; } bump(800); }, 600); }
   if (S.weekStart) { S.weekStart = false; setTimeout(() => { if (view === 'game') { toast(t('weekGot'), 3500); bump(500); } }, 500); }
@@ -2120,7 +2150,8 @@ const acts = {
     samp('pick', .8); buzz(15);
   },
   achv: () => { view = 'ach'; render(); },
-  map: () => { mapPage = null; mapSel = 0; mapTab = 'road'; if (LS.get('mapSeen', 0) === 0) LS.set('mapSeen', lvlOf(stats.lines)); view = 'map'; render(); try { history.pushState({ g: 1 }, ''); } catch {} },
+  map: () => { mapPage = null; mapSel = 0; mapTab = 'road'; if (LS.get('mapSeen', 0) === 0) LS.set('mapSeen', curLv()); view = 'map'; render(); try { history.pushState({ g: 1 }, ''); } catch {} },
+  tutNext: () => { LS.set('mapTut', LS.get('mapTut', 0) + 1); render(); },
   mapUp: () => { mapPage++; mapSel = 0; render(); }, mapDn: () => { mapPage = Math.max(0, mapPage - 1); mapSel = 0; render(); },
   mapTab: () => {}, mapSel: () => {},
   privacy: () => Ads.privacyOptions(),
@@ -2141,6 +2172,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 })();
