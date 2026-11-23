@@ -694,7 +694,7 @@ const stuck = () => !S.over && !S.hold && S.nova < NOVA_MAX && S.tray.filter(Boo
 const cv = $('cv'), ctx = cv.getContext('2d');
 let dpr = 1, L = null, C = {}, sprites = [], spritesF = [];
 const placeT = new Float64Array(64).fill(-1e9);
-let sweepT = -1e9, twinkles = [];
+let sweepT = -1e9, twinkles = [], rareFx = null;
 let shakeRot = 0, shakeLen = 0;
 let dying = [], parts = [], floats = [], beams = [], shakeEnd = 0, shakeAmp = 0, trayT = -1e9, punchEnd = 0, punchAmp = 0;
 // büyük anlarda tahta bir an büyüyüp geri oturur (vuruş hissi)
@@ -900,8 +900,37 @@ function draw(now) {
     ctx.restore(); }
   if (S.streak >= 3 && !S.over) { const it = Math.min(1, (S.streak - 2) / 7), col = S.streak >= 9 ? '#5FD0FF' : S.streak >= 6 ? '#FF4FA0' : '#FF8A1E', fl = .65 + .35 * Math.sin(now / 70) * Math.sin(now / 131);
     ctx.save(); ctx.globalCompositeOperation = 'lighter'; path(ctx, bx - 9, by - 9, bs + 18, bs + 18, cell * .36);
-    ctx.shadowColor = col; ctx.shadowBlur = cell * (.5 + it) * fl; ctx.lineWidth = 2 + it * 3; ctx.strokeStyle = col; ctx.globalAlpha = .55 + .4 * it * fl; ctx.stroke(); ctx.restore();
-    if (Math.random() < .25 + it * .4) { const ex = bx + Math.random() * bs, top = Math.random() < .5; parts.push({ kind: 'spark', s4: true, x: top ? ex : (Math.random() < .5 ? bx - 6 : bx + bs + 6), y: top ? by - 8 : by + Math.random() * bs, r: cell * (.08 + Math.random() * .08), col, t0: now, life: 380 }); } }
+    ctx.shadowColor = col; ctx.shadowBlur = cell * (.9 + 1.2 * it) * fl; ctx.lineWidth = 6 + it * 6; ctx.strokeStyle = col; ctx.globalAlpha = .28 + .25 * it * fl; ctx.stroke(); // geniş dış hale
+    ctx.shadowBlur = cell * (.5 + it) * fl; ctx.lineWidth = 2.5 + it * 3; ctx.globalAlpha = .7 + .3 * it * fl; ctx.stroke(); // parlak çizgi
+    ctx.shadowBlur = 0; ctx.lineWidth = 1.2; ctx.strokeStyle = '#FFFFFF'; ctx.globalAlpha = .55 * fl; ctx.stroke(); // beyaz çekirdek
+    // çerçeve boyunca dönen ışık kuyrukları (seri büyüdükçe sayısı ve hızı artar)
+    const per = (bs + 18) * 4, runners = 2 + Math.floor(it * 2), spd = 260 + it * 380, ptAt = d => { d = ((d % per) + per) % per; const sd = bs + 18, x0 = bx - 9, y0 = by - 9;
+      return d < sd ? [x0 + d, y0] : d < sd * 2 ? [x0 + sd, y0 + d - sd] : d < sd * 3 ? [x0 + sd * 3 - d, y0 + sd] : [x0, y0 + sd * 4 - d]; };
+    for (let q = 0; q < runners; q++) { const head = now / 1000 * spd + q * per / runners;
+      for (let tr = 0; tr < 14; tr++) { const [rx, ry] = ptAt(head - tr * 7), fa = 1 - tr / 14; ctx.globalAlpha = fa * (.6 + .4 * it); ctx.fillStyle = tr < 2 ? '#FFFFFF' : col;
+        ctx.shadowColor = col; ctx.shadowBlur = cell * .5 * fa; ctx.beginPath(); ctx.arc(rx, ry, (3.5 + it * 3) * fa + 1, 0, 6.283); ctx.fill(); }
+      const [hx, hy] = ptAt(head); ctx.shadowBlur = 0; ctx.globalAlpha = 1; spark4(hx, hy, cell * (.22 + .1 * it), '#FFFFFF'); }
+    // köşelerde nabız gibi atan parlamalar
+    for (const [kx, ky] of [[bx - 9, by - 9], [bx + bs + 9, by - 9], [bx + bs + 9, by + bs + 9], [bx - 9, by + bs + 9]]) { const kp = .5 + .5 * Math.sin(now / 160 + kx * .01 + ky * .02);
+      const g = ctx.createRadialGradient(kx, ky, 0, kx, ky, cell * (.7 + .5 * it)); g.addColorStop(0, `rgba(255,255,255,${.5 * kp})`); g.addColorStop(.4, col + '88'); g.addColorStop(1, col + '00');
+      ctx.globalAlpha = .6 + .4 * kp; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(kx, ky, cell * (.7 + .5 * it), 0, 6.283); ctx.fill(); }
+    ctx.restore();
+    if (Math.random() < .4 + it * .5) { const ex = bx + Math.random() * bs, top = Math.random() < .5; parts.push({ kind: 'spark', s4: true, x: top ? ex : (Math.random() < .5 ? bx - 6 : bx + bs + 6), y: top ? by - 8 : by + Math.random() * bs, r: cell * (.08 + Math.random() * .08), col, t0: now, life: 380 }); } }
+  if (rareFx && now - rareFx.t0 < rareFx.life && !S.over) { const rk = (now - rareFx.t0) / rareFx.life, ra = Math.sin(rk * Math.PI);
+    ctx.save(); path(ctx, bx - 8, by - 8, bs + 16, bs + 16, cell * .34); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
+    if (rareFx.kind === 'aurora') { // kuzey ışığı: dalgalanan yeşil-mor-mavi perdeler
+      [['80,255,190', 0], ['150,110,255', 1.7], ['90,190,255', 3.3]].forEach(([c2, ph]) => { ctx.beginPath(); ctx.moveTo(bx - 8, by + bs);
+        for (let q = 0; q <= 40; q++) { const xx = bx - 8 + (bs + 16) * q / 40; ctx.lineTo(xx, by + bs * (.38 + .14 * Math.sin(q * .22 + now / 620 + ph) + .04 * Math.sin(q * .5 - now / 420))); }
+        ctx.lineTo(bx + bs + 8, by + bs); ctx.closePath(); const g = ctx.createLinearGradient(0, by, 0, by + bs); g.addColorStop(0, `rgba(${c2},0)`); g.addColorStop(.45, `rgba(${c2},.32)`); g.addColorStop(1, `rgba(${c2},0)`);
+        ctx.globalAlpha = ra * .9; ctx.fillStyle = g; ctx.fill(); });
+    } else { // mercek parlaması: çapraz geçen ışık şeridi, yolunda halkalar ve yıldızlar
+      const fx = bx - cell + (bs + cell * 2) * rk, fy = by + bs * (.2 + .6 * rk), g = ctx.createRadialGradient(fx, fy, 0, fx, fy, cell * 2.2);
+      g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(.25, 'rgba(255,230,170,.4)'); g.addColorStop(1, 'rgba(255,200,120,0)'); ctx.globalAlpha = ra; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(fx, fy, cell * 2.2, 0, 6.283); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,240,200,.5)'; ctx.lineWidth = cell * .08; ctx.beginPath(); ctx.moveTo(fx - bs, fy - bs * .6); ctx.lineTo(fx + bs, fy + bs * .6); ctx.stroke();
+      [[.35, 'rgba(120,200,255,.35)', .5], [.6, 'rgba(255,120,200,.3)', .8], [.85, 'rgba(160,255,160,.3)', .35]].forEach(([f2, c3, r3]) => { const gx2 = fx + (bx + bs / 2 - fx) * f2 * 2, gy2 = fy + (by + bs / 2 - fy) * f2 * 2;
+        ctx.strokeStyle = c3; ctx.lineWidth = cell * .12; ctx.beginPath(); ctx.arc(gx2, gy2, cell * r3, 0, 6.283); ctx.stroke(); });
+      spark4(fx, fy, cell * .6 * ra, '#FFFFFF'); }
+    ctx.restore(); }
   // altın güç-up yıldızı (nabız gibi atar)
   if (S.pu >= 0 && !S.grid[S.pu] && !S.over) {
     const x = bx + (S.pu % N + .5) * cell, y = by + ((S.pu / N | 0) + .5) * cell, pz = 1 + .09 * Math.sin(now / 170);
@@ -1335,6 +1364,7 @@ function heatTick(now) {
   if (left <= 0) { S.streak = 0; heat.end = 0; const st = $('streak'); st.textContent = ''; st.classList.remove('on'); el.classList.remove('on'); save(); } // süre doldu: seri biter
 }
 setInterval(() => { if (heatOn()) bump(300); }, 250);
+setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && Math.random() < .35) { rareFx = { kind: Math.random() < .55 ? 'aurora' : 'flare', t0: performance.now(), life: Math.random() < .55 ? 3200 : 1500 }; bump(rareFx.life + 50); } }, 12000); // nadir ışık olayı
 setInterval(() => { if (S && view === 'game' && !document.hidden && !S.over && S.grid.some(Boolean)) { sweepT = performance.now(); const f = S.grid.map((v, i) => v ? i : -1).filter(i => i >= 0); twinkles = [0, 1, 2].map(() => f[Math.random() * f.length | 0]); bump(950); } }, 3800); // bloklar ışıldar
 let hitStopUntil = 0;
 const hitStop = ms => { hitStopUntil = Math.max(hitStopUntil, performance.now() + ms); };
@@ -1344,7 +1374,7 @@ function frame(now) {
   heatTick(now);
   if (shown !== S.score) { shown += (S.score - shown) * .22; if (Math.abs(S.score - shown) < 1) shown = S.score; $('score').textContent = fmt(Math.round(shown)); }
   draw(now);
-  if (now < animUntil || hint || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
+  if (now < animUntil || (rareFx && now - rareFx.t0 < rareFx.life) || hint || heatOn() || (S.streak >= 3 && !S.over) || (S.pk && !S.over) || (!S.over && symGroups().some(g => g.length === 2)) || drag || fly || shown !== S.score || S.nova >= NOVA_MAX || stuck() || (S.pu >= 0 && !S.over)) raf = requestAnimationFrame(frame);
 }
 function bump(ms = 700) { animUntil = Math.max(animUntil, performance.now() + ms); if (!raf) raf = requestAnimationFrame(frame); }
 
@@ -2031,6 +2061,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 })();
