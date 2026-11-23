@@ -662,7 +662,7 @@ function mapHTML() {
     <small>🎯 ${t('lvTask')}: ${taskText(lvTask(sel.n))}</small>${sel.n >= curLv() ? `<small>✨ ${t('pwList')}: ${levelPowers(sel.n).map(k2 => PW_EMO[k2] + ' ' + t(PW[k2][1])).join(' · ') || '—'}</small>` : ''}${UNL.find(x => x[0] === sel.n) ? `<small>🔓 ${t('unlAt')}: ${unlTxt(UNL.find(x => x[0] === sel.n))[0]}</small>` : ''}
     <small class="st ${sst}">${sst === 'done' ? '✔ ' + t('done2') : sst === 'cur' ? '⭐ ' + t('here') + ' · ' + fmt(advLv().have) + '/' + fmt(lvTask(lv).n) : '🔒 ' + t('locked')}</small></div></div>`;
   const DI = [[14, 'left:4%;top:8%;width:15%'], [16, 'right:5%;top:30%;width:17%'], [3, 'left:6%;top:44%;width:12%'], [17, 'right:8%;top:70%;width:14%'], [2, 'left:8%;top:76%;width:11%'], [12, 'right:6%;top:6%;width:13%']];
-  const dz = `<i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="isl i1"></i><i class="isl i2"></i>` + DI.map(([ic, st], i2) => `<img class="deco" src="icons/${(ic + mapPage * 7) % 100 || 2}.png" style="${st};animation-delay:${i2 * .6}s" alt="">`).join('');
+  const dz = `<i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="isl i1"></i><i class="isl i2"></i>` + DI.map(([ic, st], i2) => `<img class="deco" src="icons/${[14, 16, 3, 17, 2, 12, 4, 5, 21, 20, 7, 11][(i2 + mapPage * 2) % 12]}.png" style="${st};animation-delay:${i2 * .6}s" alt="">`).join('');
   const card = (ic, txt, have, n, done) => `<div class="qc${done ? ' ok' : ''}"><img src="icons/${ic}.png" alt=""><div><b>${txt}</b><span class="qb"><i style="width:${(Math.min(1, have / n) * 100).toFixed(0)}%"></i></span></div><em>${done ? '✔' : fmt(have) + '/' + fmt(n)}</em></div>`;
   const md = m.list.filter(q => q.done).length;
   const tasks = `<div class="qsec"><div class="qt">${t('misTitle')}</div>${m.list.map(q => card(MIS_ICON[q.t], t('m_' + q.t).replace('{n}', fmt(q.n)), q.have, q.n, q.done)).join('')}
@@ -1605,6 +1605,12 @@ function float(txt, x, y, size, col, delay = 0, pill = false) {
   if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
   const t0 = performance.now() + delay, isNum = /^\+\d+$/.test(txt);
+  // sade ekran: aynı anda en fazla 2 başlık/yazı ve 3 puan; önemsiz (küçük hap) yazılar kalabalıkta hiç çıkmaz, eski başlık hızla söner
+  { const live = floats.filter(f => f.t0 < t0 + 600 && f.t0 + f.life > t0), txts = live.filter(f => !/^\+\d+$/.test(f.txt)), nums = live.filter(f => /^\+\d+$/.test(f.txt));
+    if (isNum && nums.length >= 3) return;
+    if (!isNum) { const major = pill === 'badge' || pill === 'metal' || pill === 'gold' || pill === 'gold3d' || !pill;
+      if (txts.length >= 2) { if (!major || pill === 'gold3d') return; const old = txts.sort((a, b) => a.t0 - b.t0)[0]; old.life = Math.max(0, t0 - old.t0 + 120); }
+      else if (txts.length === 1 && pill === true) return; } }
   if (L) { const clash = yy => floats.some(f => f.t0 < t0 + life && f.t0 + f.life > t0 + 80 && Math.abs(f.y - yy) < (size + f.size) * .85
       && Math.abs(f.x - x) < (isNum && /^\+\d+$/.test(f.txt) ? size * 2.4 : L.bs * .7));
     for (let q = 1, y0 = y; q < 7 && clash(y); q++) y = y0 + (q % 2 ? 1 : -1) * Math.ceil(q / 2) * size * 1.75; // aşağı/yukarı boş yer ara
@@ -1730,7 +1736,6 @@ function place(kind, idx, piece, r, c) {
     // övgü: 2 satır "Güzel", 3 satır ya da 3'lü seri "Harika", 4 satır ya da 5'li seri "Muhteşem", 5 satır "Efsane"
     const pi = Math.min(5, Math.max(n, S.streak >= 5 ? 4 : S.streak >= 3 ? 3 : 0)), praise = clean ? t('clean') : t('praise')[pi];
     const praiseEn = clean ? T.en.clean : T.en.praise[pi];
-    if (praise && (clean || pi >= 3)) zia(clean ? 'cool' : 'joy', praise);
     if (praise) { const prY = Math.abs(py - (L.by + L.bs * .36)) < cell * 1.4 ? L.by + L.bs * .66 : L.by + L.bs * .36; // patlama noktasındaki puanla çakışmasın
       if (!celebOn()) { const tn = performance.now(); for (const f of floats) if (!f.pill && f.praise && f.t0 + f.life > tn) f.life = Math.max(0, tn + 140 - f.t0); // önceki övgü hemen söner, üst üste binmez
         float(praise, L.bx + L.bs / 2, prY, cell * .78, C.accent, 120); floats[floats.length - 1].praise = true; } setTimeout(() => say(praise, praiseEn), 150); }
