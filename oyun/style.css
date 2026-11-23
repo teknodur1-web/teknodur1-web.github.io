@@ -332,3 +332,8 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 @keyframes starIn{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
 .drw{display:block;margin-bottom:10px;font-weight:700;opacity:.8}
 #mode.low{color:#FF6B6B;animation:nearRec .7s ease-in-out infinite}
+/* seviye kilidi açıklaması: düğmesiz, oyunu engellemez, 3,6 sn sonra kendiliğinden kapanır */
+.unl.auto{pointer-events:none;background:rgba(10,4,30,.45)}
+.unl.out{opacity:0;transition:opacity .4s}
+.unc .ubar{display:block;height:4px;border-radius:2px;background:linear-gradient(90deg,#FFB23E,#FFE45C);transform-origin:left;animation:ubar 3.6s linear forwards}
+@keyframes ubar{from{transform:scaleX(1)}to{transform:scaleX(0)}}

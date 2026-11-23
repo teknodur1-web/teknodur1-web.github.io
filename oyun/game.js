@@ -742,8 +742,9 @@ const unlTxt = u => cfg.lang === 'tr' ? [u[3], u[5]] : [u[4], u[6]];
 const unlSrc = u => typeof u[2] === 'number' ? 'icons/' + u[2] + '.png' : u[2];
 function showUnlock(u) { // yeni özellik kartı: Zia tanıtır
   const [nm, ds] = unlTxt(u), el = document.createElement('div'); el.className = 'unl';
-  el.innerHTML = `<div class="unc"><img class="uz" src="zia/joy.webp" alt=""><div class="uh">🔓 ${t('unlNew')}</div><img class="ui" src="${unlSrc(u)}" alt=""><b>${nm}</b><p>${ds}</p><button class="btn" data-act="unlOk">${t('unlOk')}</button></div>`;
+  el.innerHTML = `<div class="unc"><img class="uz" src="zia/joy.webp" alt=""><div class="uh">🔓 ${t('unlNew')}</div><img class="ui" src="${unlSrc(u)}" alt=""><b>${nm}</b><p>${ds}</p><i class="ubar"></i></div>`; el.classList.add('auto');
   $('app').appendChild(el); samp('levelwin', .8); buzz(40);
+  setTimeout(() => el.classList.add('out'), 3600); setTimeout(() => el.remove(), 4000); // düğme yok: kısa açıklama kendiliğinden kapanır
 }
 const zoneColor = () => lvlInfo(curLv()).col;
 function applyTheme() { document.documentElement.style.setProperty('--zone', has('theme') ? zoneColor() : 'transparent'); }
