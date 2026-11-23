@@ -323,3 +323,12 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .anode .unb{position:absolute;left:-14px;top:-10px;width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));animation:emB 1.4s ease-in-out infinite}
 
 #heat.ice i{background:linear-gradient(90deg,#BDF2FF,#FFFFFF);box-shadow:0 0 10px rgba(180,235,255,.95);animation:none}
+
+/* günlük bulmaca */
+.dgoal{margin:6px 0 8px;padding:8px;border-radius:12px;background:rgba(255,178,62,.15);font-weight:900;color:var(--accent)}
+.dthr{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;font-weight:800;font-size:13px}
+.dst{color:rgba(255,255,255,.22);font-size:14px}.dst.on{color:#FFD24A;text-shadow:0 0 6px rgba(255,200,60,.8)}
+.dstars{display:flex;gap:6px;justify-content:center}.dst.big{font-size:44px;animation:starIn .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes starIn{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
+.drw{display:block;margin-bottom:10px;font-weight:700;opacity:.8}
+#mode.low{color:#FF6B6B;animation:nearRec .7s ease-in-out infinite}
