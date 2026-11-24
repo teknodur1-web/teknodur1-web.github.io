@@ -1658,7 +1658,7 @@ function kill(i, t0) {
 }
 // ekranda kalma süresi: puanlar kısa, yazılar okunacak kadar uzun, kupa en uzun
 let floatNow = false; // güç başlığı/açıklaması ertelenmez, efektle birlikte görünür
-const quietTxt = txt => [t('combo'), t('close'), t('chain'), t('power'), ' x2', 'NOVA!', t('misDone'), t('zGo'), t('zHi'), t('zThink')].some(q => q && txt.includes(q));
+const quietTxt = txt => [t('combo'), t('close'), t('chain'), t('power'), ' x2', 'NOVA!', t('misDone'), t('zGo'), t('zHi'), t('zThink'), t('pBomb'), t('jokerGot'), '💣'].some(q => q && txt.includes(q));
 function float(txt, x, y, size, col, delay = 0, pill = false) {
   if (quietTxt(txt)) return; // küçük anlar yazısız: ses, ışık ve titreşim yeter
   if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
