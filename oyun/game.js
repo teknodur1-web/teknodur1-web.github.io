@@ -42,6 +42,57 @@ const LANG_CODES = LANGS.map(l => l[0]);
 const cfg = Object.assign({ sound: true, music: true, haptic: true, notif: true, theme: 'dark', lang: (l2 => LANG_CODES.includes(l2) ? l2 : 'en')((navigator.language || 'en').slice(0, 2).toLowerCase()) }, LS.get('cfg', {}));
 if (!LANG_CODES.includes(cfg.lang)) cfg.lang = 'en';
 const stats = Object.assign({ adv: 1, best: 0, games: 0, lines: 0, daily: { date: '', best: 0 } }, LS.get('stats', {}));
+
+/* ---------- ölçüm (Firebase Analytics) ve uzaktan ayar (Firebase Remote Config) ----------
+   Yalnızca telefonda (Capacitor) çalışır; tarayıcıda ve google-services.json yokken sessizce hiçbir şey yapmaz.
+   Kişisel veri gönderilmez: reklam kimliği toplanmaz (AndroidManifest), yalnızca oyun olayları (mod, skor, süre...).
+   Remote Config: Firebase konsolundan yeni sürüm çıkarmadan A/B testi yapılabilen değerler. Konsolda bir değer
+   tanımlanmamışsa aşağıdaki varsayılan kullanılır. Yeni değerler bir SONRAKİ açılışta devreye girer (oyun ortasında
+   kurallar değişmesin diye); son alınan değerler cihazda saklanır, böylece açılışta beklemeden uygulanır. */
+const nat = () => { const c = window.Capacitor; return c && c.isNativePlatform && c.isNativePlatform() && c.nativePromise ? c : null; };
+const natCall = (plugin, m, o = {}) => { const c = nat(); return c ? c.nativePromise(plugin, m, o) : Promise.reject(new Error('web')); };
+// anahtar: [varsayılan, en az, en çok] — konsolda hatalı değer girilse bile oyun bozulmasın
+const RC_DEF = {
+  ad_grace: [3, 0, 20],             // ilk kaç oyun sonu reklamsız
+  ad_every: [4, 2, 20],             // sonrasında kaç oyun sonunda bir geçiş reklamı
+  ad_gap_sec: [150, 60, 1800],      // iki reklam arası en az süre (saniye)
+  tray_tries_base: [16, 2, 40],     // adil dağıtım: başta kaç deneme (yüksek = daha cömert)
+  tray_tries_step: [1200, 200, 10000], // her kaç puanda bir deneme azalır (yüksek = zorluk daha yavaş artar)
+  var_step: [3400, 1000, 20000],    // Klasik: kaç puanda bir yeni gizli macera
+  revive_free_per_day: [1, 0, 10],  // İkinci Şans: günde kaç kez reklamsız
+};
+const RC = {};
+function rcApply(v) { for (const k in RC_DEF) { const [d, lo, hi] = RC_DEF[k], x = Number(v && v[k]); RC[k] = Number.isFinite(x) && v[k] !== '' && v[k] != null ? Math.min(hi, Math.max(lo, x)) : d; } }
+rcApply(LS.get('rc', {}));
+const Tm = {
+  buf: [], // son olaylar (test ve hata ayıklama için)
+  log(name, params = {}) {
+    this.buf.push({ name, params }); if (this.buf.length > 50) this.buf.shift();
+    natCall('FirebaseAnalytics', 'logEvent', { name, params }).catch(() => {});
+  },
+  prop(key, value) { natCall('FirebaseAnalytics', 'setUserProperty', { key, value: String(value) }).catch(() => {}); },
+  async init() {
+    if (!nat()) return;
+    // yalnızca analiz; reklam amaçlı sinyaller kapalı (reklam kişiselleştirmesini AdMob/GDPR izni yönetir)
+    for (const [type, status] of [['ANALYTICS_STORAGE', 'GRANTED'], ['AD_STORAGE', 'DENIED'], ['AD_USER_DATA', 'DENIED'], ['AD_PERSONALIZATION', 'DENIED']])
+      natCall('FirebaseAnalytics', 'setConsent', { type, status }).catch(() => {});
+    this.prop('build_type', window.BLOKZIA_RELEASE ? 'release' : 'debug');
+    this.prop('app_lang', cfg.lang);
+    try { await natCall('FirebaseRemoteConfig', 'activate'); } catch {}
+    const got = {};
+    await Promise.all(Object.keys(RC_DEF).map(key => natCall('FirebaseRemoteConfig', 'getNumber', { key })
+      .then(r => { if (r && r.source === 2) got[key] = r.value; }).catch(() => {}))); // 2 = konsoldan gelen değer
+    LS.set('rc', got); rcApply(got); rcUse();
+    // bir sonraki açılış için yeni değerleri indir (test sürümünde her açılışta, yayında en çok saatte bir)
+    natCall('FirebaseRemoteConfig', 'fetchConfig', { minimumFetchIntervalInSeconds: window.BLOKZIA_RELEASE ? 3600 : 0 }).catch(() => {});
+  },
+};
+// oyun bitti olayı (her oyun için bir kez)
+function tmEnd(reason) {
+  if (!S || S.tmEnd) return; S.tmEnd = true;
+  Tm.log('game_end', { mode: S.mode, reason, score: S.score | 0, lines: S.lines | 0, revived: S.revived ? 1 : 0,
+    duration_sec: S.t0 ? Math.min(36000, Math.round((Date.now() - S.t0) / 1000)) : 0, level: S.level | 0, games_total: stats.games | 0 });
+}
 const T = {
   tr: { combo: 'Renk Kombosu!', puTip: '⭐ Altın yıldızın üstüne blok koy: Nova dolar!', jbTip: 'Satır patlattıkça çubuk dolar, dolunca Joker kazanırsın!', power: 'Güç-up!', play: 'Oyna', cont: 'Devam Et', daily: 'Günlük Bulmaca', classic: 'Klasik', dailyS: 'Günlük', privacy: 'Gizlilik seçenekleri', joker: 'JOKER', jokerHint: 'Sığmayan bloğa dokun: Joker onu sığan bir bloğa çevirir!', jokerGot: 'Joker dolu!', jokerNone: 'Joker boş — tek hamlede 2 satır patlat ya da 3 seri yap.', adv: 'Macera', level: 'Bölüm', win: 'Bölüm Tamamlandı!', next: 'Sonraki Bölüm', goalStar: n => `Hedef: ${n} yıldız topla ★`, goalScore: n => `Hedef: ${n} puana ulaş`, paused: 'Duraklatıldı', resume: 'Devam', restart: 'Yeniden Başla',
     home: 'Ana Menü', over: 'Hamle Kalmadı', newBest: 'YENİ REKOR!', again: 'Tekrar Oyna', revive: 'İkinci Şans', hold: 'CEP', drag: 'SÜRÜKLE', tag: 'Yerleştir · Patlat · Tekrarla',
@@ -172,17 +223,17 @@ const dateKey = () => { const d = new Date(); return `${d.getFullYear()}-${Strin
 const seedOf = s => { let h = 2166136261; for (const ch of s) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return h | 0; };
 
 /* ---------- Geçiş reklamı (AdMob) ----------
-   AdMob kuralları: yalnızca doğal geçişte (oyun bitti -> kullanıcı yeni oyuna dokundu), 3 oyunda bir,
-   en az 2 dakika arayla. Açılışta, oyun ortasında ve otomatik yeniden başlamada asla gösterilmez.
+   AdMob kuralları: yalnızca doğal geçişte (oyun bitti -> kullanıcı yeni oyuna dokundu), varsayılan 4 oyunda bir,
+   en az 2,5 dakika arayla (sayılar Remote Config ile değiştirilebilir, bkz. RC_DEF). Açılışta, oyun ortasında ve otomatik yeniden başlamada asla gösterilmez.
    Test sürümü (build-android.bat) HER ZAMAN test reklamı gösterir; gerçek reklam yalnızca
    build-release.bat ile üretilen yayın paketinde (release.js -> BLOKZIA_RELEASE = true) açılır. */
 const ADS = {
   android: 'ca-app-pub-3905348091939243/8156519041', // AdMob: Blokzia / Oyun sonu - Gecis
   ios: 'ca-app-pub-3905348091939243/5463208416',      // AdMob: Blokzia iOS / Oyun sonu - Gecis (iOS)
   testing: !window.BLOKZIA_RELEASE,
-  grace: 3,        // ilk 3 oyun sonu reklamsız (yeni oyuncu)
-  every: 4,        // sonrasında her 4 oyun sonunda bir
-  gapMs: 150000,   // iki reklam arası en az 2,5 dakika
+  grace: RC.ad_grace,          // ilk 3 oyun sonu reklamsız (yeni oyuncu)
+  every: RC.ad_every,          // sonrasında her 4 oyun sonunda bir
+  gapMs: RC.ad_gap_sec * 1000, // iki reklam arası en az 2,5 dakika
 };
 const Ads = {
   ready: false, ends: 0, last: 0, privacy: false,
@@ -212,6 +263,7 @@ const Ads = {
     const now = Date.now();
     if (stats.ended <= ADS.grace || stats.ended % ADS.every || !this.ready || now - this.last < ADS.gapMs) return;
     this.last = now; this.ready = false; Music.stop();
+    Tm.log('ad_interstitial', { placement: 'game_end', games_ended: stats.ended | 0 });
     try { await this.call('showInterstitial', {}); } catch {}
     this.prepare(); Music.sync();
   },
@@ -219,10 +271,13 @@ const Ads = {
   async privacyOptions() { try { await this.call('showPrivacyOptionsForm', {}); } catch {} },
   // İkinci Şans: geçiş reklamı gösterilir (ödüllü reklam kullanılmaz). Reklam hazır değilse oyuncu engellenmez.
   secondChance: async () => {
-    // günde bir ücretsiz; sonraki kullanımlar geçiş reklamıyla
-    if (stats.reviveDay !== dateKey()) { stats.reviveDay = dateKey(); LS.set('stats', stats); return true; }
-    if (!Ads.cap() || !Ads.ready) return true;
-    Ads.ready = false; Music.stop();
+    // günde RC.revive_free_per_day kez ücretsiz (varsayılan 1); sonraki kullanımlar geçiş reklamıyla
+    const ev = paid => Tm.log('revive_used', { mode: S ? S.mode : '', score: S ? S.score | 0 : 0, paid });
+    const used = stats.reviveDay === dateKey() ? (stats.reviveN ?? 1) : 0; // eski kayıt: bugün kullanılmışsa 1 say
+    if (used < RC.revive_free_per_day) { stats.reviveDay = dateKey(); stats.reviveN = used + 1; LS.set('stats', stats); ev(0); return true; }
+    if (!Ads.cap() || !Ads.ready) { ev(0); return true; }
+    Ads.ready = false; Music.stop(); ev(1);
+    Tm.log('ad_interstitial', { placement: 'revive', games_ended: stats.ended | 0 });
     try { await Ads.call('showInterstitial', {}); } catch {}
     Ads.prepare(); Music.sync(); return true;
   },
@@ -450,7 +505,7 @@ function specFor(si) { const r2 = Math.random(), i2 = Math.floor(Math.random() *
   if (has('gold') && r2 < .07) return { i: i2, t: 1 }; if (has('crystal') && r2 < .12) return { i: i2, t: 4 }; if (has('rainbow') && r2 < .16) return { i: i2, t: 5 }; return null; }
 function genTray() {
   const fill = S.grid.filter(Boolean).length / 64;
-  const tries = Math.max(2, 16 - (S.score / 1200 | 0)); // skor arttıkça cömertlik azalır
+  const tries = Math.max(2, RC.tray_tries_base - (S.score / RC.tray_tries_step | 0)); // skor arttıkça cömertlik azalır (Remote Config)
   let fb = null;
   for (let k = 0; k < tries; k++) {
     const tri = [pickShape(fill), pickShape(fill), pickShape(fill)], shs = tri.map(i => SHAPES[i]);
@@ -468,7 +523,7 @@ function genTray() {
    kuralı ve gizli bir sembol hedefi (tamamlanınca sürpriz ödül). Oyun her açıldığında oynanmamış maceraların
    sırası yeniden karışır; 100'ü bitince yeni tur başlar. İnternet gerekmez, her şey cihazda saklanır. */
 const JB_MAX = 5; // Joker çubuğu: 5 satırda dolar
-const VAR_COUNT = 100, VAR_STEP = 3400; // her 3.400 puanda yeni gizli macera
+const VAR_COUNT = 100; let VAR_STEP = RC.var_step; // varsayılan: her 3.400 puanda yeni gizli macera (Remote Config)
 // blok sembolleri: renkli emojiler. Telefonda çizilemeyen (kutu görünen) emojiler o cihazda kullanılmaz.
 const EMOJI_SYMS = ['🌎', '🌛', '🌜', '🪐', '💫', '🌟', '✨', '⚡', '💥', '🔥', '🌈', '☀️', '❄️', '💦', '❤️‍🔥', '❤️', '🩷', '🧡', '💛', '💚', '🩵', '💙', '💜', '🖤', '🩶', '🤍', '🤎', '💕', '💞', '💓', '💗', '💖', '💘', '💝'];
 const emojiOK = (() => {
@@ -775,7 +830,7 @@ function dailyIntro() { // açılışta kısa anlatım: herkes aynı blok, hedef
   $('app').appendChild(el);
 }
 function dailyEnd() { // hamleler bitti: yıldızlar hesaplanır, ödül verilir
-  const st = dStars(); S.over = true; if (stats.daily.date !== S.date) stats.daily = { date: S.date, best: 0 };
+  const st = dStars(); S.over = true; tmEnd('daily_done'); if (stats.daily.date !== S.date) stats.daily = { date: S.date, best: 0 };
   const prevSt = stats.daily.stars || 0; stats.daily.stars = Math.max(prevSt, st);
   if (st === 3 && prevSt < 3) { const q = LS.get('rwq', { plus: 0, full: 0, box: 0 }); q.full++; LS.set('rwq', q); }
   const hist = LS.get('dhist', {}); hist[S.date] = Math.max(hist[S.date] || 0, st); LS.set('dhist', hist);
@@ -785,7 +840,7 @@ function dailyEnd() { // hamleler bitti: yıldızlar hesaplanır, ödül verilir
 const bestFor = mode => mode === 'adv' ? 0 : mode === 'daily' ? (stats.daily.date === dateKey() ? stats.daily.best : 0) : stats.best;
 function newGame(mode) {
   S = { mode, grid: Array(64).fill(0), gem: Array(64).fill(0), tray: [null, null, null], hold: null, score: 0, streak: 0, since: 0, nova: 0,
-    rng: mode === 'daily' ? seedOf(dateKey()) : (Math.random() * 2 ** 32) | 0, lines: 0, revived: false, over: false, date: dateKey(), prev: bestFor(mode) };
+    rng: mode === 'daily' ? seedOf(dateKey()) : (Math.random() * 2 ** 32) | 0, lines: 0, revived: false, over: false, date: dateKey(), prev: bestFor(mode), t0: Date.now() };
   if (mode === 'adv') {
     const lv = S.level = stats.adv; S.rng = seedOf('blokzia-adv-' + lv);
     S.goal = lv % 2 ? { type: 'star', need: 3 + Math.ceil(lv * 1.5), have: 0 } : { type: 'score', need: 200 + lv * 150 };
@@ -944,10 +999,18 @@ function iconBadge(cx, cy, s, c, n, still) {
     ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = lg; ctx.fillRect(-s * .4, -s * .4, s * .8, s * .8); }
   ctx.restore();
 }
+const SYM_CACHE = {};
 function sym(cx, cy, s, c = 1) {
   const k = S && S.var ? S.var.sym : 'star';
   if (k === 'star') return star(cx, cy, s * .26);
-  if (String(k).startsWith('ic')) { iconBadge(cx, cy, s, c, +String(k).slice(2)); ptTag(cx, cy, s); return; }
+  if (String(k).startsWith('ic')) { const n2 = +String(k).slice(2);
+    if (performance.now() < iconAnimUntil && ICON_ANIM[n2]) { iconBadge(cx, cy, s, c, n2); ptTag(cx, cy, s); return; } // hareket anında canlı çiz
+    const key = c + '|' + n2 + '|' + Math.round(s * dpr) + '|' + emoVal(); let cv2 = SYM_CACHE[key];
+    if (!cv2) { const im = iconImg(n2); if (!im.complete || !im.naturalWidth) { iconBadge(cx, cy, s, c, n2); ptTag(cx, cy, s); return; }
+      const sz = Math.ceil(s * 1.3 * dpr); cv2 = document.createElement('canvas'); cv2.width = cv2.height = sz; const keep = ctx; ctx = cv2.getContext('2d');
+      try { ctx.scale(dpr, dpr); iconBadge(s * .65, s * .65, s, c, n2, true); ptTag(s * .65, s * .65, s); } finally { ctx = keep; }
+      if (Object.keys(SYM_CACHE).length > 300) for (const k2 in SYM_CACHE) delete SYM_CACHE[k2]; SYM_CACHE[key] = cv2; }
+    ctx.drawImage(cv2, cx - s * .65, cy - s * .65, s * 1.3, s * 1.3); return; }
   const [, l, d] = PALETTE[(c || 1) - 1];
   ctx.save();
   ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = s * .08; ctx.shadowOffsetY = s * .03;
@@ -1005,7 +1068,7 @@ function box(b, label, hot, glow = 1) {
 
 function draw(now) {
   const { cell, bx, by, bs } = L;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, L.W, L.H); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, L.W, L.H); ctx.imageSmoothingEnabled = true;
   if (drag) updatePreview(now);
   ctx.save();
   if (now < shakeEnd) { const dur = shakeLen || 260, e = Math.max(0, 1 - (shakeEnd - now) / dur), dmp = (1 - e) ** 2;
@@ -1654,11 +1717,12 @@ function afterMove() {
   const g = S.goal;
   if (g && !S.won && (g.type === 'star' ? g.have >= g.need : S.score >= g.need)) {
     S.won = true; S.over = true; stats.adv = Math.max(stats.adv, S.level + 1);
+    Tm.log('level_complete', { level: S.level | 0, score: S.score | 0 }); tmEnd('adv_win');
     float(t('win'), L.bx + L.bs / 2, L.by + L.bs * .45, L.cell * .85, C.accent, 300); setTimeout(() => samp('levelwin', .9) || sfx.clean(), 300); buzz(60);
     setTimeout(() => { if (S.won) { view = 'win'; render(); } }, 1300); save(); bump(1500); return;
   }
   if (S.dly && S.dly.left <= 0 && !S.over) { dailyEnd(); return; }
-  if (!hasMove()) { S.over = true; sfx.over(); buzz(60); setTimeout(() => zia('smirk', t('zOver'), 2600, true), 250); if (stats.games >= 3) setTimeout(() => Notif.ask(), 1500); setTimeout(() => { if (S.over) { view = 'over'; render(); } }, 1000); }
+  if (!hasMove()) { S.over = true; tmEnd('no_move'); sfx.over(); buzz(60); setTimeout(() => zia('smirk', t('zOver'), 2600, true), 250); if (stats.games >= 3) setTimeout(() => Notif.ask(), 1500); setTimeout(() => { if (S.over) { view = 'over'; render(); } }, 1000); }
   else if (stuck()) { toast(t('stuck'), 8000); zia('think', t('zHold'), 2600); }
   else if (S.joker && !S.tray.some(p => p && anyFit(S.grid, SHAPES[p.s])) && !(S.hold && anyFit(S.grid, SHAPES[S.hold.s]))) toast(t('jokerHint'), 8000);
   save(); bump(1200);
@@ -2311,6 +2375,7 @@ function breakLine() {
 function start(mode, fresh) {
   const sv = fresh ? null : loadGame(mode);
   if (sv) S = sv; else { newGame(mode); misProgress('games', 1);
+    Tm.log('game_start', { mode, level: S.level | 0, games_total: stats.games | 0 });
     const m = missions(); if (m.reward && !m.used) { m.used = true; LS.set('mis', m); S.nova = NOVA_MAX; S.pk = null; S.pkCd = 0; S.giftStart = true; }
     if (LS.get('lvlGift', false)) { LS.del('lvlGift'); S.nova = NOVA_MAX; } advRewards(false); if (advConsume()) S.lvlStart = true;
     const w = weekly(); if (w.left > 0) { w.left--; LS.set('week', w); S.nova = NOVA_MAX; if (!S.giftStart) S.weekStart = true; } }
@@ -2337,11 +2402,11 @@ const acts = {
   next: () => { Ads.gameEnded(false); samp('levelnext', .8); LS.del('game.adv'); start('adv', true); },
   pause: () => { if (S && !S.over) { view = 'pause'; render(); } },
   resume: () => { view = 'game'; render(); },
-  again: (user = true) => { if (S.over) Ads.gameEnded(user === true); S.over = true; LS.del('game.' + S.mode); start(S.mode, true); },
+  again: (user = true) => { if (S.over) Ads.gameEnded(user === true); else tmEnd('restart'); S.over = true; LS.del('game.' + S.mode); start(S.mode, true); },
   home: () => { view = 'home'; render(); },
   revive: async () => {
     if (!(await Ads.secondChance())) return;
-    S.over = false; S.revived = true;
+    S.over = false; S.revived = true; S.tmEnd = false; // ikinci şanstan sonra oyun bitince yeniden game_end (revived: 1)
     const ok = SHAPES.map((s, i) => i).filter(i => SHAPES[i].n <= 3 && anyFit(S.grid, SHAPES[i]));
     S.tray = [0, 1, 2].map(() => mkPiece(ok.length ? ok[ok.length * rnd() | 0] : 0)); trayT = performance.now();
     view = 'game'; save(); render(); bump(); setTimeout(() => zia('point', t('zGo'), 2000, true), 300);
@@ -2377,6 +2442,10 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('visibilitychange', () => { if (ac) document.hidden ? ac.suspend() : ac.resume(); Music.sync(); if (document.hidden && S && view === 'game' && !S.over) { save(); view = 'pause'; render(); } });
 new ResizeObserver(() => { if (S) layout(); }).observe($('stage'));
 render();
-window.__blokzia = { Ads, ADS, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, samp, get cfg() { return cfg; }, setSound: v => { cfg.sound = v; }, dStars, dailyEnd, levelPowers, has, UNL, showUnlock, drawSpec, get fireUntil() { return fireUntil; }, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+// Remote Config değerlerini oyun kurallarına uygula (açılışta saklanan değerlerle, sonra Firebase'den gelenlerle)
+function rcUse() { ADS.grace = RC.ad_grace; ADS.every = RC.ad_every; ADS.gapMs = RC.ad_gap_sec * 1000; VAR_STEP = RC.var_step; }
+rcUse();
+window.__blokzia = { Ads, ADS, RC, RC_DEF, rcApply, rcUse, Tm, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, samp, get cfg() { return cfg; }, setSound: v => { cfg.sound = v; }, dStars, dailyEnd, levelPowers, has, UNL, showUnlock, drawSpec, get fireUntil() { return fireUntil; }, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
+Tm.init();
 })();

@@ -337,3 +337,11 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .unl.out{opacity:0;transition:opacity .4s}
 .unc .ubar{display:block;height:4px;border-radius:2px;background:linear-gradient(90deg,#FFB23E,#FFE45C);transform-origin:left;animation:ubar 3.6s linear forwards}
 @keyframes ubar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+/* iPhone/iPad (Safari): ağır efektler hafifletilir — hareketli görsellerde filtre yok, çerçevede dönen ışık yerine sade nabız */
+@supports (-webkit-touch-callout: none) {
+  #zia img,.hzia,.azia,.nzia,.aroad .deco,.anode .md img,.anode .unb,.unc .ui,.unc .uz{filter:none!important}
+  #bglow .run{display:none}
+  #bglow .ring{box-shadow:0 0 12px 2px var(--gc)!important}
+  .ap.gold{filter:none}
+  .best.near{animation:none}
+}
