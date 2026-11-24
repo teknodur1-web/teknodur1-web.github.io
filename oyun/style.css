@@ -345,3 +345,10 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
   .ap.gold{filter:none}
   .best.near{animation:none}
 }
+
+/* sakin, çok yavaş akan arka plan ışığı (hipnotik, göz yormaz; sadece dönüş animasyonu) */
+#stage::before{content:'';position:absolute;left:50%;top:40%;width:140vmax;height:140vmax;margin:-70vmax 0 0 -70vmax;pointer-events:none;z-index:0;opacity:.5;
+  background:conic-gradient(from 0deg,rgba(140,90,255,.10),rgba(60,140,255,.06),rgba(255,120,200,.08),rgba(140,90,255,.10));animation:calmSpin 60s linear infinite}
+#cv{position:relative;z-index:1}
+@keyframes calmSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){#stage::before{animation:none}}
