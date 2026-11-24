@@ -694,8 +694,6 @@ function misCard() {
   achCheck(false); const m = missions(), w = weekly(), lv = curLv(), lk = Math.min(1, advLv().have / lvTask(lv).n), ds = dayStreak();
   const md = m.list.filter(q => q.done).length, ag = LS.get('ach', []).length;
   return `<div class="mcard"><div class="mhead"><span>⭐ ${t('lvl')} ${lv}</span><span class="mlv"><i style="width:${(lk * 100).toFixed(0)}%"></i></span><span>🔥 ${ds} ${t('days')}</span></div>
-    <div class="hbtns"><button class="hb" data-act="map"><span class="hi">🗺️</span><span class="ht"><b>${t('map')}</b><small>${t('uMis')} ${md}/3 · ${t('uWeek')} ${fmt(w.have)}/${fmt(w.n)}</small></span>${md < 3 ? `<i class="dot"></i>` : ''}</button>
-    <button class="hb" data-act="achv"><span class="hi">🏅</span><span class="ht"><b>${t('achTitle')}</b><small>${ag} / ${ACH.length}</small></span></button></div>
     ${m.reward && !m.used ? `<div class="mrew">🎁 ${t('misReward')}</div>` : ''}${w.left > 0 ? `<div class="mrew">🎁 ${t('weekReward')} (${w.left})</div>` : ''}</div>`;
 }
 /* ---------- yol haritası: seviyeler kıvrımlı bir yolda, günlük + haftalık görevler ikonlu kartlarda ---------- */
@@ -2314,7 +2312,7 @@ function render() {
     const sv = loadGame('classic'), dv = loadGame('daily'), db = bestFor('daily');
     home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
       <div class="tag">${t('tag')}</div>${stats.best ? `<div class="homebest">${CROWN(26)} ${fmt(stats.best)}</div><div style="margin-top:-6px;text-align:center;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--accent);opacity:.8">${t('record')}</div>` : `<div class="homebest">${CROWN(26)} <span style="font-size:.8em">${t('firstRec')}</span></div>`}
-      <button class="btn" data-act="classic">${sv ? t('cont') : t('play')}<small>${t('classic')}${sv ? ' · ' + fmt(sv.score) : ''}</small></button>      <button class="btn alt" data-act="daily">${t('daily')}<small>${t('today')}${stats.daily.date === dateKey() && stats.daily.stars ? ' · ' + '★'.repeat(stats.daily.stars) + '☆'.repeat(3 - stats.daily.stars) : dv ? ' · ' + fmt(dv.score) : ''}</small></button>${misCard()}${togs()}
+      <button class="btn bigplay" data-act="classic">${sv ? t('cont') : t('play')}<small>${t('classic')}${sv ? ' · ' + fmt(sv.score) : ''}</small></button>      <button class="btn ghost dly" data-act="daily">${t('daily')}<small>${t('today')}${stats.daily.date === dateKey() && stats.daily.stars ? ' · ' + '★'.repeat(stats.daily.stars) + '☆'.repeat(3 - stats.daily.stars) : dv ? ' · ' + fmt(dv.score) : ''}</small></button>${misCard()}${togs()}
       ${window.BLOKZIA_BUILD ? `<div style="margin-top:10px;font-size:11px;opacity:.45">sürüm ${window.BLOKZIA_BUILD}</div>` : ''}`;
   } else if (view === 'map') {
   } else if (view === 'ach') { const got = LS.get('ach', []);
