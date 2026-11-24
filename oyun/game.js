@@ -1062,7 +1062,7 @@ function box(b, label, hot, glow = 1) {
   path(ctx, b.x, b.y, b.w, b.h, L.cell * .32); ctx.globalAlpha = .45; ctx.fillStyle = C.cell; ctx.fill(); ctx.globalAlpha = 1;
   if (hot) { ctx.setLineDash([7, 6]); ctx.lineWidth = 3; ctx.strokeStyle = C.accent; ctx.globalAlpha = glow; ctx.stroke(); ctx.setLineDash([]); } else { ctx.lineWidth = 1; ctx.strokeStyle = C.muted; ctx.globalAlpha = .25; ctx.stroke(); } ctx.globalAlpha = 1;
   ctx.font = `800 ${Math.max(9, L.cell * .22)}px ${C.ff}`; ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.fillStyle = hot ? C.accent : C.muted;
-  ctx.fillText(label, b.x + L.cell * .22, b.y + L.cell * .16);
+  if (hot) ctx.fillText(label, b.x + L.cell * .22, b.y + L.cell * .16); // etiket yalnızca gerektiğinde
 }
 
 function draw(now) {
@@ -1658,8 +1658,9 @@ function kill(i, t0) {
 }
 // ekranda kalma süresi: puanlar kısa, yazılar okunacak kadar uzun, kupa en uzun
 let floatNow = false; // güç başlığı/açıklaması ertelenmez, efektle birlikte görünür
+const quietTxt = txt => [t('combo'), t('close'), t('chain'), t('power'), ' x2', 'NOVA!', t('misDone'), t('zGo'), t('zHi'), t('zThink')].some(q => q && txt.includes(q));
 function float(txt, x, y, size, col, delay = 0, pill = false) {
-  if ([t('combo'), t('close'), t('chain'), t('power'), ' x2', 'NOVA!', t('misDone')].some(q => q && txt.includes(q))) return; // küçük anlar yazısız: ses, ışık ve titreşim yeter
+  if (quietTxt(txt)) return; // küçük anlar yazısız: ses, ışık ve titreşim yeter
   if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
   const t0 = performance.now() + delay, isNum = /^\+\d+$/.test(txt);
@@ -2004,7 +2005,7 @@ function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
   clearTimeout(ziaWait);
   ziaWait = setTimeout(() => {
     if (view !== 'game' && view !== 'over') return;
-    const img = el.querySelector('img'), src = ZIA_IMG[pose] ? ZIA_IMG[pose].src : 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = text || '';
+    const img = el.querySelector('img'), src = ZIA_IMG[pose] ? ZIA_IMG[pose].src : 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = quietTxt(text || '') ? '' : (text || '');
     if (img.src !== src) img.src = src;
     el.className = pose + ' ' + side; void el.offsetWidth; requestAnimationFrame(() => el.classList.add('show'));
     if (vs) samp(vs[0], vs[1]);
@@ -2345,7 +2346,7 @@ function render() {
   }
   if (view === 'home' || view === 'pause') ziaHide();
   Music.sync();
-  if (S) { $('mode').textContent = S.mode === 'adv' ? `${t('level')} ${S.level}` : S.dly ? `${t('dMoves').replace('{n}', Math.max(0, S.dly.left))} · ${t('dGoalS')} ${fmt(S.dly.goal)}` : t(S.mode === 'daily' ? 'dailyS' : 'classic'); hud(); $('score').textContent = fmt(Math.round(shown)); bump(100); }
+  if (S) { $('mode').textContent = S.mode === 'adv' ? `${t('level')} ${S.level}` : S.dly ? `${t('dMoves').replace('{n}', Math.max(0, S.dly.left))} · ${t('dGoalS')} ${fmt(S.dly.goal)}` : ''; hud(); $('score').textContent = fmt(Math.round(shown)); bump(100); }
 }
 let toastT = 0, autoT = 0, langBack = 'home', shineUntil = 0;
 // pil dostu: Joker hazırken çubuktaki parlama sürekli değil, 4 saniyede bir kısa süre çalışır
