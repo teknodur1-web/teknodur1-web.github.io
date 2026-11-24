@@ -500,7 +500,7 @@ function pickShape(fill) {
   for (let i = 0; i < ws.length; i++) { x -= ws[i]; if (x <= 0) return i; }
   return 0;
 }
-const mkPiece = si => ({ s: si, c: S.lastC && rnd() < .3 ? S.lastC : 1 + Math.floor(rnd() * 7), // %30 son rengin aynısı: tek renk satır kurulabilsin
+const mkPiece = si => ({ s: si, c: S.lastC && rnd() < .4 ? S.lastC : 1 + Math.floor(rnd() * 5), // 5 net renk, %40 aynı renk: renk kombosu kurulabilir // %30 son rengin aynısı: tek renk satır kurulabilsin
   g: rnd() < (S.mode === 'adv' ? .35 : S.var ? S.var.gemRate : .22) ? Math.floor(rnd() * SHAPES[si].n) : -1, sp: specFor(si) });
 function specFor(si) { if (window.__noRandom) return null; const r2 = Math.random(), i2 = Math.floor(Math.random() * SHAPES[si].n);
   if (has('gold') && r2 < .07) return { i: i2, t: 1 }; if (has('crystal') && r2 < .12) return { i: i2, t: 4 }; if (has('rainbow') && r2 < .16) return { i: i2, t: 5 }; return null; }
@@ -1812,7 +1812,7 @@ function place(kind, idx, piece, r, c) {
     if (clean) setTimeout(sfx.clean, 250);
     if (!stats.seenJB && !S.joker) { stats.seenJB = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('jbTip'), 5000)), 1200); }
     S.jbar = Math.min(JB_MAX, (S.jbar || 0) + n); if (n >= 2 || S.streak >= 3) S.jbar = JB_MAX; // çubuk: her satır doldurur, iyi hamle tamamlar
-    if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); float('✦ ' + t('jokerGot'), L.bx + L.bs / 2, L.by + L.bs * .82, cell * .52, C.accent, 900, 'badge'); setTimeout(sfx.joker, 550); }
+    if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); setTimeout(sfx.joker, 550); }
   } else { S.since++; if (S.since >= 3) { S.streak = 0; heat.end = 0; } sfx.place(); buzz(12); }
   S.score += gain; misProgress('score', S.score, true);
   { const sc = $('score'); if (gain >= 30) { sc.classList.remove('pop', 'pop2'); void sc.offsetWidth; sc.classList.add(gain >= 300 ? 'pop2' : 'pop'); } }
@@ -1867,7 +1867,7 @@ function symGroups() {
     out.push(g); }
   return out;
 }
-const hiddenGift = () => celebrate(() => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); setTimeout(() => buzz(40), 1050); }, 3900);
+const hiddenGift = () => celebOn() ? null : celebrate(() => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); setTimeout(() => buzz(40), 1050); }, 3900);
 // 🔗 Sembol Zinciri: aynı renkte 3+ sembollü blok birbirine değerse zincir sırayla patlar, sembol puanları x2
 function chainCheck() {
   if (!has('chain')) return 0;
@@ -2057,7 +2057,7 @@ const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['
 let lastPowerAt = 0;
 function powerFx(k, r0, c0, col, nLines = 0) {
   if (!PW_ZIA[k]) return 0; // bilinmeyen güç (eski kayıt) çökertmesin
-  const [pose, snd] = PW_ZIA[k], shown = zia(pose, t(PW[k][1]) + '!', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
+  const [pose, snd] = PW_ZIA[k], shown = zia(pose, '', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
   const D = shown ? 340 : 0, hand = shown ? ziaHand() : null, later = (fn, ms) => setTimeout(fn, ms + D);
   const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
   if (hand) { glow(hand.x, hand.y, cell * 1.1, { z: '#BDEBFF', b: '#FFB347', d: '#FF8BF0', t: '#FF6B6B', h: '#9FE7FF', m: '#FFD24A', y: '#FFE27A', g: '#FF6B6B', f: '#CFF4FF', u: '#B78CFF' }[k] || '#FFFFFF', 380, now - 120); for (let q = 0; q < 6; q++) parts.push({ kind: 'spark', s4: true, x: hand.x + (Math.random() - .5) * cell, y: hand.y + (Math.random() - .5) * cell, r: cell * .14, col: '#FFFFFF', t0: now - 140 + q * 25, life: 380 }); }
