@@ -1659,6 +1659,7 @@ function kill(i, t0) {
 // ekranda kalma süresi: puanlar kısa, yazılar okunacak kadar uzun, kupa en uzun
 let floatNow = false; // güç başlığı/açıklaması ertelenmez, efektle birlikte görünür
 function float(txt, x, y, size, col, delay = 0, pill = false) {
+  if ([t('combo'), t('close'), t('chain'), t('power'), ' x2', 'NOVA!', t('misDone')].some(q => q && txt.includes(q))) return; // küçük anlar yazısız: ses, ışık ve titreşim yeter
   if (!/^\+\d+$/.test(txt) && !floatNow) { const now = performance.now(); if (now + delay < charUntil) delay = charUntil - now; } // Zia/güç kartı ortadayken yazı üstüne binmez
   const life = /🏆/u.test(txt) ? 3200 : /^\+\d+$/.test(txt) ? 1000 : Math.min(2800, 1500 + txt.length * 60);
   const t0 = performance.now() + delay, isNum = /^\+\d+$/.test(txt);
@@ -2310,10 +2311,10 @@ function render() {
     LS.set('mapSeen', curLv()); }
   else if (view === 'home') {
     const sv = loadGame('classic'), dv = loadGame('daily'), db = bestFor('daily');
-    home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"><div class="hbub" id="hbub">${t('zPlay')}</div></div>
-      <div class="tag">${t('tag')}</div>${stats.best ? `<div class="homebest">${CROWN(26)} ${fmt(stats.best)}</div><div style="margin-top:-6px;text-align:center;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--accent);opacity:.8">${t('record')}</div>` : `<div class="homebest">${CROWN(26)} <span style="font-size:.8em">${t('firstRec')}</span></div>`}
-      <button class="btn bigplay" data-act="classic">${sv ? t('cont') : t('play')}<small>${t('classic')}${sv ? ' · ' + fmt(sv.score) : ''}</small></button>      <button class="btn ghost dly" data-act="daily">${t('daily')}<small>${t('today')}${stats.daily.date === dateKey() && stats.daily.stars ? ' · ' + '★'.repeat(stats.daily.stars) + '☆'.repeat(3 - stats.daily.stars) : dv ? ' · ' + fmt(dv.score) : ''}</small></button>${misCard()}${togs()}
-      ${window.BLOKZIA_BUILD ? `<div style="margin-top:10px;font-size:11px;opacity:.45">sürüm ${window.BLOKZIA_BUILD}</div>` : ''}`;
+    home.innerHTML = `<div class="hero"><img class="hlogo" src="logo.jpg" alt="Block Zia"><img class="hzia" src="zia/full.webp" alt="Zia" data-act="ziaTap"></div>
+      ${stats.best ? `<div class="homebest">${CROWN(26)} ${fmt(stats.best)}</div>` : `<div class="homebest">${CROWN(26)} <span style="font-size:.8em">${t('firstRec')}</span></div>`}
+      <button class="btn bigplay" data-act="classic">${sv ? t('cont') : t('play')}</button>      <button class="btn ghost dly" data-act="daily">${t('daily')}${stats.daily.date === dateKey() && stats.daily.stars ? ' ' + '★'.repeat(stats.daily.stars) : ''}</button>${misCard()}${togs()}
+      ${window.BLOKZIA_BUILD ? `<div style="margin-top:10px;font-size:9px;opacity:.18">${window.BLOKZIA_BUILD}</div>` : ''}`;
   } else if (view === 'map') {
   } else if (view === 'ach') { const got = LS.get('ach', []);
     sheet.innerHTML = `<h2>🏅 ${t('achTitle')}</h2><div class="achl">${ACH.map((a, i) => `<div class="ach${got.includes(i) ? ' on' : ''}"><span>${a[0]}</span><b>${achText(a)}</b><i>${got.includes(i) ? '✔' : fmt(Math.min(a[3](), a[2])) + '/' + fmt(a[2])}</i></div>`).join('')}</div>
