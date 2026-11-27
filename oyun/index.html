@@ -13,7 +13,7 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="apple-mobile-web-app-title" content="Block Zia">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="style.css?v=27112026-1858">
+<link rel="stylesheet" href="style.css?v=27112026-1901">
 <style>
   /* açılış ekranı: logo yumuşakça belirir, kısa süre sonra kaybolur; dokunma engellemez */
   #splash{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;
@@ -53,8 +53,8 @@
   // ?yeni=1 ile açılırsa oyun sıfırdan başlar (Seviye 1); adres temizlenir, yenileyince tekrar silmez
   try { if (/[?&]yeni=1/.test(location.search)) { Object.keys(localStorage).filter(function (k) { return k.indexOf('blokzia.') === 0; }).forEach(function (k) { localStorage.removeItem(k); }); history.replaceState(null, '', location.pathname); } } catch (e) {}
 </script>
-<script src="release.js?v=27112026-1858"></script>
-<script src="build.js?v=27112026-1858"></script>
-<script src="game.js?v=27112026-1858"></script>
+<script src="release.js?v=27112026-1901"></script>
+<script src="build.js?v=27112026-1901"></script>
+<script src="game.js?v=27112026-1901"></script>
 </body>
 </html>

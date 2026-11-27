@@ -1403,6 +1403,11 @@ function draw(now) {
       }
       ctx.restore(); continue;
     }
+    if (p.kind === 'dhop') { // disko ritmi: aynı renkli blok 2 kez zıplar, ışık yüzü renk değiştirir
+      const hop = Math.abs(Math.sin(k * Math.PI * 2)) * L.cell * .45, sq = 1 + .12 * Math.cos(k * Math.PI * 4), RB2 = ['#FF4D6D', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF'];
+      shadow3d(p.x, p.y + p.s * .45, p.s * (.42 - hop / L.cell * .25), .3); ctx.save(); ctx.translate(p.x, p.y - hop); ctx.scale(1 / sq, sq); cube3d(p.s, p.l, p.d);
+      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .35 + .3 * Math.sin(k * 20); ctx.fillStyle = RB2[Math.floor(k * 10) % 5]; path(ctx, -p.s / 2, -p.s / 2, p.s, p.s * .9, p.s * .22); ctx.fill(); ctx.restore(); continue;
+    }
     if (p.kind === 'disco') { // gerçekçi disko topu: elden atılır, zincirle asılı gibi döner; tahtada renkli ışık lekeleri ve hüzmeler dolaşır
       const el = now - p.t0, drop = el < 400 ? back(el / 400) : 1, a = k > .82 ? (1 - k) / .18 : 1, tk = Math.min(1, el / 380), thr = p.sx != null, R2 = p.s / 2;
       const dx = thr ? p.sx + (p.x - p.sx) * ease(tk) : p.x, y = thr ? p.sy + (p.y - p.sy) * ease(tk) - Math.sin(tk * Math.PI) * L.cell * 2.2 : p.y - (1 - drop) * L.cell * 5;
@@ -1411,13 +1416,13 @@ function draw(now) {
         ctx.save(); path(ctx, L.bx - 8, L.by - 8, L.bs + 16, L.bs + 16, L.cell * .34); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
         const RB = ['#FF4D6D', '#FF9F1C', '#FFE14D', '#5EDB6B', '#3FB6FF', '#A97BFF', '#FF4FD8', p.col[1]];
         for (let q = 0; q < 10; q++) { const an = q * 2.39996 + rot * (q % 2 ? 1.3 : -1), dist = L.cell * (1.2 + (q * 37 % 100) / 100 * 3.6), sx2 = dx + Math.cos(an) * dist, sy2 = y + Math.sin(an) * dist * .82, c2 = RB[q % RB.length];
-          ctx.globalAlpha = a * on * .16; ctx.fillStyle = c2; ctx.beginPath(); ctx.moveTo(dx, y); ctx.lineTo(sx2 - L.cell * .25, sy2); ctx.lineTo(sx2 + L.cell * .25, sy2); ctx.closePath(); ctx.fill();
+          const cg = ctx.createLinearGradient(dx, y, sx2, sy2); cg.addColorStop(0, c2); cg.addColorStop(1, 'rgba(0,0,0,0)'); ctx.globalAlpha = a * on * .32; ctx.fillStyle = cg; const pa = an + Math.PI / 2, wd = L.cell * .42; ctx.beginPath(); ctx.moveTo(dx, y); ctx.lineTo(sx2 + Math.cos(pa) * wd, sy2 + Math.sin(pa) * wd); ctx.lineTo(sx2 - Math.cos(pa) * wd, sy2 - Math.sin(pa) * wd); ctx.closePath(); ctx.fill();
           ctx.globalAlpha = a * on * (.7 + .3 * Math.sin(now / 90 + q)); ctx.drawImage(glowDot(c2), sx2 - L.cell * .62, sy2 - L.cell * .48, L.cell * 1.24, L.cell * .96); }
         ctx.restore();
       }
       ctx.save(); ctx.globalAlpha = a;
       if (!thr || tk >= 1) { ctx.strokeStyle = 'rgba(220,225,240,.7)'; ctx.lineWidth = 1.5; ctx.setLineDash([3, 2]); ctx.beginPath(); ctx.moveTo(dx, y - R2); ctx.lineTo(dx, L.by - 10); ctx.stroke(); ctx.setLineDash([]); } // asılı zincir
-      mirrorBall(dx, y, R2 * (1 + .04 * Math.sin(now / 130) * on), thr && tk < 1 ? tk * 12 : rot, now, p.col);
+      shadow3d(dx, y + R2 * 1.25, R2 * .7, .3 * a); mirrorBall(dx, y, R2 * (1 + .04 * Math.sin(now / 130) * on), thr && tk < 1 ? tk * 12 : rot, now, p.col);
       ctx.restore(); continue;
     }
     if (p.kind === 'aim') { // HD nişangah: dönen kesikli halka, içe kapanan köşe parantezleri, nabız gibi atan merkez, kilitlenince beyaz çakma
@@ -2155,7 +2160,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
     parts.push({ kind: 'disco', x: cx, y: cy, s: cell * 2.6, col: PALETTE[col - 1], t0: now, life: 1500, sx: hand && hand.x, sy: hand && hand.y });
     S.grid.forEach((v, i) => { if (v !== col) return; const x = L.bx + (i % N + .5) * cell, y = L.by + ((i / N | 0) + .5) * cell, t1 = now + 500 + Math.hypot(x - cx, y - cy) / cell * 55;
-      glow(x, y, cell * .9, PALETTE[col - 1][1], 380, t1 - 160); glow(x, y, cell * .7, '#FFFFFF', 260, t1); pts += 6 * pop(i, t1); });
+      const [, l2, d2] = PALETTE[col - 1]; parts.push({ kind: 'dhop', x, y, l: l2, d: d2, s: cell * .9, t0: now + 360, life: t1 - now - 360 }); shards(i, v, t1, 6, true); pts += 6 * pop(i, t1); });
     later(() => samp('combo', .8) || sfx.clean(), 480); later(() => { buzz(40); confetti(cx, cy, 26, 260); }, 520);
   } else if (k === 'm') { // çekiç: dev çekiç satırın üstünde soldan sağa yürür, her bloğu tek tek vurup kırar
     parts.push({ kind: 'hammer', r: r0, t0: now, life: 260 + N * 120 + 300 });
