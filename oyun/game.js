@@ -1738,7 +1738,19 @@ function float(txt, x, y, size, col, delay = 0, pill = false) {
     y = Math.max(L.by - size, Math.min(L.by + L.bs - size * .5, y)); }
   floats.push({ txt, x, y, size, col, pill, life, t0 }); bump(delay + life + 100);
 }
+/* kademeli puan çarpanı: 10.000 ×1,2 · 20.000 ×1,4 · 30.000 ×1,8; rekor kırılınca +0,1, sonra her 5.000 puanda +0,1 (en çok ×3) */
+function scoreMult() {
+  if (!S || S.dly || S.mode === 'adv') return 1; const sc = S.score;
+  let m = sc >= 30000 ? 1.8 : sc >= 20000 ? 1.4 : sc >= 10000 ? 1.2 : 1;
+  if (S.prev > 0 && sc > S.prev) m += .1 * (1 + Math.floor((sc - S.prev) / 5000));
+  return Math.min(3, Math.round(m * 10) / 10);
+}
+const multTxt = m => '×' + m.toFixed(1).replace('.', ',');
+function multUp(m) { // yeni kademe: sade rozet + ses, oyunu durdurmaz
+  hud(); if (!L || view !== 'game') return; floatNow = true; float(multTxt(m), L.bx + L.bs / 2, L.by + L.bs * .4, L.cell * .7, '#FFD24A', 0, 'gold3d'); floatNow = false; samp('streak', .8, 1.2); buzz(30);
+}
 function hud() {
+  { const md = $('mode'); if (md && !S.dly && S.mode !== 'adv') { const m = scoreMult(); md.textContent = m > 1 ? multTxt(m) : ''; md.style.color = m > 1 ? '#FFD24A' : ''; } }
   document.querySelector('.best span').innerHTML = S.mode === 'adv' ? '' : CROWN(26);
   if (S.mode === 'adv') { const g = S.goal; $('best').textContent = g.type === 'star' ? `★ ${Math.min(g.have, g.need)}/${g.need}` : `◎ ${fmt(g.need)}`; }
   else $('best').textContent = fmt(Math.max(S.prev, S.score));
@@ -1857,6 +1869,7 @@ function place(kind, idx, piece, r, c) {
         S.hidden.done = true; pts += 300 + levelDone(); S.joker = 1; hiddenGift();
       }
     }
+    pts = Math.round(pts * scoreMult()); // oyun ilerledikçe patlama puanı değerlenir
     gain += pts; S.nova = Math.min(NOVA_MAX, S.nova + gems + (n >= 2 ? 1 : 0));
     float('+' + pts, px, py, cell * .48, '#FFFFFF', 0, true);
     // övgü: 2 satır "Güzel", 3 satır ya da 3'lü seri "Harika", 4 satır ya da 5'li seri "Muhteşem", 5 satır "Efsane"
@@ -1876,7 +1889,7 @@ function place(kind, idx, piece, r, c) {
     S.jbar = Math.min(JB_MAX, (S.jbar || 0) + n); if (n >= 2 || S.streak >= 3) S.jbar = JB_MAX; // çubuk: her satır doldurur, iyi hamle tamamlar
     if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); setTimeout(sfx.joker, 550); }
   } else { S.since++; if (S.since >= 3) { S.streak = 0; heat.end = 0; } sfx.place(); buzz(12); }
-  S.score += gain; misProgress('score', S.score, true);
+  { const m0 = scoreMult(); S.score += gain; const m1 = scoreMult(); if (m1 > m0) multUp(m1); } misProgress('score', S.score, true);
   { const sc = $('score'); if (gain >= 30) { sc.classList.remove('pop', 'pop2'); void sc.offsetWidth; sc.classList.add(gain >= 300 ? 'pop2' : 'pop'); } }
   if (pkHit) powerFx(pkHit.k, pkHit.i / N | 0, pkHit.i % N, piece.c, n);
   chainCheck();
@@ -2507,7 +2520,7 @@ render();
 // Remote Config değerlerini oyun kurallarına uygula (açılışta saklanan değerlerle, sonra Firebase'den gelenlerle)
 function rcUse() { ADS.grace = RC.ad_grace; ADS.every = RC.ad_every; ADS.gapMs = RC.ad_gap_sec * 1000; VAR_STEP = RC.var_step; }
 rcUse();
-window.__blokzia = { Ads, ADS, RC, RC_DEF, rcApply, rcUse, Tm, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, samp, get cfg() { return cfg; }, setSound: v => { cfg.sound = v; }, dStars, dailyEnd, levelPowers, has, UNL, showUnlock, drawSpec, get fireUntil() { return fireUntil; }, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
+window.__blokzia = { scoreMult, hud, Ads, ADS, RC, RC_DEF, rcApply, rcUse, Tm, toast, float, nova: (r, c) => novaBlast(r, c), fxGift: () => { parts.push({ kind: 'gift', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .5, s: L.cell * 3.1, t0: performance.now(), life: 3800 }); bump(3900); }, fxTrophy: txt => { parts.push({ kind: 'trophy', vx: 0, vy: 0, x: L.bx + L.bs / 2, y: L.by + L.bs * .42, s: L.cell * 2.4, txt, t0: performance.now(), life: 3400 }); bump(3500); }, play: (i, r, c) => place('tray', i, S.tray[i], r, c), get smp() { return Object.keys(SMP); }, loadSamples, T, LANG_CODES, hasMove: () => hasMove(), get stats() { return stats; }, get vars() { return varState; }, variant, get audio() { return { ctx: ac && ac.state, music: Music.on }; }, get S() { return S; }, get L() { return L; }, SHAPES, fits, zia, powerFx, spawnPower, samp, get cfg() { return cfg; }, setSound: v => { cfg.sound = v; }, dStars, dailyEnd, levelPowers, has, UNL, showUnlock, drawSpec, get fireUntil() { return fireUntil; }, lvTask, curLv, advLv, advProgress, lvlInfo, advRewards, advConsume, resetMap: () => { mapPage = null; mapSel = 0; mapTab = 'road'; }, rareLight: k => { rareFx = { kind: k, t0: performance.now(), life: k === 'aurora' ? 3200 : 1500 }; bump(3300); }, chainCheck, symGroups, bestMove, get hint() { return hint; }, mapHTML, missions, misProgress, lvlOf, weekly, achCheck, ACH, get heat() { return heat; }, heatTick: n => heatTick(n), floatsLast: () => floats[floats.length - 1], iconImg, clearFx: () => { parts = []; floats = []; beams = []; dying = []; celebBusyUntil = 0; ziaHide(); $('toast').classList.remove('show'); bump(100); }, fullLines: g => fullLines(g), emoVal: () => emoVal(), newVar: id => { S.grid.fill(0); S.gem.fill(0); S.pk = null; S.pu = -1; S.over = false; S.won = false; setupVariant(id); S.tray = genTray(); S.next = genTray(); bump(300); } }; // test/hata ayıklama
 Ads.init();
 Tm.init();
 })();
