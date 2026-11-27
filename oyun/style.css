@@ -348,7 +348,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 
 /* sakin, çok yavaş akan arka plan ışığı (hipnotik, göz yormaz; sadece dönüş animasyonu) */
 #stage::before{content:'';position:absolute;left:50%;top:40%;width:140vmax;height:140vmax;margin:-70vmax 0 0 -70vmax;pointer-events:none;z-index:0;opacity:.5;
-  background:conic-gradient(from 0deg,rgba(140,90,255,.10),rgba(60,140,255,.06),rgba(255,120,200,.08),rgba(140,90,255,.10));animation:calmSpin 60s linear infinite}
+  background:conic-gradient(from 0deg,rgba(140,90,255,.10),rgba(60,140,255,.06),rgba(255,120,200,.08),rgba(140,90,255,.10));display:none}
 #cv{position:relative;z-index:1}
 @keyframes calmSpin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){#stage::before{animation:none}}
@@ -359,3 +359,10 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .btn.ghost.dly{font-size:15px;padding:10px;opacity:.85}
 .mcard{background:none;border:0;padding:4px 0}
 #zia .zb:empty{display:none}
+/* yeni özellik: üstte küçük, sade şerit; oyunu durdurmaz */
+.unl.auto{align-items:flex-start;background:none;padding:calc(env(safe-area-inset-top) + 64px) 16px 0}
+.unl.auto .unc{display:grid;grid-template-columns:52px 1fr;column-gap:12px;align-items:center;text-align:left;width:min(360px,100%);padding:12px 14px;border-width:2px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.unl.auto .uz,.unl.auto .uh{display:none}
+.unl.auto .ui{grid-row:1/3;width:52px;height:52px;margin:0}
+.unl.auto b{font-size:17px;margin:0}.unl.auto p{font-size:13px;margin:2px 0 0;line-height:1.3}
+.unl.auto .ubar{grid-column:1/3;margin-top:10px;height:3px}

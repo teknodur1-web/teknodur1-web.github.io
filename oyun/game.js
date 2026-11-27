@@ -1095,7 +1095,7 @@ function draw(now) {
       const x = bx + cx3 * cell, y = by + cy3 * cell; ctx.save(); path(ctx, x + cell * .06, y + cell * .06, cell * .88, cell * .88, cell * .24); ctx.clip();
       const off = -d * cell * .7, lg = ctx.createLinearGradient(x + off - cell * .4, y + off - cell * .4, x + off + cell * .4, y + off + cell * .4);
       lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.5, 'rgba(255,255,255,.55)'); lg.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = lg; ctx.fillRect(x, y, cell, cell); ctx.restore(); }
-    for (const tw of twinkles) { if (!S.grid[tw]) continue; const tk = Math.sin(Math.min(1, sk * 1.4) * Math.PI); spark4(bx + (tw % N + .72) * cell, by + ((tw / N | 0) + .26) * cell, cell * .2 * tk, '#FFFFFF'); }
+    if (0) for (const tw of twinkles) { if (!S.grid[tw]) continue; const tk = Math.sin(Math.min(1, sk * 1.4) * Math.PI); spark4(bx + (tw % N + .72) * cell, by + ((tw / N | 0) + .26) * cell, cell * .2 * tk, '#FFFFFF'); }
     ctx.restore(); }
   if (S.streak >= 3 && !S.over && Math.random() < .25) { const col = S.streak >= 9 ? '#5FD0FF' : S.streak >= 6 ? '#FF4FA0' : '#FF8A1E', ex = bx + Math.random() * bs, top = Math.random() < .5; // kıvılcım (sadece başka efekt varken)
     parts.push({ kind: 'spark', s4: true, x: top ? ex : (Math.random() < .5 ? bx - 6 : bx + bs + 6), y: top ? by - 8 : by + Math.random() * bs, r: cell * (.08 + Math.random() * .08), col, t0: now, life: 380 }); }
@@ -1272,7 +1272,7 @@ function draw(now) {
     }
     if (p.kind === 'stuck') { // hedefe saplanan ok: ucu bloğa gömülür, yay gibi titrer, sonra solar
       const wob = Math.sin(k * Math.PI * 10) * .2 * (1 - k) ** 1.5; ctx.save(); ctx.globalAlpha = k > .7 ? (1 - k) / .3 : 1; ctx.translate(p.x, p.y); ctx.rotate(p.an + wob);
-      drawArrow(L.cell * 1.5, 1.35); ctx.restore(); continue;
+      drawArrow(L.cell * 2.3, 2); ctx.restore(); continue;
     }
     if (p.kind === 'diamond') { // Joker elması: yükselir, döner gibi parlar, ışınlar ve ışıltılar saçar
       const im = iconImg(3), e = back(Math.min(1, k / .25)), z = L.cell * 1.9 * e, y = p.y - ease(Math.min(1, k / .5)) * L.cell * 1.2, a = k > .8 ? (1 - k) / .2 : 1;
@@ -1342,7 +1342,7 @@ function draw(now) {
       for (let q = 1; q <= 5; q++) { const [tx2, ty2] = pos2(Math.max(0, k - q * .05)); ctx.globalAlpha = (1 - q / 6) * .35; ctx.strokeStyle = '#FFE7B0'; ctx.lineWidth = L.cell * (.16 - q * .02); ctx.lineCap = 'round';
         const [ux, uy] = pos2(Math.max(0, k - (q - 1) * .05)); ctx.beginPath(); ctx.moveTo(tx2, ty2); ctx.lineTo(ux, uy); ctx.stroke(); }
       ctx.restore(); ctx.save(); ctx.translate(x, y); ctx.rotate(an + Math.sin(k * 40) * .03);
-      ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowOffsetY = L.cell * .08; drawArrow(L.cell * 1.5, 1.35); ctx.restore(); continue;
+      ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowOffsetY = L.cell * .08; drawArrow(L.cell * 2.3, 2); ctx.restore(); continue;
     }
     if (p.kind === 'bolt') { // HD şimşek: gökten iner, dallanır, 55 ms'de bir titreşir; mavi hale + camgöbeği gövde + beyaz çekirdek
       const reach = Math.min(1, k / .22), fl = k < .72 ? .78 + .22 * Math.sin(now / 23 + p.seed) : (1 - k) / .28;
@@ -1407,7 +1407,8 @@ function draw(now) {
         ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-rr * .06, -rr); ctx.lineTo(rr * .06, -rr); ctx.closePath(); ctx.fill(); }
       ctx.restore(); continue;
     }
-    if (p.kind === 'ring') { // genişleyen parlama halkası
+    if (p.kind === 'ring' || p.kind === 'glow' || p.kind === 'spark') continue; // sade ekran: dairesel parlama ve yıldız ışıltısı yok
+    if (p.kind === 'ring') {
       const rr = p.r + (p.R - p.r) * ease(k); ctx.globalAlpha = (1 - k) * .9; ctx.lineWidth = Math.max(2, L.cell * .14 * (1 - k));
       ctx.strokeStyle = p.col; ctx.beginPath(); ctx.arc(p.x, p.y, rr, 0, 6.283); ctx.stroke(); continue;
     }
@@ -1692,7 +1693,7 @@ function afterMove() {
   if (S.pu >= 0) { if (S.grid[S.pu] || --S.puLeft <= 0) S.pu = -1; }
   else if (!S.over && Math.random() < .12) {
     const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
-    if (e.length > 8) { S.pu = e[Math.random() * e.length | 0]; S.puLeft = 8; bump(400); if (!stats.seenPU) { stats.seenPU = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('puTip'), 5000)), 600); } }
+    if (0 && e.length > 8) { S.pu = e[Math.random() * e.length | 0]; S.puLeft = 8; bump(400); if (!stats.seenPU) { stats.seenPU = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('puTip'), 5000)), 600); } }
   }
   if (S.nova >= NOVA_MAX && !S.over) { const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i); // enerji doldu: tahtada bomba kutusu belirir
     if (e.length) { S.nova = 0; S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; const x2 = L.bx + (S.pk.i % N + .5) * L.cell, y2 = L.by + ((S.pk.i / N | 0) + .5) * L.cell;
@@ -2156,7 +2157,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
       parts.push({ kind: 'arrow', x0: hand ? hand.x : fromL ? -cell : L.W + cell, y0: hand ? hand.y : ty - cell * 2.2, x1: tx, y1: ty, t0: now + 300 + o, life: 330 });
       parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .2, R: cell * 1.8, col: '#FF4D4D', t0: T, life: 450 }); parts.push({ kind: 'crack', x: tx, y: ty, t0: T, life: 420 });
       parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .1, R: cell * 1.1, col: '#FFFFFF', t0: T + 70, life: 360 }); glow(tx, ty, cell * 1.3, '#FFD0D0', 380, T);
-      parts.push({ kind: 'stuck', x: tx, y: ty, an: Math.atan2(ty - (hand ? hand.y : ty - cell * 2.2), tx - (hand ? hand.x : fromL ? -cell : L.W + cell)), t0: T, life: 520 }); // saplanan ok titrer
+      parts.push({ kind: 'stuck', x: tx, y: ty, an: Math.atan2(ty - (hand ? hand.y : ty - cell * 2.2), tx - (hand ? hand.x : fromL ? -cell : L.W + cell)), t0: T, life: 1000 }); // saplanan ok titrer
       later(() => { confetti(tx, ty, 9, 190); }, 630 + o);
       if (S.grid[best]) { shards(best, S.grid[best], T, 6); pts += 25 * pop(best, T, 7); float('+25', tx, ty - cell * .55, cell * .5, '#FFD24A', 630 + o + D, 'gold3d'); }
       later(() => samp('whoosh', .7, 1 + q * .08), 300 + o); later(() => { samp('nova', .5, 1 + q * .05) || sfx.nova(); shakeEnd = performance.now() + 200; shakeAmp = 4; buzz(35); }, 630 + o); });
