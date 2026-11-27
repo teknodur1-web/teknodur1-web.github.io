@@ -2206,13 +2206,13 @@ function powerFx(k, r0, c0, col, nLines = 0) {
       bump(1400); hud(); }, 700);
     later(() => samp('whoosh', 1, .8), 0); later(() => samp('whoosh', .8, 1.1), 350); later(() => { shakeEnd = performance.now() + 360; shakeAmp = 6; buzz(40); }, 700);
   } else if (k === 'y') { // yıldız yağmuru: gökten 5 kayan yıldız iner, değdiği blok sembollü bloğa dönüşür
-    const cand = S.grid.map((v, i) => v && !S.gem[i] ? i : -1).filter(i => i >= 0).sort(() => Math.random() - .5).slice(0, 5);
+    const cand = S.grid.map((v, i) => v && !S.gem[i] ? i : -1).filter(i => i >= 0).sort(() => Math.random() - .5).slice(0, 4); const SV = [10, 20, 30, 50]; // yıldızlar artan puan verir, hepsi düşünce +100 bonus
     cand.forEach((i, q) => { const tx = L.bx + (i % N + .5) * cell, ty = L.by + ((i / N | 0) + .5) * cell, T = now + 250 + q * 160;
       parts.push({ kind: 'fstar', x0: tx + cell * 2.5, y0: L.by - cell * 3, x: tx, y: ty, t0: T - 420, life: 420 });
       later(() => { S.gem[i] = 1; glow(tx, ty, cell * 1.1, '#FFF3C4', 380); parts.push({ kind: 'ring', x: tx, y: ty, r: cell * .2, R: cell * 1, col: '#FFE27A', t0: performance.now(), life: 360 });
         for (let z = 0; z < 6; z++) parts.push({ kind: 'spark', s4: true, x: tx + (Math.random() - .5) * cell, y: ty + (Math.random() - .5) * cell, r: cell * .14, col: '#FFFFFF', t0: performance.now() + z * 30, life: 380 });
-        samp('coin', .7, 1 + q * .08); placeT[i] = performance.now(); }, T - now); pts += 10; });
-    later(() => { chainCheck(); bump(600); }, 250 + cand.length * 160 + 200);
+        samp('coin', .7, 1 + q * .08); placeT[i] = performance.now(); S.score += SV[q]; floatNow = true; float('+' + SV[q], tx, ty - cell * .55, cell * (.42 + q * .05), '#FFD24A', 0, 'gold3d'); floatNow = false; hud(); }, T - now); });
+    later(() => { if (cand.length) { S.score += 100; floatNow = true; float('+100', L.bx + L.bs / 2, L.by + L.bs * .45, cell * .72, '#FFD24A', 0, 'gold3d'); floatNow = false; samp('record', .6); buzz(30); hud(); } chainCheck(); bump(600); }, 250 + cand.length * 160 + 200);
   } else if (k === 'g') { // mıknatıs: kırmızı mıknatıs satırın ucunda belirir; o renkteki bloklar uçarak satırın boş yerlerine yapışır
     const empty = [...Array(N).keys()].map(q => r0 * N + q).filter(i => !S.grid[i]), src = S.grid.map((v, i) => v === col && (i / N | 0) !== r0 ? i : -1).filter(i => i >= 0)
       .sort((a2, b2) => Math.abs((a2 / N | 0) - r0) - Math.abs((b2 / N | 0) - r0)).slice(0, empty.length);
