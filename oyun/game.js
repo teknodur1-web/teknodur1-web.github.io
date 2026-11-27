@@ -352,7 +352,7 @@ const PENTA = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24];
 const hz = semi => 261.63 * 2 ** (semi / 12);
 /* hazır ses dosyaları (www/sounds): yüklenemezse sentez sesleri yedek olarak çalışır */
 const SMP = {}; let smpLoaded = false, smpActive = 0;
-const SMP_NAMES = ['zboom','zengine','zyeah','zwow','zwoo','press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
+const SMP_NAMES = ['thunder','zboom','zengine','zyeah','zwow','zwoo','press','whoosh','pick','ui','clear','combo','coin','streak','joker','nova','clean','levelwin','levelnext','record','over','bad'];
 function loadSamples() {
   if (smpLoaded) return; smpLoaded = true;
   try { audio(); } catch { return; }
@@ -1358,10 +1358,16 @@ function draw(now) {
       for (let b = 0; b < 6; b++) { const at = 2 + Math.floor((rr() + .5) * (upto - 3)); if (at < 1 || at >= upto) continue; // dallar
         let [bx2, by2] = pts[at]; const dir = rr() < 0 ? -1 : 1, br = [[bx2, by2]];
         for (let q = 0; q < 4; q++) { bx2 += dir * L.cell * (.35 + (rr() + .5) * .5); by2 += L.cell * (.4 + (rr() + .5) * .4); br.push([bx2, by2]); } paths.push(br); }
+      { // 3B derinlik: yıldırımın tahtaya düşen koyu gölgesi + çarpma noktasında yanık izi
+        ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.globalAlpha = .4 * fl; ctx.strokeStyle = '#0A1640'; ctx.lineWidth = L.cell * .34;
+        ctx.beginPath(); paths[0].forEach(([x3, y3], q) => q ? ctx.lineTo(x3 + L.cell * .16, y3 + L.cell * .22) : ctx.moveTo(x3 + L.cell * .16, y3 + L.cell * .22)); ctx.stroke();
+        if (reach >= 1) { const bg = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, L.cell * 1.1); bg.addColorStop(0, 'rgba(10,10,25,.55)'); bg.addColorStop(1, 'rgba(10,10,25,0)'); ctx.globalAlpha = Math.min(1, (1 - k) * 2); ctx.fillStyle = bg; ctx.beginPath(); ctx.ellipse(p.x, p.y + L.cell * .1, L.cell * 1.1, L.cell * .6, 0, 0, 6.283); ctx.fill(); }
+        ctx.restore(); }
       ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       const stroke = (pp, w2, col, a2) => { ctx.globalAlpha = a2 * fl; ctx.beginPath(); ctx.moveTo(pp[0][0], pp[0][1]); for (let q = 1; q < pp.length; q++) ctx.lineTo(pp[q][0], pp[q][1]); ctx.lineWidth = w2; ctx.strokeStyle = col; ctx.stroke(); };
       paths.forEach((pp, n) => { const m = n ? .45 : 1;
-        stroke(pp, L.cell * 1.3 * m, 'rgba(70,150,255,.25)', 1); stroke(pp, L.cell * .6 * m, '#4FB8FF', .8); stroke(pp, L.cell * .26 * m, '#D8F6FF', 1); stroke(pp, L.cell * .1 * m, '#FFFFFF', 1); });
+        stroke(pp, L.cell * 1.5 * m, 'rgba(70,150,255,.22)', 1); stroke(pp, L.cell * .7 * m, '#2F7DFF', .85); stroke(pp, L.cell * .42 * m, '#7FD4FF', .95); stroke(pp, L.cell * .2 * m, '#E8FBFF', 1);
+        const sh = pp.map(([x3, y3]) => [x3 - L.cell * .05, y3 - L.cell * .04]); stroke(sh, L.cell * .08 * m, '#FFFFFF', 1); }); // ışık alan yüz: hacim hissi
       if (reach >= 1) { // çarpma noktası: beyaz çekirdekli patlama ve kıvılcımlar
         const ik = Math.min(1, (k - .22) / .35), R2 = L.cell * (.6 + 1.6 * ease(ik)); ctx.globalAlpha = (1 - ik) * fl;
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, R2); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.3, 'rgba(160,225,255,.9)'); g.addColorStop(1, 'rgba(60,150,255,0)');
@@ -2096,13 +2102,13 @@ function powerFx(k, r0, c0, col, nLines = 0) {
   if (k === 'z') { // şimşek: elden çıkar, çarpar; satır ve sütun boyunca elektrik dört bir yana yayılır, bloklar beyaz parlayıp dağılır
     parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
     for (const dt2 of [190, 380]) parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now + dt2, life: 380, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y }); // tekrar çakar
-    later(() => samp('nova', .45, 1.2), 190); later(() => samp('nova', .35, 1.35), 380);
+    later(() => samp('thunder', 1), 0);
     parts.push({ kind: 'zap', y: cy, t0: now + 140, life: 650 }); parts.push({ kind: 'zap', x: cx, t0: now + 160, life: 650 });
     glow(cx, cy, L.bs * .55, '#DDF3FF', 420, now + 120); beams.push({ row: true, i: r0, t0: now + 150 }); beams.push({ row: false, i: c0, t0: now + 170 });
     const hit = new Set();
     for (let q = 0; q < N; q++) for (const [i, d] of [[r0 * N + q, Math.abs(q - c0)], [q * N + c0, Math.abs(q - r0)]]) { if (hit.has(i)) continue; hit.add(i);
       const t1 = now + 260 + d * 45; if (S.grid[i]) glow(L.bx + (i % N + .5) * cell, L.by + ((i / N | 0) + .5) * cell, cell * .75, '#FFFFFF', 300, t1 - 120); pts += 8 * pop(i, t1, 6); }
-    shakeEnd = now + 420; shakeAmp = 7; later(() => { samp('nova', .7) || sfx.nova(); buzz(50); }, 0); later(() => hitStop(70), 160);
+    shakeEnd = now + 420; shakeAmp = 7; later(() => { SMP.thunder || samp('nova', .7) || sfx.nova(); buzz(50); }, 0); later(() => hitStop(70), 160);
   } else if (k === 'b') { // bomba: düşer, fitili yanar, kızarır ve patlar: alev topu, şok dalgası, duman, enkaz
     parts.push({ kind: 'bomb', x: cx, y: cy, t0: now, life: 720, sx: hand && hand.x, sy: hand && hand.y });
     const T = now + 700;
