@@ -1237,16 +1237,33 @@ function draw(now) {
       for (let q = 0; q < 2; q++) { tube3d(() => { ctx.beginPath(); ctx.arc(0, 0, R2, q * Math.PI + .3, q * Math.PI + 2.6); ctx.stroke(); }, L.cell * .26, '#4B2A8C', '#9C6BFF', 'rgba(235,220,255,.9)'); const ax = Math.cos(q * Math.PI + .3) * R2, ay = Math.sin(q * Math.PI + .3) * R2;
         ctx.fillStyle = '#C9A6FF'; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax + L.cell * .3, ay - L.cell * .25); ctx.lineTo(ax + L.cell * .3, ay + L.cell * .3); ctx.closePath(); ctx.fill(); } ctx.restore(); continue;
     }
-    if (p.kind === 'hammer') { // çekiç: satır boyunca soldan sağa sallanarak vurur (ahşap sap, çelik baş)
-      const el = now - p.t0, q2 = Math.min(N - 1, Math.max(0, (el - 300) / 120)), qi = Math.floor(q2), ph = q2 - qi, swing = el < 300 ? -1.1 * (1 - el / 300) : -Math.sin(ph * Math.PI) * .9;
-      const hx = L.bx + (q2 + .5) * L.cell, hy = L.by + (p.r + .5) * L.cell, a = k > .9 ? (1 - k) / .1 : 1, c = L.cell;
-      shadow3d(hx, hy + c * .42, c * (.5 + .2 * (1 + swing)), .3 * a); ctx.save(); ctx.globalAlpha = a; ctx.translate(hx + c * .9, hy - c * .2); ctx.rotate(swing - .2);
-      const wg = ctx.createLinearGradient(-c * .1, 0, c * .1, 0); wg.addColorStop(0, '#C58A4A'); wg.addColorStop(1, '#6E4520'); ctx.fillStyle = wg; ctx.fillRect(-c * .09, -c * 1.6, c * .18, c * 1.5);
-      const mg = ctx.createLinearGradient(0, -c * 2.05, 0, -c * 1.45); mg.addColorStop(0, '#F2F5FB'); mg.addColorStop(.5, '#9AA4BC'); mg.addColorStop(1, '#4C5570');
-      path(ctx, -c * .62, -c * 2.05, c * 1.24, c * .6, c * .12); ctx.fillStyle = mg; ctx.fill(); ctx.strokeStyle = 'rgba(20,24,40,.7)'; ctx.lineWidth = Math.max(1, c * .04); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(-c * .62, -c * 2.05); ctx.lineTo(-c * .5, -c * 2.22); ctx.lineTo(c * .74, -c * 2.22); ctx.lineTo(c * .62, -c * 2.05); ctx.closePath(); ctx.fillStyle = '#E4E9F3'; ctx.fill(); ctx.stroke(); // üst yüz
-      ctx.beginPath(); ctx.moveTo(c * .62, -c * 2.05); ctx.lineTo(c * .74, -c * 2.22); ctx.lineTo(c * .74, -c * 1.62); ctx.lineTo(c * .62, -c * 1.45); ctx.closePath(); ctx.fillStyle = '#3E4660'; ctx.fill(); ctx.stroke(); // yan yüz
-      ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(-c * .5, -c * 1.98, c * 1, c * .08); ctx.restore(); continue;
+    if (p.kind === 'hammer') { // HD çekiç: büyük çelik baş (ön, üst, yan yüz), sargılı ahşap sap, savrulma izi, yerde gölge, vuruşta toz
+      const el = now - p.t0, q2 = Math.min(N - 1, Math.max(0, (el - 300) / 120)), qi = Math.floor(q2), ph = q2 - qi, swing = el < 300 ? -1.2 * (1 - el / 300) : -Math.sin(ph * Math.PI) * 1.0;
+      const hx = L.bx + (q2 + .5) * L.cell, hy = L.by + (p.r + .5) * L.cell, a = k > .9 ? (1 - k) / .1 : 1, c = L.cell * 1.25;
+      shadow3d(hx, hy + L.cell * .45, L.cell * (.45 + .25 * (1 + swing)), .35 * a);
+      const px = hx + c * .95, py = hy - c * .1, R = c * 1.85; // dönme noktası (el) ve baş uzaklığı
+      ctx.save(); ctx.globalAlpha = a * .35; ctx.strokeStyle = '#FFFFFF'; ctx.lineCap = 'round'; // savrulma izi
+      for (let q = 1; q <= 4; q++) { const an = swing - .2 - Math.PI / 2 + q * .09; ctx.lineWidth = c * (.22 - q * .04); ctx.beginPath(); ctx.arc(px, py, R, an, an + .08); ctx.stroke(); } ctx.restore();
+      ctx.save(); ctx.globalAlpha = a; ctx.translate(px, py); ctx.rotate(swing - .2);
+      ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = c * .15; ctx.shadowOffsetY = c * .08;
+      const wg = ctx.createLinearGradient(-c * .1, 0, c * .1, 0); wg.addColorStop(0, '#D9A066'); wg.addColorStop(.45, '#A86A35'); wg.addColorStop(1, '#5E3818');
+      path(ctx, -c * .09, -c * 1.62, c * .18, c * 1.62, c * .07); ctx.fillStyle = wg; ctx.fill(); ctx.shadowColor = 'transparent';
+      ctx.strokeStyle = 'rgba(60,32,12,.35)'; ctx.lineWidth = 1; for (let q = 0; q < 5; q++) { ctx.beginPath(); ctx.moveTo(-c * .04, -c * (1.5 - q * .28)); ctx.lineTo(-c * .02, -c * (1.36 - q * .28)); ctx.stroke(); } // damar
+      for (let q = 0; q < 6; q++) { const gy = -c * .5 + q * c * .085; ctx.fillStyle = q % 2 ? '#2A1E3A' : '#43305E'; ctx.fillRect(-c * .11, gy, c * .22, c * .085); } // sap sargısı
+      ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.fillRect(-c * .07, -c * .5, c * .04, c * .5);
+      const hw = c * .62, hh = c * .34, top = -c * 2.02, dep = c * .14; // çelik baş
+      ctx.beginPath(); ctx.moveTo(-hw, top); ctx.lineTo(-hw + dep, top - dep); ctx.lineTo(hw + dep, top - dep); ctx.lineTo(hw, top); ctx.closePath();
+      const tg = ctx.createLinearGradient(0, top - dep, 0, top); tg.addColorStop(0, '#FFFFFF'); tg.addColorStop(1, '#C8D0DE'); ctx.fillStyle = tg; ctx.fill(); // üst yüz
+      ctx.beginPath(); ctx.moveTo(hw, top); ctx.lineTo(hw + dep, top - dep); ctx.lineTo(hw + dep, top + hh * 2 - dep); ctx.lineTo(hw, top + hh * 2); ctx.closePath(); ctx.fillStyle = '#3B4258'; ctx.fill(); // yan yüz
+      const fg = ctx.createLinearGradient(0, top, 0, top + hh * 2); fg.addColorStop(0, '#E9EEF6'); fg.addColorStop(.35, '#AEB8CC'); fg.addColorStop(.55, '#7C879F'); fg.addColorStop(1, '#4A536B');
+      ctx.fillStyle = fg; ctx.fillRect(-hw, top, hw * 2, hh * 2); // ön yüz
+      ctx.fillStyle = '#5A6480'; ctx.fillRect(-hw - c * .1, top + c * .04, c * .1, hh * 2 - c * .08); // vurma yüzü
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(-hw + c * .06, top + c * .05, hw * 1.7, c * .05); // parlama
+      ctx.fillStyle = 'rgba(20,24,40,.35)'; ctx.fillRect(-c * .12, top, c * .24, hh * 2); // sap deliği
+      ctx.strokeStyle = 'rgba(15,18,32,.75)'; ctx.lineWidth = Math.max(1, c * .025); ctx.strokeRect(-hw, top, hw * 2, hh * 2); ctx.restore();
+      if (el > 300 && ph > .45 && ph < .62) { const gx = L.bx + (qi + .5) * L.cell; ctx.save(); ctx.globalAlpha = .55 * a; ctx.fillStyle = '#E8DCC8'; // vuruş tozu
+        for (let q = 0; q < 6; q++) { const an = Math.PI + q / 5 * Math.PI, d = L.cell * (.35 + (ph - .45) * 3); ctx.beginPath(); ctx.arc(gx + Math.cos(an) * d, hy + L.cell * .3 + Math.sin(an) * d * .35, L.cell * .09, 0, 6.283); ctx.fill(); } ctx.restore(); }
+      continue;
     }
     if (p.kind === 'vortex') { // girdap: dönen spiral kollar, merkezde parlak çekirdek
       const e = Math.sin(Math.min(1, k * 1.2) * Math.PI), R2 = L.bs * .55 * e; ctx.save(); ctx.translate(p.x, p.y); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
