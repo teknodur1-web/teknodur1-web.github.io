@@ -795,7 +795,7 @@ const has = k => { const u = UNL.find(x => x[1] === k); return !u || curLv() >= 
 const unlTxt = u => cfg.lang === 'tr' ? [u[3], u[5]] : [u[4], u[6]];
 const unlSrc = u => typeof u[2] === 'number' ? 'icons/' + u[2] + '.png' : u[2];
 function showUnlock(u) { // yeni özellik kartı
-  if (!['t', 'z', 'b', 'd'].includes(u[1]) && /^[mhygfu]$|^fire$|^master$/.test(u[1])) return; // kaldırılan özellikler tanıtılmaz
+  if (/^fire$|^master$/.test(u[1])) return; // kaldırılan özellikler tanıtılmaz
   const [nm, ds] = unlTxt(u), el = document.createElement('div'); el.className = 'unl';
   el.innerHTML = `<div class="unc"><img class="uz" src="zia/joy.webp" alt=""><div class="uh">🔓 ${t('unlNew')}</div><img class="ui" src="${unlSrc(u)}" alt=""><b>${nm}</b><p>${ds}</p><i class="ubar"></i></div>`; el.classList.add('auto');
   $('app').appendChild(el); samp('levelwin', .8); buzz(40);
@@ -1442,7 +1442,7 @@ function draw(now) {
       const drop = el < 500 ? back(el / 500) : 1, hopK = el > 500 && el < 1050 ? (el - 500) / 550 : 0, hop = hopK ? Math.abs(Math.sin(hopK * Math.PI * 2)) * L.cell * .55 : 0;
       const gy = p.y - (1 - drop) * L.cell * 4 - hop, shake = hopK ? Math.sin(el / 26) * .14 * (1 - hopK) : 0, sq = hopK ? 1 + .09 * Math.cos(hopK * Math.PI * 4) : 1;
       if (el >= 1050 && !p.burst) { p.burst = true; glow(p.x, p.y - s2 * .1, s2 * 1.1, '#FFE08A', 700); for (let q = 0; q < 12; q++) { const an = q / 12 * 6.283; parts.push({ kind: 'spark', s4: true, x: p.x + Math.cos(an) * s2 * .7, y: p.y - s2 * .1 + Math.sin(an) * s2 * .6, r: L.cell * (.15 + (q % 3) * .06), col: q % 2 ? '#FFFFFF' : '#FFE27A', t0: now + q * 35, life: 520 }); } confetti(p.x, p.y - s2 * .15, 34, 280);
-        float('✦ ' + t('joker'), p.x, p.y - s2 * .75, L.cell * .56, C.accent, 0, 'badge'); float(t('surprise'), p.x, p.y + s2 * .8, L.cell * .48, '#FFD27A', 160, 'gold');
+        float('✦ ' + t('joker'), p.x, p.y - s2 * .75, L.cell * .56, C.accent, 0, 'badge'); if (S && !S.over) { S.score += 500; hud(); } float('+500', p.x, p.y + s2 * .8, L.cell * .66, '#FFD24A', 160, 'gold3d'); // sürpriz Joker: +500 puan
         samp('levelwin', .8) || sfx.clean(); confetti(p.x, p.y - s2 * .25, 46, 300); punch(.04);
         for (let q = 0; q < 18; q++) { const an = -Math.PI / 2 + (Math.random() - .5) * 2.2, v = 380 + Math.random() * 320; // paralar ve yıldızlar fışkırır
           parts.push({ kind: 'coin', n: q % 3 ? 11 : 2, x: p.x, y: p.y - s2 * .1, vx: Math.cos(an) * v, vy: Math.sin(an) * v, s: L.cell * (.5 + Math.random() * .25), ph: Math.random() * 6, t0: now + q * 25, life: 1300 }); } }
@@ -2035,7 +2035,7 @@ const PK_W = ['z', 'z', 'z', 'b', 'b', 'b', 'd', 'd', 't', 't'];
 // haritada gelecek seviyeler: o seviyede açık olacak güçlere göre
 function levelPowersFor(n) { const keep = advLv().lv; const a = advLv(); a.lv = n; try { return levelPowers(n); } finally { a.lv = keep; } }
 function levelPowers(n) {
-  const all = ['t', 'z', 'b', 'd'].filter(k2 => has(k2, n)); if (all.length <= 3) return all;
+  const all = ['t', 'z', 'b', 'd', 'm', 'h', 'y', 'g', 'f', 'u'].filter(k2 => has(k2, n)); if (all.length <= 3) return all;
   const tk = lvTask(n), fav = { combo: 'd', gems: 'y', lines: 'm', score: 'b', streak: 'f', powers: 'h', close: 'u' }[tk.t], out = [];
   if (fav && all.includes(fav)) out.push(fav);
   let a = seedOf('pw-' + n); const rest = all.filter(k2 => !out.includes(k2));
