@@ -617,7 +617,7 @@ function patternCells(name) {
 function setupVariant(forceId) {
   const v = variant(forceId === undefined ? nextVariant() : forceId);
   S.var = { id: v.id, sym: v.sym, bonus: v.bonus, gemRate: v.gemRate };
-  S.hidden = { need: v.need, have: 0, done: false };
+  S.hidden = null; // gizli hediye görevi kaldırıldı
   // başlangıç deseni hafif kalır: zamanla biraz dolar ama en fazla 18 hücre (tahtanın ~%28'i)
   const keep = .45 + .2 * Math.min(1, varState.total / 40); let placed = 0;
   for (const i of patternCells(v.pattern)) {
@@ -747,7 +747,7 @@ function advRewards(celeb) {
   const lv = curLv(); let base = LS.get('rwBase', null); if (base === null) { LS.set('rwBase', lv); return; }
   const got = LS.get('rwc', []), q = LS.get('rwq', { plus: 0, full: 0, box: 0 }), fresh = [];
   for (let n = base + 1; n <= lv; n++) { if (got.includes(n)) continue; got.push(n); fresh.push(n); const kd = lvlInfo(n).kind;
-    if (has('master')) q.plus++; // usta: her seviyede ek ödül
+     // usta: her seviyede ek ödül
     if (kd === 'plus') q.plus++; else if (kd === 'box') { q.full = Math.max(q.full, 1); q.box++; } else if (kd === 'big') { q.full += 2; q.box++; } else { q.full += 3; q.box++; } }
   if (!fresh.length) return; LS.set('rwc', got.slice(-400)); LS.set('rwq', q);
   if (celeb && view === 'game' && L) fresh.slice(-2).forEach(n => { const li = lvlInfo(n); celebrate(() => {
@@ -786,7 +786,7 @@ function lvUpFx() {
 }
 function hudLv() { // oyun ekranında sağ üstte: seviye, görev simgesi, ilerleme
   const el = $('lvp'); if (!el) return; const a = advLv(), tk = lvTask(a.lv), k2 = Math.min(1, a.have / tk.n);
-  el.innerHTML = `<span>⭐${a.lv}</span><img src="icons/${MIS_ICON[tk.t] || 2}.png" alt=""><span class="lb"><i style="width:${(k2 * 100).toFixed(0)}%"></i></span><span>${fmt(a.have)}/${fmt(tk.n)}</span>`;
+  el.innerHTML = `<span>⭐${a.lv}</span><span class="lb"><i style="width:${(k2 * 100).toFixed(0)}%"></i></span>`;
   el.title = taskText(tk);
 }
 /* ---------- kilit açma: özellikler seviyeyle sırayla gelir ---------- */
@@ -794,7 +794,8 @@ const UNL = [[22, 'g', 26, 'Mıknatıs gücü', 'Magnet power', 'Koyduğun bloğ
 const has = k => { const u = UNL.find(x => x[1] === k); return !u || curLv() >= u[0]; };
 const unlTxt = u => cfg.lang === 'tr' ? [u[3], u[5]] : [u[4], u[6]];
 const unlSrc = u => typeof u[2] === 'number' ? 'icons/' + u[2] + '.png' : u[2];
-function showUnlock(u) { // yeni özellik kartı: Zia tanıtır
+function showUnlock(u) { // yeni özellik kartı
+  if (!['t', 'z', 'b', 'd'].includes(u[1]) && /^[mhygfu]$|^fire$|^master$/.test(u[1])) return; // kaldırılan özellikler tanıtılmaz
   const [nm, ds] = unlTxt(u), el = document.createElement('div'); el.className = 'unl';
   el.innerHTML = `<div class="unc"><img class="uz" src="zia/joy.webp" alt=""><div class="uh">🔓 ${t('unlNew')}</div><img class="ui" src="${unlSrc(u)}" alt=""><b>${nm}</b><p>${ds}</p><i class="ubar"></i></div>`; el.classList.add('auto');
   $('app').appendChild(el); samp('levelwin', .8); buzz(40);
@@ -1585,7 +1586,7 @@ function draw(now) {
   ctx.globalAlpha = 1;
 }
 // seri büyüdükçe süre kısalır (9 sn → en az 4,5 sn); duraklatma/arka planda süre durur
-const HEAT_MS = st => Math.max(4500, 9000 - st * 350) * (has('master') ? .75 : 1);
+const HEAT_MS = st => Math.max(4500, 9000 - st * 350) ;
 let heat = { end: 0, total: 1, last: 0 };
 const heatOn = () => S && !S.over && S.streak >= 2 && heat.end > 0;
 // çerçeve ışığı: tahtanın üstünde ayrı katman; sadece opaklık/dönüş animasyonu (ekran kartı oynatır, oyun döngüsünü yormaz)
@@ -1765,7 +1766,7 @@ function place(kind, idx, piece, r, c) {
     cols.forEach(cl => { for (let j = 0; j < N; j++) parts.push({ kind: 'spark', s4: true, x: L.bx + (cl + .5) * cell, y: L.by + (j + .5) * cell, r: cell * .16, col: '#FFFFFF', t0: now + 60 + j * 22, life: 420 }); });
     rows.forEach(i => beams.push({ row: true, i, t0: now + 40 })); cols.forEach(i => beams.push({ row: false, i, t0: now + 40 }));
     S.streak++; if (S.streak > (stats.maxStreak || 0)) stats.maxStreak = S.streak;
-    if (S.streak >= 10 && has('fire') && !fireOn()) { fireUntil = now + 8000; floatNow = true; float('🔥 ' + t('fireOn'), L.bx + L.bs / 2, L.by + L.bs * .5, cell * .6, '#FF7A1A', 300, 'metal'); floatNow = false; shower(40); samp('record', .7); buzz(50); } S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
+    if (0 && S.streak >= 10 && has('fire') && !fireOn()) { fireUntil = now + 8000; floatNow = true; float('🔥 ' + t('fireOn'), L.bx + L.bs / 2, L.by + L.bs * .5, cell * .6, '#FF7A1A', 300, 'metal'); floatNow = false; shower(40); samp('record', .7); buzz(50); } S.since = 0; S.lines += n; stats.lines += n; heatStart(); misProgress('lines', n); misProgress('streak', S.streak, true);
     if (S.goal && S.goal.type === 'star') S.goal.have += gems; if (gems) misProgress('gems', gems);
     const B = S.var ? S.var.bonus : 'none'; // gizli maceranın puan kuralı
     let pts = Math.round(10 * n * (n + 1) / 2 * S.streak * (B === 'combo' && S.streak >= 2 ? 1.5 : 1) + gems * (B === 'gem' ? 40 : 20) + (B === 'line' ? n * 15 : 0));
@@ -1831,7 +1832,7 @@ function place(kind, idx, piece, r, c) {
     if (byScore || S.varSwitch) {
       S.varSwitch = false; if (byScore) S.nextVarAt += VAR_STEP * Math.max(1, Math.ceil((S.score - S.nextVarAt + 1) / VAR_STEP));
       const v = variant(nextVariant());
-      S.var = { id: v.id, sym: v.sym, bonus: v.bonus, gemRate: v.gemRate }; S.hidden = { need: v.need, have: 0, done: false };
+      S.var = { id: v.id, sym: v.sym, bonus: v.bonus, gemRate: v.gemRate }; S.hidden = null; // gizli hediye görevi kaldırıldı
     }
   }
   afterMove();
@@ -2034,7 +2035,7 @@ const PK_W = ['z', 'z', 'z', 'b', 'b', 'b', 'd', 'd', 't', 't'];
 // haritada gelecek seviyeler: o seviyede açık olacak güçlere göre
 function levelPowersFor(n) { const keep = advLv().lv; const a = advLv(); a.lv = n; try { return levelPowers(n); } finally { a.lv = keep; } }
 function levelPowers(n) {
-  const all = ['t', 'z', 'b', 'd', 'm', 'h', 'y', 'g', 'f', 'u'].filter(k2 => has(k2, n)); if (all.length <= 3) return all;
+  const all = ['t', 'z', 'b', 'd'].filter(k2 => has(k2, n)); if (all.length <= 3) return all;
   const tk = lvTask(n), fav = { combo: 'd', gems: 'y', lines: 'm', score: 'b', streak: 'f', powers: 'h', close: 'u' }[tk.t], out = [];
   if (fav && all.includes(fav)) out.push(fav);
   let a = seedOf('pw-' + n); const rest = all.filter(k2 => !out.includes(k2));
