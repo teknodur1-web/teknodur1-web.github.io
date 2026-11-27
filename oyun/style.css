@@ -366,3 +366,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 .unl.auto .ui{grid-row:1/3;width:52px;height:52px;margin:0}
 .unl.auto b{font-size:17px;margin:0}.unl.auto p{font-size:13px;margin:2px 0 0;line-height:1.3}
 .unl.auto .ubar{grid-column:1/3;margin-top:10px;height:3px}
+/* güç anında Zia: alt köşede küçük, efektin üstüne binmez */
+#zia.edge{top:auto;bottom:1%}
+#zia.edge img{height:min(78px,9.5vh)}
+#zia.show.edge{transform:translateX(-22%)}#zia.show.edge.p-r{transform:translateX(22%)}

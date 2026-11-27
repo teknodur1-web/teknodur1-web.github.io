@@ -2037,8 +2037,9 @@ let ziaT = 0, ziaT2 = 0, ziaLast = 0, ziaWait = 0, charUntil = 0, pwfxUntil = 0;
 const ZIA_IMG = {}; for (const k of ['joy', 'cool', 'think', 'smirk', 'point']) { const im = new Image(); im.decoding = 'async'; im.src = 'zia/' + k + '.webp'; if (im.decode) im.decode().catch(() => {}); ZIA_IMG[k] = im; }
 const ZIA_SND = { joy: ['zwoo', .85], cool: ['zyeah', .85], smirk: ['zengine', .5], point: ['zengine', .45] };
 let ziaSide = 0, ziaLastSide = 'p-l', ziaShowAt = 0;
+let ziaEdgeNext = false;
 function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
-  const el = $('zia'), now = performance.now();
+  const el = $('zia'), now = performance.now(), edge = ziaEdgeNext; ziaEdgeNext = false; // güç anında Zia köşede küçük durur, efekti kapatmaz
   if (!el || (!force && now - ziaLast < 15000) || (view !== 'game' && view !== 'over')) return false;
   ziaLast = now;
   // üst üste binmesin: ekrandaki yazılar en az 1,1 sn okunsun, sonra solarak çekilsin; kupa/hediye/güç kartı bitene kadar beklesin
@@ -2053,7 +2054,7 @@ function zia(pose, text, ms = 2000, force = false, snd, now0 = false) {
     if (view !== 'game' && view !== 'over') return;
     const img = el.querySelector('img'), src = ZIA_IMG[pose] ? ZIA_IMG[pose].src : 'zia/' + pose + '.webp'; el.querySelector('.zb').textContent = quietTxt(text || '') ? '' : (text || '');
     if (img.src !== src) img.src = src;
-    el.className = pose + ' ' + side; void el.offsetWidth; requestAnimationFrame(() => el.classList.add('show'));
+    el.className = pose + ' ' + side + (edge ? ' edge' : ''); void el.offsetWidth; requestAnimationFrame(() => el.classList.add('show'));
     if (vs) samp(vs[0], vs[1]);
     clearTimeout(ziaT); clearTimeout(ziaT2);
     ziaT = setTimeout(() => { el.classList.add('out'); ziaT2 = setTimeout(() => { el.className = ''; }, 360); }, ms);
@@ -2103,7 +2104,7 @@ const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['
 let lastPowerAt = 0;
 function powerFx(k, r0, c0, col, nLines = 0) {
   if (!PW_ZIA[k]) return 0; // bilinmeyen güç (eski kayıt) çökertmesin
-  const [pose, snd] = PW_ZIA[k], shown = zia(pose, '', 1900, true, snd, true) && ziaShowAt - performance.now() < 80;
+  const [pose, snd] = PW_ZIA[k], shown = (ziaEdgeNext = true, zia(pose, '', 1900, true, snd, true)) && ziaShowAt - performance.now() < 80;
   const D = shown ? 340 : 0, hand = shown ? ziaHand() : null, later = (fn, ms) => setTimeout(fn, ms + D);
   const now = performance.now() + D, cell = L.cell, cx = L.bx + (c0 + .5) * cell, cy = L.by + (r0 + .5) * cell; let pts = 0;
   if (hand) { glow(hand.x, hand.y, cell * 1.1, { z: '#BDEBFF', b: '#FFB347', d: '#FF8BF0', t: '#FF6B6B', h: '#9FE7FF', m: '#FFD24A', y: '#FFE27A', g: '#FF6B6B', f: '#CFF4FF', u: '#B78CFF' }[k] || '#FFFFFF', 380, now - 120); for (let q = 0; q < 6; q++) parts.push({ kind: 'spark', s4: true, x: hand.x + (Math.random() - .5) * cell, y: hand.y + (Math.random() - .5) * cell, r: cell * .14, col: '#FFFFFF', t0: now - 140 + q * 25, life: 380 }); }
