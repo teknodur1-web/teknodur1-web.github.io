@@ -1349,21 +1349,33 @@ function draw(now) {
       const sw = 1 + (el > 520 ? (el - 520) / 200 * .35 : 0) + pulse * .05, thr = p.sx != null && el < 260, tk = Math.min(1, el / 260);
       const bxp = thr ? p.sx + (p.x - p.sx) * tk : p.x, y = thr ? p.sy + (p.y - p.sy) * tk - Math.sin(tk * Math.PI) * L.cell * 2.6 : p.sx != null ? p.y - Math.abs(Math.sin((el - 260) / 90)) * L.cell * .25 * Math.max(0, 1 - (el - 260) / 260) : p.y - (1 - drop) * L.cell * 4;
       ctx.save(); ctx.translate(bxp, y); ctx.rotate(thr ? tk * 9 : Math.sin(el / 60) * .08); ctx.scale(sw, sw);
-      ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
-      if (im.complete && im.naturalWidth) ctx.drawImage(im, -s0 / 2, -s0 / 2, s0, s0);
-      if (el > 260 && pulse > .2) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (pulse - .2) * .8; ctx.beginPath(); ctx.arc(0, s0 * .08, s0 * .36, 0, 6.283); ctx.fillStyle = '#FF3B30'; ctx.fill(); }
+      ctx.restore(); shadow3d(bxp, p.y + L.cell * .55, s0 * .32 * sw * (y < p.y - L.cell ? .6 : 1), .35);
+      ctx.save(); ctx.translate(bxp, y); ctx.rotate(thr ? tk * 9 : Math.sin(el / 60) * .08); ctx.scale(sw, sw); const R = s0 * .36; // 3B bomba: parlak siyah küre, metal kapak, kıvrık fitil
+      const bg = ctx.createRadialGradient(-R * .35, -R * .35, R * .1, 0, 0, R); bg.addColorStop(0, '#6A6F85'); bg.addColorStop(.35, '#2A2D3C'); bg.addColorStop(1, '#07080D');
+      ctx.beginPath(); ctx.arc(0, R * .1, R, 0, 6.283); ctx.fillStyle = bg; ctx.fill();
+      ctx.beginPath(); ctx.ellipse(-R * .38, -R * .3, R * .26, R * .14, -.7, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fill(); // parlama
+      ctx.beginPath(); ctx.arc(0, R * .1, R, .2, 1.4); ctx.strokeStyle = 'rgba(120,140,200,.35)'; ctx.lineWidth = R * .08; ctx.stroke(); // alt yansıma
+      const cg = ctx.createLinearGradient(-R * .3, 0, R * .3, 0); cg.addColorStop(0, '#5D6680'); cg.addColorStop(.4, '#E4E9F3'); cg.addColorStop(1, '#4A536B');
+      ctx.fillStyle = cg; path(ctx, -R * .3, -R * 1.05, R * .6, R * .3, R * .08); ctx.fill(); // kapak
+      ctx.strokeStyle = '#C8A26A'; ctx.lineWidth = R * .12; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0, -R * 1.05); ctx.bezierCurveTo(R * .1, -R * 1.5, R * .55, -R * 1.25, R * .62, -R * 1.6); ctx.stroke(); // fitil
+      if (el > 260 && pulse > .2) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (pulse - .2) * .7; ctx.beginPath(); ctx.arc(0, R * .1, R, 0, 6.283); ctx.fillStyle = '#FF3B30'; ctx.fill(); }
       ctx.restore();
-      if (el > 200) for (let q = 0; q < 2; q++) { const a = Math.random() * 6.283, d0 = Math.random() * L.cell * .35; spark4(bxp + s0 * .3 * sw + Math.cos(a) * d0, y - s0 * .42 * sw + Math.sin(a) * d0, L.cell * (.07 + Math.random() * .08), Math.random() < .5 ? '#FFE45C' : '#FF9F1C'); }
+      if (el > 150) { const fx = bxp + R * .62 * sw, fy = y - R * 1.6 * sw, fl = 1 + .3 * Math.sin(el / 35); ctx.save(); ctx.globalCompositeOperation = 'lighter'; // fitil alevi (damla biçimli)
+        for (const [rr, c2] of [[1, '#FF7A1A'], [.65, '#FFD24A'], [.35, '#FFFFFF']]) { const h2 = L.cell * .32 * rr * fl; ctx.fillStyle = c2; ctx.beginPath(); ctx.moveTo(fx, fy - h2 * 1.6); ctx.quadraticCurveTo(fx + h2 * .8, fy, fx, fy + h2 * .5); ctx.quadraticCurveTo(fx - h2 * .8, fy, fx, fy - h2 * 1.6); ctx.fill(); }
+        ctx.restore(); }
       continue;
     }
     if (p.kind === 'fire') { // alev topu: beyaz çekirdek, turuncu-kırmızı halka, genişleyip söner
       const e = ease(Math.min(1, k * 1.6)), R2 = p.R * (.3 + .9 * e); ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = k < .3 ? 1 : (1 - k) / .7;
       const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, R2); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.25, '#FFE45C'); g.addColorStop(.55, '#FF7A1A'); g.addColorStop(.85, 'rgba(220,40,20,.5)'); g.addColorStop(1, 'rgba(220,40,20,0)');
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, R2, 0, 6.283); ctx.fill(); ctx.restore(); continue;
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, R2 * .5, 0, 6.283); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; // topaklar opak: hacim
+      for (let q = 0; q < 9; q++) { const an = q * 2.4 + (p.x % 7), d = R2 * (.35 + .25 * Math.sin(q * 1.7 + k * 3)), bx2 = p.x + Math.cos(an) * d, by2 = p.y + Math.sin(an) * d * .8 - k * L.cell * 1.2, br = R2 * (.28 + .08 * Math.sin(q * 3.1)); // kabaran ateş topakları
+        const lg = ctx.createRadialGradient(bx2 - br * .3, by2 - br * .35, 0, bx2, by2, br); lg.addColorStop(0, '#FFF4C2'); lg.addColorStop(.4, '#FFB23E'); lg.addColorStop(.8, '#E2461C'); lg.addColorStop(1, 'rgba(140,25,10,0)'); ctx.fillStyle = lg; ctx.beginPath(); ctx.arc(bx2, by2, br, 0, 6.283); ctx.fill(); }
+      ctx.restore(); continue;
     }
     if (p.kind === 'smoke') { // duman: dışa ve yukarı süzülür, büyür, solar
       p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .96; p.vy *= .96; const r2 = p.r * (1 + k * 1.4);
-      ctx.save(); ctx.globalAlpha = (1 - k) * .6; const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r2); g.addColorStop(0, 'rgba(70,60,80,1)'); g.addColorStop(.5, 'rgba(110,100,120,.7)'); g.addColorStop(1, 'rgba(120,110,140,0)');
+      ctx.save(); ctx.globalAlpha = (1 - k) * .6; const g = ctx.createRadialGradient(p.x - r2 * .3, p.y - r2 * .4, 0, p.x, p.y, r2); g.addColorStop(0, 'rgba(170,160,175,1)'); g.addColorStop(.45, 'rgba(95,85,105,.85)'); g.addColorStop(1, 'rgba(50,45,60,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, r2, 0, 6.283); ctx.fill(); ctx.restore(); continue;
     }
     if (p.kind === 'arrow') { // ok: elden fırlar, hafif yay çizer, uçarken dönerek titrer, arkasında hız izi bırakır
@@ -2167,7 +2179,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
     for (let q = 0; q < 15; q++) { const a = q / 15 * 6.283 + Math.random() * .5, v = cell * (1.1 + Math.random() * 1.1);
       parts.push({ kind: 'smoke', x: cx + Math.cos(a) * cell * .4, y: cy + Math.sin(a) * cell * .4, vx: Math.cos(a) * v, vy: Math.sin(a) * v - cell * .6, r: cell * (.35 + Math.random() * .25), t0: T + 80 + q * 20, life: 900 }); }
     for (let y = r0 - 2; y <= r0 + 2; y++) for (let x = c0 - 2; x <= c0 + 2; x++) { if (y < 0 || x < 0 || y >= N || x >= N) continue; const i = y * N + x; // 5x5 alan
-      if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 3); pts += 15 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
+      if (S.grid[i]) { shards(i, S.grid[i], T + Math.hypot(x - c0, y - r0) * 40, 4, true); pts += 15 * pop(i, T + Math.hypot(x - c0, y - r0) * 40, 5); } }
     later(() => { samp('zboom', 1) || samp('nova', .9) || sfx.nova(); shakeEnd = performance.now() + 700; shakeLen = 700; shakeAmp = 12; shakeRot = .035; buzz(80); bump(1000); punch(.075); hitStop(100); }, 700); // bomba patlama sesi
     later(() => samp('press', .5, 1.6), 250); later(() => samp('press', .5, 1.9), 450);
   } else if (k === 'd') { // disko: top iner, döner, ışık saçar; aynı renkteki bloklar ritimle parlayıp sırayla patlar
