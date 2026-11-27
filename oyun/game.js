@@ -1268,12 +1268,19 @@ function draw(now) {
         for (let q = 0; q < 6; q++) { const an = Math.PI + q / 5 * Math.PI, d = L.cell * (.35 + (ph - .45) * 3); ctx.beginPath(); ctx.arc(gx + Math.cos(an) * d, hy + L.cell * .3 + Math.sin(an) * d * .35, L.cell * .09, 0, 6.283); ctx.fill(); } ctx.restore(); }
       continue;
     }
-    if (p.kind === 'vortex') { // girdap: dönen spiral kollar, merkezde parlak çekirdek
-      const e = Math.sin(Math.min(1, k * 1.2) * Math.PI), R2 = L.bs * .55 * e; ctx.save(); ctx.translate(p.x, p.y); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = 'round';
-      for (let arm = 0; arm < 4; arm++) { ctx.beginPath(); for (let q = 0; q <= 30; q++) { const f = q / 30, an = arm * Math.PI / 2 + f * 5 - (now - p.t0) / 90, rr = R2 * f; q ? ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr) : ctx.moveTo(0, 0); }
-        ctx.strokeStyle = arm % 2 ? 'rgba(160,230,255,.55)' : 'rgba(255,255,255,.45)'; ctx.lineWidth = L.cell * (.22 - arm * .03); ctx.stroke(); }
-      ctx.globalCompositeOperation = 'source-over'; for (let q = 5; q >= 1; q--) { const rr = R2 * q / 9, sq = .55 + q * .06; ctx.beginPath(); ctx.ellipse(0, (5 - q) * R2 * .02, rr, rr * sq, (now - p.t0) / 300 * (q % 2 ? 1 : -1), 0, 6.283); ctx.fillStyle = `rgba(${20 + q * 18},${60 + q * 25},${110 + q * 22},${.35 * e})`; ctx.fill(); }
-      ctx.beginPath(); ctx.ellipse(0, R2 * .08, R2 * .09, R2 * .06, 0, 0, 6.283); ctx.fillStyle = `rgba(5,10,30,${.8 * e})`; ctx.fill(); ctx.restore(); continue;
+    if (p.kind === 'vortex') { // HD kasırga hortumu: üstte geniş, altta dar dönen 3B huni; katmanlı halkalar, rüzgâr çizgileri, toz ve uçuşan döküntü
+      const el = now - p.t0, e = Math.sin(Math.min(1, k * 1.15) * Math.PI), sp = el / 140, H = L.bs * .82 * e, Wt = L.bs * .42 * e, top = p.y - H * .55;
+      ctx.save(); ctx.translate(p.x, 0);
+      shadow3d(0, p.y + H * .45, Wt * .55, .35 * e); // yerde gölge
+      ctx.globalAlpha = .5 * e; for (let q = 0; q < 10; q++) { const an = sp * 1.4 + q * .63, rr = Wt * (.5 + .08 * Math.sin(q)); ctx.fillStyle = 'rgba(200,190,170,.55)'; ctx.beginPath(); ctx.arc(Math.cos(an) * rr, p.y + H * .45 + Math.sin(an) * rr * .18, L.cell * (.12 + (q % 3) * .05), 0, 6.283); ctx.fill(); } // tabanda toz
+      const ringN = 16; for (let q = ringN; q >= 0; q--) { const f = q / ringN, y = top + H * f, w = Wt * (1 - f * .82) * (1 + .06 * Math.sin(sp * 2 + q)), wob = Math.sin(sp * .9 + f * 4) * L.cell * .35 * f; // her halka: arka yarı koyu, ön yarı açık
+        ctx.globalAlpha = (.28 + .5 * (1 - f)) * e; ctx.lineWidth = L.cell * (.34 - f * .2);
+        ctx.strokeStyle = 'rgba(70,95,130,.9)'; ctx.beginPath(); ctx.ellipse(wob, y, w, w * .22, 0, Math.PI, 6.283); ctx.stroke(); // arka
+        const g = ctx.createLinearGradient(wob - w, 0, wob + w, 0); g.addColorStop(0, 'rgba(120,150,190,.95)'); g.addColorStop(.35, 'rgba(235,245,255,1)'); g.addColorStop(1, 'rgba(90,115,155,.95)');
+        ctx.strokeStyle = g; ctx.beginPath(); ctx.ellipse(wob, y, w, w * .22, 0, 0, Math.PI); ctx.stroke(); } // ön
+      ctx.globalAlpha = .7 * e; ctx.strokeStyle = '#FFFFFF'; ctx.lineCap = 'round'; ctx.lineWidth = Math.max(1.5, L.cell * .06);
+      for (let q = 0; q < 7; q++) { const f = ((sp * .35 + q / 7) % 1), y = top + H * f, w = Wt * (1 - f * .82), a0 = sp * 2.2 + q * 2.1; ctx.beginPath(); ctx.ellipse(Math.sin(sp * .9 + f * 4) * L.cell * .35 * f, y, w * 1.05, w * .24, 0, a0, a0 + 1.1); ctx.stroke(); } // dönen rüzgâr çizgileri
+      ctx.restore(); continue;
     }
     if (p.kind === 'suck') { // blok girdaba emilir: spiral çizerek küçülür
       const e = k * k, an = (1 - e) * 4 + p.rot, rr = (1 - e) * Math.hypot(p.x0 - p.x, p.y0 - p.y), b0 = Math.atan2(p.y0 - p.y, p.x0 - p.x), x = p.x + Math.cos(b0 + e * 4) * rr, y = p.y + Math.sin(b0 + e * 4) * rr, z = p.s * (1 - e * .7);
