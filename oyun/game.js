@@ -1137,10 +1137,13 @@ function draw(now) {
       ctx.globalAlpha = 1;
     }
   }
-  dying = dying.filter(d => now < d.t0 + 300);
-  for (const d of dying) {
-    const k = Math.max(0, (now - d.t0) / 300), s = 1 - k * k, x = bx + (d.i % N) * cell, y = by + (d.i / N | 0) * cell, o = cell * (1 - s) / 2;
-    ctx.globalAlpha = 1 - k; tile(d.c, x + o, y + o, cell * s, d.g);
+  dying = dying.filter(d => now < d.t0 + 380);
+  for (const d of dying) { // patlama: blok şişer + beyaz parlar (%35), sonra dönerek küçülür
+    const k = Math.max(0, (now - d.t0) / 380), s = k < .35 ? 1 + .18 * Math.sin(k / .35 * Math.PI / 2) : 1.18 * (1 - ((k - .35) / .65) ** 2), x = bx + (d.i % N + .5) * cell, y = by + ((d.i / N | 0) + .5) * cell;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(k > .35 ? (k - .35) * .9 * (d.i % 2 ? 1 : -1) : 0); ctx.globalAlpha = k < .35 ? 1 : 1 - (k - .35) / .65;
+    tile(d.c, -cell * s / 2, -cell * s / 2, cell * s, d.g);
+    if (k < .5) { ctx.globalAlpha = (1 - k / .5) * .75; ctx.fillStyle = '#FFFFFF'; path(ctx, -cell * s / 2, -cell * s / 2, cell * s, cell * s, cell * s * .24); ctx.fill(); }
+    ctx.restore();
   }
   beams = beams.filter(b => now < b.t0 + 380);
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -1446,8 +1449,8 @@ function draw(now) {
     p.x += p.vx * dt; p.y += p.vy * dt;
     if (p.kind === 'conf') { // oyuncu konfeti: şerit, yıldız, kare, yuvarlak; salınarak süzülür
       p.vy += 430 * dt; p.vx *= 1 - 1.4 * dt; p.vy *= 1 - (p.vy > 0 ? 2.2 : .9) * dt; if (p.vy > 115) p.vy = 115; p.rot += p.vr * dt; p.vr *= 1 - .4 * dt;
-      const el2 = (now - p.t0) / 1000, fq = p.fq || (p.fq = 2.5 + Math.random() * 2.5), sway = Math.sin(el2 * fq + (p.ph || 0)) * L.cell * (.12 + .3 * Math.min(1, el2 * 1.5)), z = p.w || L.cell * .16; p.x += Math.cos(el2 * fq + (p.ph || 0)) * L.cell * .6 * dt; // yaprak gibi salınım
-      ctx.globalAlpha = k > .8 ? (1 - k) / .2 : 1; ctx.save(); ctx.translate(p.x + sway, p.y); ctx.rotate(p.rot);
+      const el2 = (now - p.t0) / 1000, fq = p.fq || (p.fq = 2.5 + Math.random() * 2.5), sway = Math.sin(el2 * fq + (p.ph || 0)) * L.cell * (.12 + .3 * Math.min(1, el2 * 1.5)), zd = p.zd || (p.zd = .65 + Math.random() * .6), z = (p.w || L.cell * .16) * zd; p.x += Math.cos(el2 * fq + (p.ph || 0)) * L.cell * .6 * dt; // yaprak gibi salınım
+      ctx.globalAlpha = (k > .8 ? (1 - k) / .2 : 1) * (.55 + .45 * Math.min(1, zd)); ctx.save(); ctx.translate(p.x + sway * zd, p.y); ctx.rotate(p.rot);
       const flip = Math.cos(el2 * 6 + (p.ph || 0)), back2 = CONF_BACK[p.col] || (CONF_BACK[p.col] = shade(p.col, .68)), fc = p.metal && flip > .82 ? '#FFFBEA' : flip > 0 ? p.col : back2; // metalik parça ışığı yakalayınca parlar
       ctx.fillStyle = fc; ctx.strokeStyle = fc; ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1.5;
       if (p.shape === 'ribbon') { // kıvrımlı serpantin
@@ -1533,13 +1536,15 @@ function draw(now) {
     if (p.kind === 'cube') { // dönerek küçülen parlak mini küp (tahtanın altına çarpınca seker)
       p.vy += 900 * dt; p.rot += p.vr * dt; if (!p.bn && p.vy > 0 && p.y > L.by + L.bs + 4) { p.vy *= -.42; p.vx *= .7; p.vr *= -.6; p.bn = 1; }
       const z = p.s * (1 - k * .55); ctx.globalAlpha = k > .65 ? (1 - k) / .35 : 1;
-      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.l; ctx.fillRect(-z / 2, -z / 2, z, z);
-      ctx.fillStyle = p.d; ctx.fillRect(-z / 2, z * .15, z, z * .35); ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(-z * .32, -z * .38, z * .64, z * .2); ctx.restore(); continue;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(1, .75 + .25 * Math.cos(p.rot * 1.7)); cube3d(z, p.l, p.d); ctx.restore(); continue; // 3B küp, havada döner
     }
     if (p.kind === 'shard') { // kırılan blok parçası: dönen üçgen, parlak kenarlı
       p.vy += 900 * dt; p.rot += p.vr * dt; ctx.globalAlpha = k > .7 ? (1 - k) / .3 : 1;
-      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(p.s * .9, p.s * .6); ctx.lineTo(-p.s * .8, p.s * .5); ctx.closePath();
-      ctx.fillStyle = p.col; ctx.fill(); ctx.lineWidth = Math.max(1, p.s * .12); ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.stroke(); ctx.restore(); continue;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(1, .55 + .45 * Math.abs(Math.cos(p.rot * 1.3)));
+      const sd = CONF_BACK[p.col] || (CONF_BACK[p.col] = shade(p.col, .68));
+      ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(p.s * .9, p.s * .6); ctx.lineTo(0, p.s * .2); ctx.closePath(); ctx.fillStyle = p.col; ctx.fill(); // ışık yüz
+      ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(0, p.s * .2); ctx.lineTo(-p.s * .8, p.s * .5); ctx.closePath(); ctx.fillStyle = sd; ctx.fill(); // gölge yüz
+      ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.lineTo(p.s * .9, p.s * .6); ctx.lineWidth = Math.max(1, p.s * .14); ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.stroke(); ctx.restore(); continue;
     }
     p.vy += 900 * dt; ctx.globalAlpha = 1 - k; ctx.fillStyle = p.col;
     path(ctx, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2, p.r * .5); ctx.fill();
