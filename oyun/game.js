@@ -1749,7 +1749,7 @@ function afterMove() {
   }
   if (S.dly && S.dly.left <= 0 && !S.over) { dailyEnd(); return; }
   if (!hasMove()) { S.over = true; tmEnd('no_move'); sfx.over(); buzz(60); setTimeout(() => zia('smirk', t('zOver'), 2600, true), 250); if (stats.games >= 3) setTimeout(() => Notif.ask(), 1500); setTimeout(() => { if (S.over) { view = 'over'; render(); } }, 1000); }
-  else if (stuck()) { toast(t('stuck'), 8000); zia('think', t('zHold'), 2600); }
+  else if (stuck()) { toast(t('stuck'), 8000); }
   else if (S.joker && !S.tray.some(p => p && anyFit(S.grid, SHAPES[p.s])) && !(S.hold && anyFit(S.grid, SHAPES[S.hold.s]))) toast(t('jokerHint'), 8000);
   save(); bump(1200);
 }
@@ -1838,7 +1838,7 @@ function place(kind, idx, piece, r, c) {
     sfx.clear(n, S.streak); buzz(20 + n * 15);
     for (let k = 0; k < Math.min(3 + n, 6); k++) setTimeout(() => sfx.coin(k), 380 + k * 70);
     if (clean) setTimeout(sfx.clean, 250);
-    if (!stats.seenJB && !S.joker) { stats.seenJB = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && toast(t('jbTip'), 5000)), 1200); }
+    if (!stats.seenJB && !S.joker) { stats.seenJB = 1; LS.set('stats', stats); setTimeout(() => (!$('toast').classList.contains('show') && 0), 1200); }
     S.jbar = Math.min(JB_MAX, (S.jbar || 0) + n); if (n >= 2 || S.streak >= 3) S.jbar = JB_MAX; // çubuk: her satır doldurur, iyi hamle tamamlar
     if (!S.joker && S.jbar >= JB_MAX) { S.joker = 1; S.jbar = 0; parts.push({ kind: 'diamond', x: L.bx + L.bs / 2, y: L.by + L.bs * .62, t0: now + 700, life: 1500 }); setTimeout(sfx.joker, 550); }
   } else { S.since++; if (S.since >= 3) { S.streak = 0; heat.end = 0; } sfx.place(); buzz(12); }
@@ -1864,7 +1864,8 @@ function place(kind, idx, piece, r, c) {
   afterMove();
 }
 // ipuçları: her biri bir kez, ekranda başka ipucu yokken
-function tipOnce(key, text) { stats.tips = stats.tips || {}; if (stats.tips[key] || $('toast').classList.contains('show')) return; stats.tips[key] = 1; LS.set('stats', stats); toast(text, 5500); }
+function tipOnce(key, text) { return; // sade: ipucu baloncukları kapalı
+ stats.tips = stats.tips || {}; if (stats.tips[key] || $('toast').classList.contains('show')) return; stats.tips[key] = 1; LS.set('stats', stats); toast(text, 5500); }
 // oyuncu 8 sn düşünürse en mantıklı hamle hafifçe parlar (çizgi tamamlayan, boşluk bırakmayan yer)
 let hint = null, lastAct = performance.now();
 function bestMove() {
@@ -2078,7 +2079,7 @@ function spawnPower() {
   S.pk = { i: e[Math.random() * e.length | 0], k: opts[Math.random() * opts.length | 0], left: 9, t0: performance.now() }; bump(600);
   const x = L.bx + (S.pk.i % N + .5) * L.cell, y = L.by + ((S.pk.i / N | 0) + .5) * L.cell;
   parts.push({ kind: 'ring', x, y, r: L.cell * .2, R: L.cell * 1.1, col: '#FFE08A', t0: performance.now(), life: 450 });
-  if (!stats.seenPK) { stats.seenPK = 1; LS.set('stats', stats); setTimeout(() => { if (view === 'game') { toast(t('pkTip'), 5500); zia('point', t(PW[S.pk ? S.pk.k : 'z'][1]) + '!', 2600, true); } }, 500); }
+  if (!stats.seenPK) { stats.seenPK = 1; LS.set('stats', stats); setTimeout(() => { if (view === 'game') {  } }, 500); }
 }
 // güç anı: Zia ekranın kenarından çıkar (pozu ve sesi güce göre), tahtada güce özel hareketli efekt oynar
 const PW_ZIA = { z: ['cool', ['zengine', .7]], b: ['smirk', ['zwow', .9]], d: ['joy', ['zwoo', .9]], t: ['point', ['zyeah', .9]], h: ['joy', ['zwoo', .9]], m: ['cool', ['zengine', .6]], y: ['point', ['zwow', .9]], g: ['cool', ['zyeah', .9]], f: ['point', ['zwow', .9]], u: ['joy', ['zwoo', .9]] };
@@ -2098,7 +2099,7 @@ function powerFx(k, r0, c0, col, nLines = 0) {
     if (tg.length) mark(tg, { z: '#5FC8FF', b: '#FF6B3D', d: PALETTE[col - 1][1], m: '#FFD24A', h: '#9FE7FF' }[k], { z: 260, b: 700, d: 520, m: 400, h: 500 }[k]); }
   if (!stats.pwSeen) stats.pwSeen = {}; const seenN = stats.pwSeen[k] = (stats.pwSeen[k] || 0) + 1; // ilk 3 kullanımda kısa açıklama
   floatNow = true; float(t(PW[k][1]) + '!', L.bx + L.bs / 2, L.by + cell * .75, cell * .56, C.accent, 0, 'metal');
-  if (seenN <= 3) float(t('pwd')[k], L.bx + L.bs / 2, L.by + cell * 1.6, cell * .38, '#FFFFFF', 120, true); floatNow = false;
+  if (0) float(t('pwd')[k], L.bx + L.bs / 2, L.by + cell * 1.6, cell * .38, '#FFFFFF', 120, true); floatNow = false;
   if (k === 'z') { // şimşek: elden çıkar, çarpar; satır ve sütun boyunca elektrik dört bir yana yayılır, bloklar beyaz parlayıp dağılır
     parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now, life: 700, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y });
     for (const dt2 of [190, 380]) parts.push({ kind: 'bolt', x: cx, y: cy, row: true, t0: now + dt2, life: 380, seed: Math.random() * 1e4, sx: hand && hand.x, sy: hand && hand.y }); // tekrar çakar
@@ -2396,7 +2397,7 @@ setInterval(() => { if (view === 'game' && ++playMin >= 45 && stats.breakDay !==
 function breakLine() {
   if (!breakDue) return '';
   breakDue = false; stats.breakDay = dateKey(); LS.set('stats', stats);
-  return `<div class="sub">${t('breakTip')}</div>`;
+  return '';
 }
 function start(mode, fresh) {
   const sv = fresh ? null : loadGame(mode);
@@ -2414,13 +2415,13 @@ function start(mode, fresh) {
   else if (S.goal && !sv) toast(S.goal.type === 'star' ? t('goalStar')(S.goal.need) : t('goalScore')(S.goal.need), 4000);
   try { history.pushState({ g: 1 }, ''); } catch {}
   hint = null; lastAct = performance.now(); if (!S.spec) S.spec = Array(64).fill(0); applyTheme(); hudLv(); ziaHide(); if (S.dly && !sv && S.dly.left === S.dly.moves) setTimeout(() => view === 'game' && dailyIntro(), 400); { const dg = $('danger'); if (dg) dg.classList.remove('on'); }
-  if (S.lvlStart) { S.lvlStart = false; setTimeout(() => { if (view !== 'game') return; toast(t('rwGot'), 3500); shower(30);
+  if (S.lvlStart) { S.lvlStart = false; setTimeout(() => { if (view !== 'game') return; shower(30);
     if (S.advBox) { S.advBox = false; const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i); if (e.length) S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; } bump(800); }, 600); }
-  if (S.weekStart) { S.weekStart = false; setTimeout(() => { if (view === 'game') { toast(t('weekGot'), 3500); bump(500); } }, 500); }
-  if (S.giftStart) { S.giftStart = false; setTimeout(() => { if (view !== 'game') return; toast(t('misGot'), 4000); const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
+  if (S.weekStart) { S.weekStart = false; setTimeout(() => { if (view === 'game') { bump(500); } }, 500); }
+  if (S.giftStart) { S.giftStart = false; setTimeout(() => { if (view !== 'game') return; const e = []; for (let i = 0; i < 64; i++) if (!S.grid[i]) e.push(i);
     if (e.length) { S.pk = { i: e[Math.random() * e.length | 0], k: 'b', left: 12, t0: performance.now() }; } shower(30); bump(800); }, 500); }
   if (stats.games <= 3 && !sv) setTimeout(() => zia('point', t('zHi'), 3200, true), 700);
-  if (stats.games <= 1 && !sv && !S.goal) { toast(t('tip')); setTimeout(() => view === 'game' && toast(t('tip2')), 9000); }
+  if (stats.games <= 1 && !sv && !S.goal) { toast(t('tip'));  }
 }
 const flip = k => () => { cfg[k] = !cfg[k]; LS.set('cfg', cfg); render(); };
 const acts = {
